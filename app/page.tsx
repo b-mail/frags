@@ -1,3 +1,3 @@
-export default function Home() {
-  return <main className=""></main>;
+export default function HomePage() {
+  return <>홈페이지 입니다.</>;
 }
