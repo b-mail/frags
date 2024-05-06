@@ -17,7 +17,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body className={notoSansKR.className}>{children}</body>
+      <body className={notoSansKR.className}>
+        <header></header>
+        <main className="flex flex-col items-center">{children}</main>
+        <footer></footer>
+      </body>
     </html>
   );
 }
