@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/db";
 import * as crypto from "node:crypto";
-import jwt from "jsonwebtoken";
 import { createAccessToken, createRefreshToken } from "@/lib/createToken";
 
 export async function POST(req: NextRequest) {
@@ -56,6 +55,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(
       {
         message: "로그인이 완료되었습니다.",
+        user,
         accessToken,
       },
       {
