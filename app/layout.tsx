@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Noto_Sans_KR } from "next/font/google";
 import { ReactNode } from "react";
 import "./globals.css";
+import Nav from "@/components/Nav";
 
 const notoSansKR = Noto_Sans_KR({ subsets: ["latin"] });
 
@@ -18,8 +19,10 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className={notoSansKR.className}>
-        <header></header>
-        <main className="flex flex-col items-center">{children}</main>
+        <header>
+          <Nav />
+        </header>
+        <main className="mt-24 flex flex-col items-center">{children}</main>
         <footer></footer>
       </body>
     </html>
