@@ -17,11 +17,19 @@ const AuthStore = create<State & Action>()((set) => ({
   user: null,
   accessToken: null,
   login: async ({ email, password }) => {
-    const { data } = await axios.post("/auth/login", { email, password });
+    const { data, status } = await axios.post("/auth/login", {
+      email,
+      password,
+    });
+
+    if (status >= 400) {
+      return data;
+    }
+
     set({ user: data.user, accessToken: data.accessToken });
   },
   logout: async () => {
-    await axios.delete("/auth/logout");
+    const result = await axios.delete("/auth/logout");
     set({ user: null, accessToken: null });
   },
 }));
