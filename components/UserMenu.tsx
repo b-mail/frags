@@ -20,7 +20,7 @@ export default function UserMenu({
         <div className="text-xl font-bold">{name}</div>
         <div className="text-xs text-slate-500">{email}</div>
       </div>
-      <div className="pb-4 text-sm">{bio}</div>
+      <div className="pb-4 text-sm">{bio ?? ""}</div>
       <hr className="border border-slate-800" />
       <Link
         className="rounded-lg bg-slate-800 py-2 text-center text-slate-400 hover:bg-slate-700 hover:text-slate-300"
