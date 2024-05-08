@@ -8,7 +8,7 @@ export default function RegisterPage() {
         <div className="flex flex-col gap-4">
           <div className="text-4xl font-bold">회원가입</div>
           <hr className="border border-slate-800" />
-          <p>FRAGS에 오신 것을 환영합니다!</p>
+          <p>FRAGS가 처음이신가요?</p>
           <p>회원가입을 통해 FRAGS의 다양한 서비스를 이용해보세요.</p>
         </div>
         <div className="flex flex-col gap-4">

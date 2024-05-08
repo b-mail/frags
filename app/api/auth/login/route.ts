@@ -62,6 +62,7 @@ export async function POST(req: NextRequest) {
   const payload = {
     uid: user.id,
     iat: Date.now(),
+    key: Math.floor(Math.random() * 100),
   };
 
   const accessToken = createAccessToken(payload);
@@ -74,10 +75,16 @@ export async function POST(req: NextRequest) {
     },
   });
 
-  return NextResponse.json({
-    message: "로그인이 완료되었습니다.",
-    user,
-    accessToken,
-    refreshToken,
-  });
+  return NextResponse.json(
+    {
+      message: "로그인이 완료되었습니다.",
+      user,
+      accessToken,
+    },
+    {
+      headers: {
+        "Set-Cookie": `refreshToken=${refreshToken}; Path=/; HttpOnly; SameSite=Strict`,
+      },
+    },
+  );
 }

@@ -8,8 +8,8 @@ export default function LoginPage() {
         <div className="flex flex-col gap-4">
           <div className="text-4xl font-bold">로그인</div>
           <hr className="border border-slate-800" />
-          <p>반가워요! 다시 찾아주셨군요?</p>
-          <p>지금 바로 로그인하여 FRAGS를 즐겨주세요!</p>
+          <p>FRAGS에 오신 걸 환영합니다!</p>
+          <p>지금 바로 로그인하여 FRAGS를 즐겨주세요.</p>
         </div>
         <div className="flex flex-col gap-4">
           <hr className="border border-slate-800" />

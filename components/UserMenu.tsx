@@ -1,17 +1,20 @@
 "use client";
 
-import useAuth from "@/store/AuthStore";
 import { User } from "@prisma/client";
 import Link from "next/link";
+import { logout } from "@/lib/api";
+import { useMutation } from "@tanstack/react-query";
+import useAuth from "@/store/AuthStore";
 
 export default function UserMenu({
   user,
   isActive,
+  onLogout,
 }: {
   user: User;
   isActive: boolean;
+  onLogout: () => void;
 }) {
-  const logout = useAuth.use.logout();
   const { name, email, bio } = user;
 
   return isActive ? (
@@ -30,7 +33,7 @@ export default function UserMenu({
       </Link>
       <button
         className="rounded-lg bg-slate-800 py-2 text-center text-red-500 hover:bg-slate-700 hover:text-red-400"
-        onClick={logout}
+        onClick={onLogout}
       >
         로그아웃
       </button>

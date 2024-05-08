@@ -13,7 +13,7 @@ export default function EmailInput({
         이메일 <span className="text-slate-500">*</span>
       </label>
       <input
-        className="w-2/3 rounded-2xl border-4 border-slate-700 bg-slate-800 p-4 placeholder:text-slate-500 focus:border-slate-600 focus:outline-0"
+        className="w-full rounded-2xl border-4 border-slate-700 bg-slate-800 p-4 placeholder:text-slate-500 focus:border-slate-600 focus:outline-0"
         id="email"
         name="email"
         type="email"

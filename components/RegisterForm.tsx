@@ -1,6 +1,11 @@
 "use client";
 
-import { ChangeEventHandler, FormEventHandler, useState } from "react";
+import {
+  ChangeEventHandler,
+  FormEventHandler,
+  useEffect,
+  useState,
+} from "react";
 import EmailInput from "@/components/EmailInput";
 import PasswordInput from "@/components/PasswordInput";
 import NameInput from "@/components/NameInput";
@@ -8,6 +13,8 @@ import BioInput from "@/components/BioInput";
 import { useMutation } from "@tanstack/react-query";
 import axios from "@/lib/axios";
 import { useRouter } from "next/navigation";
+import useAuth from "@/store/AuthStore";
+import { register } from "@/lib/api";
 
 export default function RegisterForm() {
   const [values, setValues] = useState({
@@ -20,19 +27,17 @@ export default function RegisterForm() {
     message: "",
   });
   const router = useRouter();
+  const user = useAuth.use.user();
 
   const { mutate, isPending } = useMutation({
-    mutationFn: async (values: {
-      name: string;
-      email: string;
-      password: string;
-      bio?: string;
-    }) => {
-      const { data, status } = await axios.post("/users", values);
-      if (status >= 400) {
-        setError(data);
-        return;
-      }
+    mutationFn: register,
+    onSuccess: () => {
+      router.push("/login");
+    },
+    onError: (error) => {
+      setError({
+        message: error.message,
+      });
     },
   });
 
@@ -47,8 +52,14 @@ export default function RegisterForm() {
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    mutate(values);
+    mutate(values, {});
   };
+
+  useEffect(() => {
+    if (user) {
+      router.push("/");
+    }
+  }, [user, router]);
 
   return (
     <form
