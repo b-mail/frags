@@ -1,7 +1,7 @@
 import Link from "next/link";
 import LoginForm from "@/components/LoginForm";
 
-export default function RegisterPage() {
+export default function LoginPage() {
   return (
     <div className="flex gap-12">
       <section className="flex h-96 w-96 flex-col justify-between gap-4 rounded-2xl bg-slate-900 p-10 shadow-2xl">

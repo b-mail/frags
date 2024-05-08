@@ -22,7 +22,7 @@ export default function Nav() {
       </section>
       <section className="flex w-48 items-center justify-center">
         {user ? (
-          <div className="flex w-full flex-col items-center justify-center">
+          <div className="flex w-full flex-col items-center justify-center gap-2">
             <button
               className="flex w-full cursor-pointer items-center justify-end gap-4"
               onClick={() => setIsActive(!isActive)}

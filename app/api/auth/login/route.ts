@@ -48,23 +48,9 @@ export async function POST(req: NextRequest) {
     .update(password + passwordData.salt)
     .digest("hex");
 
-  if (digest === passwordData.digest) {
-    const accessToken = createAccessToken({ uid: user.id });
-    const refreshToken = createRefreshToken({ uid: user.id });
+  const isPasswordValid = digest === passwordData.digest;
 
-    return NextResponse.json(
-      {
-        message: "로그인이 완료되었습니다.",
-        user,
-        accessToken,
-      },
-      {
-        headers: {
-          "Set-Cookie": `refreshToken=${refreshToken}; HttpOnly; SameSite=Strict; Path=/;`,
-        },
-      },
-    );
-  } else {
+  if (!isPasswordValid) {
     return NextResponse.json(
       {
         message: "비밀번호가 일치하지 않습니다.",
@@ -72,4 +58,26 @@ export async function POST(req: NextRequest) {
       { status: 400 },
     );
   }
+
+  const payload = {
+    uid: user.id,
+    iat: Date.now(),
+  };
+
+  const accessToken = createAccessToken(payload);
+  const refreshToken = createRefreshToken(payload);
+
+  await prisma.refreshToken.create({
+    data: {
+      token: refreshToken,
+      userId: user.id,
+    },
+  });
+
+  return NextResponse.json({
+    message: "로그인이 완료되었습니다.",
+    user,
+    accessToken,
+    refreshToken,
+  });
 }
