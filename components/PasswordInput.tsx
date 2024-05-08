@@ -21,7 +21,6 @@ export default function PasswordInput({
         value={value}
         onChange={onChange}
       />
-
       <ul className="list-disc pl-4">
         <li className="text-sm text-slate-500">
           8글자 이상, 15글자 이하여야 합니다.

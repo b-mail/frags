@@ -15,6 +15,7 @@ export default function Nav() {
   const setAccessToken = useAuth.use.setAccessToken();
 
   const refreshMutation = useMutation({
+    mutationKey: ["refresh"],
     mutationFn: refresh,
     onSuccess: (data) => {
       setUser(data.user);

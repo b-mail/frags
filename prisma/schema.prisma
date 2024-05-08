@@ -44,15 +44,16 @@ model Password {
 // Frag은 여러 개의 글을 가지는 하나의 커뮤니티이다.
 // 한 개의 Frag은 한 명의 관리자를 가진다.
 model Frag {
-  id        Int            @id @default(autoincrement())
-  adminId   Int
-  name      String
-  createdAt DateTime       @default(now())
-  updatedAt DateTime       @updatedAt
-  admin     User           @relation(fields: [adminId], references: [id])
-  members   UserFragLink[]
-  posts     Post[]
-  chats     Chat[]
+  id          Int            @id @default(autoincrement())
+  adminId     Int
+  name        String         @unique
+  description String
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  admin       User           @relation(fields: [adminId], references: [id])
+  members     UserFragLink[]
+  posts       Post[]
+  chats       Chat[]
 }
 
 // User 테이블과 Frag 테이블을 다대다 관계로 잇는 테이블.
@@ -61,7 +62,7 @@ model UserFragLink {
   id          Int      @id @default(autoincrement())
   userId      Int
   fragId      Int
-  visitCount  Int
+  visitCount  Int      @default(0)
   joinAt      DateTime @default(now())
   lastVisitAt DateTime
   user        User     @relation(fields: [userId], references: [id])
