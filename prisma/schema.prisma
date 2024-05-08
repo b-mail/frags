@@ -15,19 +15,20 @@ datasource db {
 
 // 유저 정보 테이블.
 model User {
-  id          Int            @id @default(autoincrement())
-  name        String         @unique
-  email       String         @unique
-  bio         String?
-  createdAt   DateTime       @default(now())
-  updatedAt   DateTime       @updatedAt
-  password    Password?
-  adminFrags  Frag[]
-  joinedFrags UserFragLink[]
-  posts       Post[]
-  comments    Comment[]
-  likes       Like[]
-  chats       Chat[]
+  id           Int            @id @default(autoincrement())
+  name         String         @unique
+  email        String         @unique
+  bio          String?
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  adminFrags   Frag[]
+  joinedFrags  UserFragLink[]
+  posts        Post[]
+  comments     Comment[]
+  likes        Like[]
+  chats        Chat[]
+  password     Password?
+  RefreshToken RefreshToken?
 }
 
 // 비밀번호 테이블.
@@ -113,4 +114,11 @@ model Chat {
   createdAt DateTime @default(now())
   user      User     @relation(fields: [userId], references: [id])
   frag      Frag     @relation(fields: [fragId], references: [id])
+}
+
+model RefreshToken {
+  id     Int    @id @default(autoincrement())
+  user   User   @relation(fields: [userId], references: [id])
+  userId Int    @unique
+  token  String
 }

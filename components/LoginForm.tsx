@@ -16,11 +16,18 @@ export default function LoginForm() {
   const [error, setError] = useState<{ message: string }>({
     message: "",
   });
-  const login = useAuth.use.login();
+  const login = async () => {};
 
   const { mutate, isPending } = useMutation({
     mutationFn: async (values: { email: string; password: string }) => {
-      login(values);
+      const error = await login(values);
+
+      if (error) {
+        setError(error);
+        return;
+      }
+
+      router.push("/");
     },
   });
 
@@ -52,7 +59,7 @@ export default function LoginForm() {
         type="submit"
         disabled={isPending}
       >
-        회원가입하기
+        로그인하기
       </button>
     </form>
   );
