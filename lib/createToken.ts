@@ -6,7 +6,7 @@ export function createAccessToken(payload: { uid: number; iat: number }) {
   });
 }
 
-export function createRefreshToken(payload: { iat: number }) {
+export function createRefreshToken(payload: { key: number; iat: number }) {
   return jwt.sign(payload, process.env.JWT_REFRESH_SECRET as string, {
     expiresIn: "7d",
   });

@@ -4,12 +4,19 @@ import createSelector from "@/store/createSelector";
 
 type State = {
   user: User | null;
+  accessToken: string | null;
 };
 
-type Action = {};
+type Action = {
+  setUser: (user: State["user"]) => void;
+  setAccessToken: (accessToken: State["accessToken"]) => void;
+};
 
 const AuthStore = create<State & Action>()((set) => ({
   user: null,
+  accessToken: null,
+  setUser: (user) => set({ user }),
+  setAccessToken: (accessToken) => set({ accessToken }),
 }));
 
 const useAuth = createSelector(AuthStore);

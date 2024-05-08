@@ -1,11 +1,17 @@
 "use client";
 
-import { ChangeEventHandler, FormEventHandler, useState } from "react";
+import {
+  ChangeEventHandler,
+  FormEventHandler,
+  useEffect,
+  useState,
+} from "react";
 import EmailInput from "@/components/EmailInput";
 import PasswordInput from "@/components/PasswordInput";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import useAuth from "@/store/AuthStore";
+import { login } from "@/lib/api";
 
 export default function LoginForm() {
   const router = useRouter();
@@ -16,18 +22,21 @@ export default function LoginForm() {
   const [error, setError] = useState<{ message: string }>({
     message: "",
   });
-  const login = async () => {};
+  const user = useAuth.use.user();
+  const setUser = useAuth.use.setUser();
+  const setAccessToken = useAuth.use.setAccessToken();
 
   const { mutate, isPending } = useMutation({
-    mutationFn: async (values: { email: string; password: string }) => {
-      const error = await login(values);
-
-      if (error) {
-        setError(error);
-        return;
-      }
-
+    mutationFn: login,
+    onSuccess: (data) => {
+      setUser(data.user);
+      setAccessToken(data.accessToken);
       router.push("/");
+    },
+    onError: (error) => {
+      setError({
+        message: error.message,
+      });
     },
   });
 
@@ -44,6 +53,10 @@ export default function LoginForm() {
     e.preventDefault();
     mutate(values);
   };
+
+  useEffect(() => {
+    if (user) router.push("/");
+  }, [user, router]);
 
   return (
     <form

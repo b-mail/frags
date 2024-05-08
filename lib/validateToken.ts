@@ -35,13 +35,11 @@ export function validateRefreshToken(token: string) {
       token,
       process.env.JWT_REFRESH_SECRET as string,
     ) as {
-      uid: number;
       iat: number;
     };
 
     return {
       isValid: true,
-      uid: decoded.uid,
     };
   } catch (error) {
     if (error instanceof TokenExpiredError) {

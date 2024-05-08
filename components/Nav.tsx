@@ -3,12 +3,43 @@
 import Link from "next/link";
 import useAuth from "@/store/AuthStore";
 import UserMenu from "@/components/UserMenu";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MenuIcon from "@/components/MenuIcon";
+import { logout, refresh } from "@/lib/api";
+import { useMutation } from "@tanstack/react-query";
 
 export default function Nav() {
   const [isActive, setIsActive] = useState(false);
   const user = useAuth.use.user();
+  const setUser = useAuth.use.setUser();
+  const setAccessToken = useAuth.use.setAccessToken();
+
+  const refreshMutation = useMutation({
+    mutationFn: refresh,
+    onSuccess: (data) => {
+      setUser(data.user);
+      setAccessToken(data.accessToken);
+    },
+  });
+
+  const logoutMutation = useMutation({
+    mutationFn: logout,
+    onSettled: () => {
+      setUser(null);
+      setAccessToken(null);
+      setIsActive(false);
+    },
+  });
+
+  const handleLogout = () => {
+    logoutMutation.mutate();
+  };
+
+  useEffect(() => {
+    if (!user) {
+      refreshMutation.mutate();
+    }
+  }, []);
 
   return (
     <nav className="fixed left-0 top-0 z-50 flex h-16 w-full items-center justify-between bg-slate-900 bg-opacity-75 px-10 shadow-xl backdrop-blur-lg">
@@ -30,7 +61,7 @@ export default function Nav() {
               <div className="w-full text-end">{user.name}</div>
               <MenuIcon isActive={isActive} />
             </button>
-            <UserMenu user={user} isActive={isActive} />
+            <UserMenu user={user} isActive={isActive} onLogout={handleLogout} />
           </div>
         ) : (
           <div className="flex w-full items-center justify-center gap-4 text-center">

@@ -4,36 +4,9 @@ import { validateAccessToken, validateRefreshToken } from "@/lib/validateToken";
 import { createAccessToken } from "@/lib/createToken";
 
 export async function GET(req: NextRequest) {
-  const accessToken = req.headers.get("Authorization")?.split(" ")[1];
-  const refreshToken = req.headers.get("Refresh-Token")?.split(" ")[1];
+  const refreshToken = req.cookies.get("refreshToken");
 
-  if (!accessToken || !refreshToken) {
-    return NextResponse.json(
-      {
-        message: "토큰이 제공되지 않았습니다.",
-      },
-      { status: 401 },
-    );
-  }
-
-  const decodedAccessToken = validateAccessToken(accessToken);
-
-  if (!decodedAccessToken.isValid) {
-    return NextResponse.json(
-      {
-        message: decodedAccessToken.error,
-      },
-      { status: 401 },
-    );
-  }
-
-  const targetRefreshToken = await prisma.user
-    .findUnique({
-      where: { id: decodedAccessToken.uid },
-    })
-    .RefreshToken();
-
-  if (!targetRefreshToken) {
+  if (!refreshToken) {
     return NextResponse.json(
       {
         message: "로그인되지 않은 사용자입니다.",
@@ -42,38 +15,59 @@ export async function GET(req: NextRequest) {
     );
   }
 
-  const isRefreshTokenValid = targetRefreshToken.token === refreshToken;
+  const decoded = validateRefreshToken(refreshToken.value);
 
-  if (!isRefreshTokenValid) {
+  if (!decoded.isValid) {
     return NextResponse.json(
       {
-        message: "유효하지 않은 토큰입니다.",
+        message: decoded.error,
       },
-      { status: 401 },
+      {
+        status: 401,
+        headers: {
+          "Set-Cookie": "refreshToken=; Path=/; HttpOnly; Max-Age=0",
+        },
+      },
     );
   }
 
-  const decodedRefreshToken = validateRefreshToken(targetRefreshToken.token);
+  const user = await prisma.refreshToken
+    .findUnique({
+      where: { token: refreshToken.value },
+    })
+    .user();
 
-  if (!decodedRefreshToken.isValid) {
-    await prisma.refreshToken.delete({
-      where: { id: targetRefreshToken.id },
-    });
-
+  if (!user) {
     return NextResponse.json(
       {
-        message: decodedRefreshToken.error,
+        message: "인증 정보와 일치하는 사용자를 찾을 수 없습니다.",
       },
-      { status: 401 },
+      {
+        status: 401,
+        headers: {
+          "Set-Cookie": "refreshToken=; Path=/; HttpOnly; Max-Age=0",
+        },
+      },
     );
   }
 
   const payload = {
-    uid: decodedAccessToken.uid as number,
+    uid: user.id,
     iat: Date.now(),
   };
 
-  const newAccessToken = createAccessToken(payload);
+  const accessToken = createAccessToken(payload);
 
-  return NextResponse.json({ accessToken: newAccessToken });
+  return NextResponse.json(
+    {
+      message: "토큰이 갱신되었습니다.",
+      user,
+      accessToken,
+    },
+    {
+      headers: {
+        "Set-Cookie": `refreshToken=${refreshToken.value}; Path=/; HttpOnly; SameSite=Strict`,
+      },
+    },
+  );
 }
