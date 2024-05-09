@@ -1,6 +1,5 @@
 "use client";
 
-import axios from "@/lib/axios";
 import useAuth from "@/store/AuthStore";
 import { Frag } from "@prisma/client";
 import { useEffect, useState } from "react";
@@ -8,6 +7,7 @@ import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 import { getFrags, uploadFrag } from "@/lib/api";
 import { useRouter } from "next/navigation";
 import FragList from "@/components/FragList";
+import LoadingIndicator from "@/components/LoadingIndicator";
 
 export default function FragsPage() {
   const [order, setOrder] = useState<"latest" | "alphabet" | "member">(
@@ -22,27 +22,29 @@ export default function FragsPage() {
   const queryClient = useQueryClient();
   const router = useRouter();
 
-  const { data, isLoading, isSuccess } = useInfiniteQuery<{
-    frags: Frag[];
-    count: number;
-    hasMore: boolean;
-  }>({
-    queryKey: ["frags", order, search, filter],
-    queryFn: async ({ pageParam }) => {
-      return await getFrags(accessToken as string, {
-        page: pageParam,
-        limit: 6,
-        search: search ? search : undefined,
-        order: order,
-        member: filter === "member" ? user?.id : undefined,
-        admin: filter === "admin" ? user?.id : undefined,
-      });
-    },
-    enabled: !!accessToken,
-    initialPageParam: 0,
-    getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) =>
-      lastPage.hasMore ? (lastPageParam as number) + 1 : undefined,
-  });
+  const { data, fetchNextPage, isLoading, isSuccess, hasNextPage } =
+    useInfiniteQuery<{
+      frags: Frag[];
+      count: number;
+      hasNextPage: boolean;
+      nextPage: number;
+    }>({
+      queryKey: ["frags", order, search, filter],
+      queryFn: async ({ pageParam }) => {
+        return await getFrags(accessToken as string, {
+          page: pageParam as number,
+          limit: 6,
+          search: search ? search : undefined,
+          order: order,
+          member: filter === "member" ? user?.id : undefined,
+          admin: filter === "admin" ? user?.id : undefined,
+        });
+      },
+      enabled: !!accessToken,
+      initialPageParam: 0,
+      getNextPageParam: (lastPage, allPage) =>
+        lastPage.hasNextPage ? lastPage.nextPage : undefined,
+    });
 
   useEffect(() => {
     if (!queryClient.isMutating({ mutationKey: ["refresh"] }) && !user) {
@@ -101,11 +103,32 @@ export default function FragsPage() {
           </button>
         </div>
       </section>
-      <section>
+      <section className="flex flex-col gap-10">
         {isLoading || !isSuccess ? (
-          "로딩중"
+          <LoadingIndicator />
         ) : (
-          <FragList frags={data.pages[0].frags} />
+          <FragList frags={data.pages.flatMap((page) => page.frags)} />
+        )}
+        {hasNextPage && (
+          <button
+            className="flex w-full items-center justify-center rounded-2xl bg-slate-900 py-2"
+            onClick={() => fetchNextPage()}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="h-6 w-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="m19.5 8.25-7.5 7.5-7.5-7.5"
+              />
+            </svg>
+          </button>
         )}
       </section>
     </div>

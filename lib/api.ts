@@ -101,3 +101,23 @@ export async function uploadFrag(
 
   return res.data;
 }
+
+export async function getUserById(id: number | string) {
+  const res = await axios.get(`/users/${id}`);
+
+  if (res.status >= 400) {
+    throw new Error(res.data.message);
+  }
+
+  return res.data;
+}
+
+export async function getMembersByFragId(id: number | string) {
+  const res = await axios.get(`/frags/${id}/members`);
+
+  if (res.status >= 400) {
+    throw new Error(res.data.message);
+  }
+
+  return res.data;
+}
