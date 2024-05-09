@@ -45,7 +45,24 @@ export async function GET(req: NextRequest) {
       break;
   }
 
-  const count = await prisma.frag.count();
+  const count = await prisma.frag.count({
+    where: search
+      ? {
+          OR: [
+            {
+              name: {
+                contains: search,
+              },
+            },
+            {
+              description: {
+                contains: search,
+              },
+            },
+          ],
+        }
+      : undefined,
+  });
 
   let frags: Frag[] = [];
 
