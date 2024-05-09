@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-export default function HomePage() {
+export default async function HomePage() {
   return (
     <div className="fixed left-0 top-0 flex h-full w-full flex-col items-center justify-center gap-10">
       <div>

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { validateAccessToken } from "@/lib/validateToken";
 import prisma from "@/lib/db";
+import { Frag } from "@prisma/client";
 
 export async function GET(req: NextRequest) {
   const page = req.nextUrl.searchParams.get("page");
@@ -46,72 +47,90 @@ export async function GET(req: NextRequest) {
 
   const count = await prisma.frag.count();
 
+  let frags: Frag[] = [];
+
   if (member) {
-    const frags = await prisma.frag.findMany({
+    frags = await prisma.frag.findMany({
       where: {
         members: {
           some: {
             userId: Number(member),
           },
         },
+        OR: search
+          ? [
+              {
+                name: {
+                  contains: search,
+                },
+              },
+              {
+                description: {
+                  contains: search,
+                },
+              },
+            ]
+          : undefined,
       },
       take: Number(limit),
       skip: Number(page) * Number(limit),
       orderBy,
     });
-
-    const result = frags.filter(
-      (frag) =>
-        frag.name.includes(search ?? "") ||
-        frag.description.includes(search ?? ""),
-    );
-
-    return NextResponse.json({
-      frags: result,
-      count,
-      hasMore: count > frags.length,
-    });
-  }
-
-  if (admin) {
-    const frags = await prisma.frag.findMany({
+  } else if (admin) {
+    frags = await prisma.frag.findMany({
       where: {
         adminId: Number(admin),
+        OR: search
+          ? [
+              {
+                name: {
+                  contains: search,
+                },
+              },
+              {
+                description: {
+                  contains: search,
+                },
+              },
+            ]
+          : undefined,
       },
       take: Number(limit),
       skip: Number(page) * Number(limit),
       orderBy,
     });
-
-    const result = frags.filter(
-      (frag) =>
-        frag.name.includes(search ?? "") ||
-        frag.description.includes(search ?? ""),
-    );
-
-    return NextResponse.json({
-      frags: result,
-      count,
-      hasMore: count > frags.length,
+  } else {
+    frags = await prisma.frag.findMany({
+      take: Number(limit),
+      skip: Number(page) * Number(limit),
+      orderBy,
+      where: search
+        ? {
+            OR: [
+              {
+                name: {
+                  contains: search,
+                },
+              },
+              {
+                description: {
+                  contains: search,
+                },
+              },
+            ],
+          }
+        : undefined,
     });
   }
 
-  const frags = await prisma.frag.findMany({
-    take: Number(limit),
-    skip: Number(page) * Number(limit),
-    orderBy,
-  });
-
-  const result = frags.filter(
-    (frag) =>
-      frag.name.includes(search ?? "") ||
-      frag.description.includes(search ?? ""),
-  );
+  const hasNextPage = count > Number(page) * Number(limit) + Number(limit);
+  const nextPage = hasNextPage ? Number(page) + 1 : null;
 
   return NextResponse.json({
-    frags: result,
+    frags,
     count,
-    hasMore: count > frags.length,
+    hasNextPage,
+    nextPage,
   });
 }
 

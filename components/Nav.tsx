@@ -59,7 +59,9 @@ export default function Nav() {
               className="flex w-full cursor-pointer items-center justify-end gap-4"
               onClick={() => setIsActive(!isActive)}
             >
-              <div className="w-full text-end">{user.name}</div>
+              <div className="flex w-full items-center justify-end gap-4 text-end">
+                {user.name}
+              </div>
               <MenuIcon isActive={isActive} />
             </button>
             <UserMenu user={user} isActive={isActive} onLogout={handleLogout} />

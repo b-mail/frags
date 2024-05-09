@@ -4,10 +4,6 @@ import * as crypto from "node:crypto";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { User } from "@prisma/client";
 
-export async function GET(req: NextRequest) {
-  return NextResponse.json({ message: "GET /users" });
-}
-
 export async function POST(req: NextRequest) {
   const body = await req.json();
   const { name, email, password, bio } = body;
