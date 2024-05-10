@@ -40,7 +40,7 @@ export async function GET(req: NextRequest) {
   if (!user) {
     return NextResponse.json(
       {
-        message: "인증 정보와 일치하는 사용자를 찾을 수 없습니다.",
+        message: "해당 사용자가 존재하지 않습니다.",
       },
       {
         status: 401,

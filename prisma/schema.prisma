@@ -59,14 +59,14 @@ model Frag {
 // User 테이블과 Frag 테이블을 다대다 관계로 잇는 테이블.
 // 추가적으로 특정 유저가 해당 Frag에 가입한 날짜, 방문 횟수, 마지막 방문 일자를 담고 있다.
 model UserFragLink {
-  id          Int      @id @default(autoincrement())
+  id          Int       @id @default(autoincrement())
   userId      Int
   fragId      Int
-  visitCount  Int      @default(0)
-  joinAt      DateTime @default(now())
-  lastVisitAt DateTime
-  user        User     @relation(fields: [userId], references: [id])
-  frag        Frag     @relation(fields: [fragId], references: [id])
+  visitCount  Int       @default(0)
+  joinAt      DateTime  @default(now())
+  lastVisitAt DateTime?
+  user        User      @relation(fields: [userId], references: [id])
+  frag        Frag      @relation(fields: [fragId], references: [id])
 }
 
 // Frag 내의 글.

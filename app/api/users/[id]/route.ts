@@ -5,17 +5,17 @@ export async function GET(
   req: NextRequest,
   { params }: { params: { id: string } },
 ) {
-  const { id } = params;
+  const userId = Number(params.id);
 
   const user = await prisma.user.findUnique({
     where: {
-      id: Number(id),
+      id: userId,
     },
   });
 
   if (!user) {
     return NextResponse.json(
-      { message: "해당 사용자를 찾을 수 없습니다." },
+      { message: "해당 사용자가 존재하지 않습니다." },
       { status: 404 },
     );
   }

@@ -5,7 +5,6 @@ import useAuth from "@/store/AuthStore";
 const instance = axios.create({
   baseURL: "http://localhost:3000/api",
   validateStatus: (status) => status < 500,
-  withCredentials: true,
 });
 
 instance.interceptors.request.use(

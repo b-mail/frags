@@ -144,7 +144,7 @@ export async function GET(req: NextRequest) {
   const nextPage = hasNextPage ? Number(page) + 1 : null;
 
   return NextResponse.json({
-    frags,
+    result: frags,
     count,
     hasNextPage,
     nextPage,
@@ -152,7 +152,6 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
-  const body = await req.json();
   const token = req.headers.get("Authorization")?.split(" ")[1];
 
   if (!token) {
@@ -179,11 +178,11 @@ export async function POST(req: NextRequest) {
 
   if (!user) {
     return NextResponse.json(
-      { message: "해당 인증 정보와 일치하는 사용자가 존재하지 않습니다." },
+      { message: "해당 사용자가 존재하지 않습니다." },
       { status: 401 },
     );
   }
-
+  const body = await req.json();
   const { name, description } = body;
 
   const frag = await prisma.frag.create({
@@ -198,9 +197,14 @@ export async function POST(req: NextRequest) {
     data: {
       userId: user.id,
       fragId: frag.id,
-      lastVisitAt: new Date(),
     },
   });
 
-  return NextResponse.json({ message: "FRAG 생성이 완료되었습니다.", frag });
+  return NextResponse.json(
+    {
+      message: "FRAG 생성이 완료되었습니다.",
+      result: frag,
+    },
+    { status: 201 },
+  );
 }
