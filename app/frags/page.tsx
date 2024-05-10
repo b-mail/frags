@@ -4,7 +4,7 @@ import useAuth from "@/store/AuthStore";
 import { Frag } from "@prisma/client";
 import { useEffect, useRef, useState } from "react";
 import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
-import { getFrags, uploadFrag } from "@/lib/api";
+import { getFrags, createFrag } from "@/lib/api";
 import { useRouter } from "next/navigation";
 import FragList from "@/components/FragList";
 import LoadingIndicator from "@/components/LoadingIndicator";
@@ -17,6 +17,7 @@ export default function FragsPage() {
   const [filter, setFilter] = useState<"all" | "member" | "admin">("all");
 
   const searchInputRef = useRef<HTMLInputElement>(null);
+  const observeTargetRef = useRef<HTMLDivElement>(null);
 
   const user = useAuth.use.user();
   const accessToken = useAuth.use.accessToken();
@@ -32,7 +33,7 @@ export default function FragsPage() {
     hasNextPage,
     isFetchingNextPage,
   } = useInfiniteQuery<{
-    frags: Frag[];
+    result: Frag[];
     count: number;
     hasNextPage: boolean;
     nextPage: number;
@@ -60,6 +61,24 @@ export default function FragsPage() {
     }
   }, [user, queryClient]);
 
+  useEffect(() => {
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        fetchNextPage();
+      }
+    });
+
+    if (observeTargetRef.current) {
+      observer.observe(observeTargetRef.current);
+    }
+
+    return () => {
+      if (observeTargetRef.current) {
+        observer.unobserve(observeTargetRef.current);
+      }
+    };
+  }, [observeTargetRef, hasNextPage]);
+
   return (
     <div className="flex flex-col items-center gap-12">
       <section className="flex flex-col items-center justify-between gap-4 rounded-2xl bg-slate-900 p-4 shadow-2xl">
@@ -77,7 +96,7 @@ export default function FragsPage() {
               ref={searchInputRef}
             />
             <button
-              className="rounded-2xl bg-slate-800 p-3 hover:bg-slate-700"
+              className=" rounded-2xl bg-slate-800 p-3 hover:bg-slate-700 "
               type="submit"
             >
               <svg
@@ -141,34 +160,21 @@ export default function FragsPage() {
       </section>
       <section className="flex flex-col gap-10">
         {isLoading || !isSuccess ? (
-          <LoadingIndicator />
+          <LoadingIndicator message="FRAGS 불러오는 중" />
         ) : (
-          <FragList frags={data.pages.flatMap((page) => page.frags)} />
+          <FragList frags={data.pages.flatMap((page) => page.result)} />
         )}
-        {hasNextPage &&
-          (isFetchingNextPage ? (
-            <LoadingIndicator />
-          ) : (
-            <button
-              className="flex w-full items-center justify-center rounded-2xl bg-slate-900 py-2"
-              onClick={() => fetchNextPage()}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="h-6 w-6 stroke-slate-500"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="m19.5 8.25-7.5 7.5-7.5-7.5"
-                />
-              </svg>
-            </button>
-          ))}
+        {hasNextPage && (
+          <div
+            className="flex w-full items-center justify-center rounded-2xl"
+            onClick={() => fetchNextPage()}
+            ref={observeTargetRef}
+          >
+            {isFetchingNextPage && (
+              <LoadingIndicator message={"더 불러오는 중"} />
+            )}
+          </div>
+        )}
       </section>
     </div>
   );

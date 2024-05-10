@@ -57,5 +57,8 @@ export async function POST(req: NextRequest) {
     },
   });
 
-  return NextResponse.json({ message: "회원가입이 완료되었습니다." });
+  return NextResponse.json(
+    { message: "회원가입이 완료되었습니다." },
+    { status: 201 },
+  );
 }

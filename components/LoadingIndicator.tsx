@@ -1,4 +1,4 @@
-export default function LoadingIndicator() {
+export default function LoadingIndicator({ message }: { message: string }) {
   return (
     <div className="flex items-center justify-center gap-4 rounded-2xl bg-slate-900 p-4 shadow-2xl">
       <svg
@@ -15,7 +15,7 @@ export default function LoadingIndicator() {
           d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"
         />
       </svg>
-      <div className="text-slate-500">불러오는 중...</div>
+      <div className="text-slate-500">{message}</div>
     </div>
   );
 }
