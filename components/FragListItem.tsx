@@ -2,7 +2,7 @@
 
 import { Frag, User } from "@prisma/client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { addUserToFrag, getUsersByFragId, getUserById } from "@/lib/api";
+import { joinFragByFragId, getUsersByFragId, getUserByUserId } from "@/lib/api";
 import MemberCount from "@/components/MemberCount";
 import { useEffect, useState } from "react";
 import useAuth from "@/store/AuthStore";
@@ -25,11 +25,7 @@ export default function FragListItem({ frag }: { frag: Frag }) {
   });
 
   const { mutate } = useMutation({
-    mutationFn: async () =>
-      addUserToFrag(accessToken as string, {
-        fragId: frag.id,
-        userId: user?.id as number,
-      }),
+    mutationFn: async () => joinFragByFragId(accessToken as string, frag.id),
     onSuccess: () => {
       setIsMember(true);
       queryClient.invalidateQueries({

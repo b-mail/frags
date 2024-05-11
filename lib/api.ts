@@ -94,8 +94,8 @@ export async function createFrag(
   return res.data;
 }
 
-export async function getUserById(id: number | string) {
-  const res = await axios.get(`/users/${id}`);
+export async function getUserByUserId(userId: number | string) {
+  const res = await axios.get(`/users/${userId}`);
 
   if (res.status >= 400) {
     throw new Error(res.data.message);
@@ -104,8 +104,8 @@ export async function getUserById(id: number | string) {
   return res.data;
 }
 
-export async function getUsersByFragId(id: number | string) {
-  const res = await axios.get(`/frags/${id}/members`);
+export async function getUsersByFragId(fragId: number | string) {
+  const res = await axios.get(`/frags/${fragId}/members`);
 
   if (res.status >= 400) {
     throw new Error(res.data.message);
@@ -114,25 +114,12 @@ export async function getUsersByFragId(id: number | string) {
   return res.data;
 }
 
-export async function addUserToFrag(
-  token: string,
-  {
-    fragId,
-    userId,
-  }: {
-    fragId: number | string;
-    userId: number | string;
-  },
-) {
-  const res = await axios.post(
-    `/frags/${fragId}/members`,
-    { userId },
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+export async function joinFragByFragId(token: string, fragId: number | string) {
+  const res = await axios.post(`/frags/${fragId}/members`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
     },
-  );
+  });
 
   if (res.status >= 400) {
     throw new Error(res.data.message);
