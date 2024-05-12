@@ -4,10 +4,10 @@ import { useEffect, useRef, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import useAuth from "@/store/AuthStore";
-import FragList from "@/components/FragList";
-import FragOrder from "@/components/FragOrder";
-import FragFilter from "@/components/FragFilter";
-import FragSearch from "@/components/FragSearch";
+import FragList from "@/components/frags/FragList";
+import FragOrder from "@/components/frags/FragOrder";
+import FragFilter from "@/components/frags/FragFilter";
+import SearchInput from "@/components/SearchInput";
 import Link from "next/link";
 
 export default function FragsPage() {
@@ -34,7 +34,7 @@ export default function FragsPage() {
     <div className="flex flex-col items-center gap-12">
       <section className="flex flex-col items-center justify-between gap-4 rounded-2xl bg-slate-900 p-4 shadow-2xl">
         <div className="flex items-center justify-between">
-          <FragSearch search={search} setSearch={setSearch} />
+          <SearchInput search={search} setSearch={setSearch} />
           <FragOrder order={order} setOrder={setOrder} />
         </div>
         <hr className="w-full border border-slate-700" />

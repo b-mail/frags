@@ -77,6 +77,16 @@ export async function getFrags(
   return res.data;
 }
 
+export async function getFragByFragId(fragId: number | string) {
+  const res = await axios.get(`/frags/${fragId}`, {});
+
+  if (res.status >= 400) {
+    throw new Error(res.data.message);
+  }
+
+  return res.data;
+}
+
 export async function createFrag(
   token: string,
   body: { name: string; description: string },
@@ -115,11 +125,15 @@ export async function getUsersByFragId(fragId: number | string) {
 }
 
 export async function joinFragByFragId(token: string, fragId: number | string) {
-  const res = await axios.post(`/frags/${fragId}/members`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
+  const res = await axios.post(
+    `/frags/${fragId}/members`,
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     },
-  });
+  );
 
   if (res.status >= 400) {
     throw new Error(res.data.message);
@@ -129,15 +143,19 @@ export async function joinFragByFragId(token: string, fragId: number | string) {
 }
 
 export async function getPostsByFragId(
+  token: string,
   fragId: number | string,
   params: {
     page: number;
     limit: number;
-    order?: "latest" | "alphabet" | "like";
+    order?: "latest" | "like";
     search?: string;
   },
 ) {
   const res = await axios.get(`/frags/${fragId}/posts`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
     params,
   });
 
@@ -158,6 +176,36 @@ export async function createPost(
       Authorization: `Bearer ${token}`,
     },
   });
+
+  if (res.status >= 400) {
+    throw new Error(res.data.message);
+  }
+
+  return res.data;
+}
+
+export async function getPostByPostId(postId: number | string) {
+  const res = await axios.get(`/posts/${postId}`);
+
+  if (res.status >= 400) {
+    throw new Error(res.data.message);
+  }
+
+  return res.data;
+}
+
+export async function getCommentsByPostId(postId: number | string) {
+  const res = await axios.get(`/posts/${postId}/comments`);
+
+  if (res.status >= 400) {
+    throw new Error(res.data.message);
+  }
+
+  return res.data;
+}
+
+export async function getLikesByPostId(postId: number | string) {
+  const res = await axios.get(`/posts/${postId}/likes`);
 
   if (res.status >= 400) {
     throw new Error(res.data.message);

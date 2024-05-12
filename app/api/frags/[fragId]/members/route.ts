@@ -4,9 +4,9 @@ import { validateAccessToken } from "@/lib/validateToken";
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: { fragId: string } },
 ) {
-  const fragId = Number(params.id);
+  const fragId = Number(params.fragId);
 
   const members = await prisma.user.findMany({
     where: {
@@ -23,7 +23,7 @@ export async function GET(
 
 export async function POST(
   req: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: { fragId: string } },
 ) {
   const token = req.headers.get("Authorization")?.split(" ")[1];
 
@@ -56,7 +56,7 @@ export async function POST(
     );
   }
 
-  const fragId = Number(params.id);
+  const fragId = Number(params.fragId);
 
   await prisma.userFragLink.create({
     data: {

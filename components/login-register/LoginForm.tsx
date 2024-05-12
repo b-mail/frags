@@ -6,8 +6,8 @@ import {
   useEffect,
   useState,
 } from "react";
-import EmailInput from "@/components/EmailInput";
-import PasswordInput from "@/components/PasswordInput";
+import EmailInput from "@/components/login-register/EmailInput";
+import PasswordInput from "@/components/login-register/PasswordInput";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import useAuth from "@/store/AuthStore";
@@ -31,7 +31,7 @@ export default function LoginForm() {
     onSuccess: (data) => {
       setUser(data.user);
       setAccessToken(data.accessToken);
-      router.push("/");
+      router.push("/frags");
     },
     onError: (error) => {
       setError({

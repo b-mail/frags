@@ -4,17 +4,65 @@ import { validateAccessToken } from "@/lib/validateToken";
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: { fragId: string } },
 ) {
+  const token = req.headers.get("Authorization")?.split(" ")[1];
+
+  if (!token) {
+    return NextResponse.json(
+      { message: "로그인이 필요합니다." },
+      { status: 401 },
+    );
+  }
+
+  const decoded = validateAccessToken(token);
+
+  if (!decoded.isValid) {
+    return NextResponse.json(
+      { message: "유효하지 않은 토큰입니다." },
+      { status: 401 },
+    );
+  }
+
+  const user = await prisma.user.findUnique({
+    where: {
+      id: decoded.uid,
+    },
+  });
+
+  if (!user) {
+    return NextResponse.json(
+      { message: "해당 사용자가 존재하지 않습니다." },
+      { status: 401 },
+    );
+  }
+
+  const fragId = Number(params.fragId);
+
+  const isMember = await prisma.userFragLink.findFirst({
+    where: {
+      userId: user.id,
+      fragId,
+    },
+  });
+
+  if (!isMember) {
+    return NextResponse.json(
+      { message: "해당 FRAG의 멤버가 아닙니다." },
+      { status: 401 },
+    );
+  }
+
   const page = req.nextUrl.searchParams.get("page");
   const limit = req.nextUrl.searchParams.get("limit");
   const order = req.nextUrl.searchParams.get("order");
   const search = req.nextUrl.searchParams.get("search");
 
-  const fragId = Number(params.id);
-
   if (!page || !limit) {
-    return { message: "페이지와 제한을 지정해주세요." };
+    return NextResponse.json(
+      { message: "페이지와 제한을 지정해주세요." },
+      { status: 400 },
+    );
   }
 
   let orderBy = {};
@@ -23,11 +71,6 @@ export async function GET(
     case "latest":
       orderBy = {
         createdAt: "desc",
-      };
-      break;
-    case "alphabet":
-      orderBy = {
-        title: "asc",
       };
       break;
     case "like":
@@ -61,6 +104,13 @@ export async function GET(
                 {
                   content: {
                     contains: search,
+                  },
+                },
+                {
+                  user: {
+                    name: {
+                      contains: search,
+                    },
                   },
                 },
               ],
@@ -107,7 +157,7 @@ export async function GET(
 
 export async function POST(
   req: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: { fragId: string } },
 ) {
   const token = req.headers.get("Authorization")?.split(" ")[1];
 
@@ -140,7 +190,7 @@ export async function POST(
     );
   }
 
-  const fragId = Number(params.id);
+  const fragId = Number(params.fragId);
 
   const isMember = await prisma.userFragLink.findFirst({
     where: {

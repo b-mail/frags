@@ -68,6 +68,20 @@ export async function POST(req: NextRequest) {
   const accessToken = createAccessToken(payload);
   const refreshToken = createRefreshToken(payload);
 
+  const isExist = await prisma.refreshToken.findFirst({
+    where: {
+      userId: user.id,
+    },
+  });
+
+  if (isExist) {
+    await prisma.refreshToken.delete({
+      where: {
+        userId: user.id,
+      },
+    });
+  }
+
   await prisma.refreshToken.create({
     data: {
       token: refreshToken,

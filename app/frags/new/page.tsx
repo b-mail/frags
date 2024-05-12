@@ -11,7 +11,7 @@ import { createFrag } from "@/lib/api";
 import useAuth from "@/store/AuthStore";
 import { useRouter } from "next/navigation";
 
-export default function CreateFragPage() {
+export default function NewFragPage() {
   const accessToken = useAuth.use.accessToken();
 
   const queryClient = useQueryClient();
@@ -63,6 +63,10 @@ export default function CreateFragPage() {
       onSubmit={handleSubmit}
     >
       <div className="flex flex-col gap-4">
+        <h2 className="text-3xl font-bold">새 FRAG 만들기</h2>
+        <hr className="border border-slate-700" />
+      </div>
+      <div className="flex flex-col gap-4">
         <label className="text-xl font-bold" htmlFor="name">
           FRAG 이름
         </label>
@@ -84,7 +88,7 @@ export default function CreateFragPage() {
           className="w-96 resize-none rounded-2xl border-4 border-slate-700 bg-slate-800 p-2 placeholder:text-slate-500 focus:border-slate-600 focus:outline-0"
           id="description"
           name="description"
-          placeholder="FRAG에 대한 간단한 설명을 입력해주세요!"
+          placeholder="FRAG을 소개해보세요! "
           value={values.description}
           onChange={handleChange}
         />
