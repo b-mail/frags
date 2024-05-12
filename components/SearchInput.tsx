@@ -1,6 +1,6 @@
 import { useRef } from "react";
 
-export default function FragSearch({
+export default function SearchInput({
   search,
   setSearch,
 }: {

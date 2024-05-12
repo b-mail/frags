@@ -2,11 +2,12 @@
 
 import Link from "next/link";
 import useAuth from "@/store/AuthStore";
-import UserMenu from "@/components/UserMenu";
+import UserMenu from "@/components/nav/UserMenu";
 import { useEffect, useState } from "react";
-import MenuIcon from "@/components/MenuIcon";
+import MenuIcon from "@/components/nav/MenuIcon";
 import { logout, refresh } from "@/lib/api";
 import { useMutation } from "@tanstack/react-query";
+import Image from "next/image";
 
 export default function Nav() {
   const [isActive, setIsActive] = useState(false);
@@ -44,14 +45,13 @@ export default function Nav() {
 
   return (
     <nav className="fixed left-0 top-0 z-50 flex h-16 w-full items-center justify-between bg-slate-900 bg-opacity-75 px-10 shadow-xl backdrop-blur-lg">
-      <section>
-        <Link
-          className="text-2xl font-bold italic hover:text-green-400"
-          href="/"
-        >
-          FRAGS
-        </Link>
-      </section>
+      <Link
+        href="/"
+        className="flex cursor-pointer items-center justify-center gap-2"
+      >
+        <Image src={"/2.png"} alt={"로고"} width={40} height={40} />
+        <div className="text-2xl font-bold hover:text-green-400">FRAGS</div>
+      </Link>
       <section className="flex w-48 items-center justify-center">
         {user ? (
           <div className="flex w-full flex-col items-center justify-center gap-2">

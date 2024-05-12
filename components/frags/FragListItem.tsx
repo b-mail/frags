@@ -3,12 +3,13 @@
 import { Frag, User } from "@prisma/client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { joinFragByFragId, getUsersByFragId, getUserByUserId } from "@/lib/api";
-import MemberCount from "@/components/MemberCount";
+import MemberCount from "@/components/frags/MemberCount";
 import { useEffect, useState } from "react";
 import useAuth from "@/store/AuthStore";
+import Link from "next/link";
 
 export default function FragListItem({ frag }: { frag: Frag }) {
-  const { name, description, adminId } = frag;
+  const { id, name, description, adminId } = frag;
   const [isMember, setIsMember] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
 
@@ -25,7 +26,8 @@ export default function FragListItem({ frag }: { frag: Frag }) {
   });
 
   const { mutate } = useMutation({
-    mutationFn: async () => joinFragByFragId(accessToken as string, frag.id),
+    mutationFn: async () =>
+      await joinFragByFragId(accessToken as string, frag.id),
     onSuccess: () => {
       setIsMember(true);
       queryClient.invalidateQueries({
@@ -42,10 +44,12 @@ export default function FragListItem({ frag }: { frag: Frag }) {
   }, [data, isMemberSuccess, adminId]);
 
   return (
-    <div className="flex flex-col items-center justify-between gap-4 rounded-2xl bg-slate-900 p-6 shadow-2xl">
+    <li className="flex flex-col items-center justify-between gap-4 rounded-2xl bg-slate-900 p-6 shadow-2xl">
       <div className="flex items-center justify-between">
         <div className="flex w-96 items-end gap-4">
-          <div className="text-2xl font-bold">{name}</div>
+          <Link href={`/frags/${id}/posts`} className="text-2xl font-bold">
+            {name}
+          </Link>
           {isMemberSuccess && <MemberCount count={data.result.length} />}
         </div>
         <div className="flex w-96 items-center justify-end">
@@ -67,6 +71,6 @@ export default function FragListItem({ frag }: { frag: Frag }) {
           ? description.slice(0, 115) + "..."
           : description}
       </div>
-    </div>
+    </li>
   );
 }

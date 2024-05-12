@@ -6,10 +6,10 @@ import {
   useEffect,
   useState,
 } from "react";
-import EmailInput from "@/components/EmailInput";
-import PasswordInput from "@/components/PasswordInput";
-import NameInput from "@/components/NameInput";
-import BioInput from "@/components/BioInput";
+import EmailInput from "@/components/login-register/EmailInput";
+import PasswordInput from "@/components/login-register/PasswordInput";
+import NameInput from "@/components/login-register/NameInput";
+import BioInput from "@/components/login-register/BioInput";
 import { useMutation } from "@tanstack/react-query";
 import axios from "@/lib/axios";
 import { useRouter } from "next/navigation";
