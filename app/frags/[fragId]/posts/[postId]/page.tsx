@@ -24,12 +24,17 @@ export default function PostPage({
     data: post,
     isSuccess,
     isLoading: isLoadingPost,
+    isSuccess: isSuccessPost,
   } = useQuery<Post>({
     queryKey: ["post", postId],
     queryFn: async () => await getPostByPostId(postId),
   });
 
-  const { data: author, isLoading: isLoadingUser } = useQuery<User>({
+  const {
+    data: author,
+    isLoading: isLoadingUser,
+    isSuccess: isSuccessUser,
+  } = useQuery<User>({
     queryKey: ["user", post?.userId],
     queryFn: async () => await getUserByUserId(post?.userId as number),
     enabled: isSuccess,
@@ -46,23 +51,25 @@ export default function PostPage({
       >
         <div className="flex flex-col items-start justify-start gap-6 ">
           <h1 className="text-2xl font-bold">{post?.title}</h1>
-          <div className="flex w-full justify-between gap-2">
-            <div className="flex items-center justify-center gap-2">
-              <AuthorInfo
+          {isSuccessPost && isSuccessUser && (
+            <div className="flex w-full justify-between gap-2">
+              <div className="flex items-center justify-center gap-2">
+                <AuthorInfo
+                  author={author}
+                  enableIcon={true}
+                  className="bg-slate-800"
+                />
+                <PostDate date={post?.createdAt.toString()} />
+                <PostTime date={post?.createdAt.toString()} />
+              </div>
+              <DeleteButton
+                id={postId}
+                fragId={fragId}
+                type="post"
                 author={author}
-                enableIcon={true}
-                className="bg-slate-800"
               />
-              <PostDate date={post?.createdAt} />
-              <PostTime date={post?.createdAt} />
             </div>
-            <DeleteButton
-              id={postId}
-              fragId={fragId}
-              type="post"
-              author={author}
-            />
-          </div>
+          )}
         </div>
         <hr className="w-full border border-slate-700" />
         <p className="leading-8">{post.content}</p>
