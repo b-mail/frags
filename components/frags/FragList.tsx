@@ -61,16 +61,18 @@ export default function FragList({
       }
     });
 
-    if (observeTargetRef.current) {
-      observer.observe(observeTargetRef.current);
+    const nod = observeTargetRef.current;
+
+    if (nod) {
+      observer.observe(nod);
     }
 
     return () => {
-      if (observeTargetRef.current) {
-        observer.unobserve(observeTargetRef.current);
+      if (nod) {
+        observer.unobserve(nod);
       }
     };
-  }, [observeTargetRef, hasNextPage]);
+  }, [observeTargetRef, hasNextPage, fetchNextPage]);
 
   return (
     <section className="flex flex-col gap-10">

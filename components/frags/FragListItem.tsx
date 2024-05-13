@@ -42,7 +42,7 @@ export default function FragListItem({ frag }: { frag: Frag }) {
     if (isMemberSuccess) {
       setIsMember(data.result.some((member) => user?.id === member.id));
     }
-  }, [data, isMemberSuccess, adminId]);
+  }, [data, isMemberSuccess, adminId, user?.id]);
 
   return (
     <li className="flex flex-col items-center justify-between gap-4 rounded-2xl bg-slate-900 p-6 shadow-2xl">
