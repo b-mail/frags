@@ -28,7 +28,7 @@ export default function FragsPage() {
     if (!queryClient.isMutating({ mutationKey: ["refresh"] }) && !user) {
       router.push("/login");
     }
-  }, [user, queryClient]);
+  }, [user, queryClient, router]);
 
   return (
     <div className="flex flex-col items-center gap-12">

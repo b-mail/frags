@@ -23,6 +23,7 @@ export default function FragListItem({ frag }: { frag: Frag }) {
   }>({
     queryKey: ["frag", frag.id, "members"],
     queryFn: async ({ queryKey }) => getUsersByFragId(queryKey[1] as number),
+    staleTime: 1000 * 60 * 10,
   });
 
   const { mutate } = useMutation({
@@ -64,12 +65,10 @@ export default function FragListItem({ frag }: { frag: Frag }) {
       </div>
       <hr className="w-full border border-slate-700" />
       <div
-        className="h-20 overflow-hidden break-words break-all rounded-2xl bg-slate-800 p-4 text-slate-500"
+        className="rounded-2xl bg-slate-800 p-4 text-slate-500"
         style={{ width: "48rem" }}
       >
-        {description.length > 115
-          ? description.slice(0, 115) + "..."
-          : description}
+        <p className="line-clamp-2 h-12 text-slate-400">{description}</p>
       </div>
     </li>
   );

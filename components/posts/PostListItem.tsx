@@ -37,12 +37,12 @@ export default function PostListItem({ post }: { post: Post }) {
   return (
     <li className="flex items-center justify-between ">
       <Link
-        className="w-1/2 text-white hover:text-green-400"
+        className="line-clamp-1 w-80 text-white hover:text-green-400"
         href={`/frags/${fragId}/posts/${id}`}
       >
-        {title.length > 28 ? title.slice(0, 28) + "..." : title}
+        {title}
       </Link>
-      <div className="flex w-1/2 items-center justify-end gap-2">
+      <div className="flex w-96 items-center justify-end gap-2">
         <AuthorInfo author={author} />
         <ViewCount view={view} />
         <LikeCount likes={likes} />
