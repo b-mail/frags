@@ -72,7 +72,7 @@ export default function PostPage({
           )}
         </div>
         <hr className="w-full border border-slate-700" />
-        <p className="leading-8">{post.content}</p>
+        <p className="leading-8">{post?.content ?? ""}</p>
         <div className="flex items-center justify-center">
           <LikeButton postId={postId} />
         </div>
