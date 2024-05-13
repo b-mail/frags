@@ -3,7 +3,7 @@ import { refresh } from "@/lib/api";
 import useAuth from "@/store/AuthStore";
 
 const instance = axios.create({
-  baseURL: "http://localhost:3000/api",
+  baseURL: process.env.API_URL,
   validateStatus: (status) => status < 500,
 });
 
