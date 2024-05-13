@@ -5,9 +5,10 @@ import useAuth from "@/store/AuthStore";
 import { useQuery } from "@tanstack/react-query";
 import { getUserByUserId } from "@/lib/api";
 import AuthorInfo from "@/components/posts/AuthorInfo";
+import DeleteButton from "@/components/DeleteButton";
 
 export default function CommentListItem({ comment }: { comment: Comment }) {
-  const { content, userId, createdAt } = comment;
+  const { id, content, userId, createdAt } = comment;
 
   const user = useAuth.use.user();
 
@@ -19,14 +20,19 @@ export default function CommentListItem({ comment }: { comment: Comment }) {
   return (
     <li className="flex flex-col gap-4">
       <hr className="w-full border border-slate-700" />
+
       <div className="flex items-start justify-between">
-        {isSuccess && (
-          <AuthorInfo
-            author={author}
-            enableIcon={true}
-            className="bg-slate-800"
-          />
-        )}
+        <div className="flex gap-2">
+          {isSuccess && (
+            <AuthorInfo
+              author={author}
+              enableIcon={true}
+              className="bg-slate-800"
+            />
+          )}
+          <DeleteButton id={id} type={"comment"} author={author ?? null} />
+        </div>
+
         <div className="flex gap-2 text-sm">
           <div className=" text-slate-500">
             {createdAt.toString().slice(0, 10).split("-").join(". ")}

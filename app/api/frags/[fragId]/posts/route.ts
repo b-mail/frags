@@ -64,29 +64,6 @@ export async function GET(
       { status: 400 },
     );
   }
-
-  let orderBy = {};
-
-  switch (order) {
-    case "latest":
-      orderBy = {
-        createdAt: "desc",
-      };
-      break;
-    case "like":
-      orderBy = {
-        likes: {
-          _count: "desc",
-        },
-      };
-      break;
-    default:
-      orderBy = {
-        createdAt: "desc",
-      };
-      break;
-  }
-
   const count = await prisma.post.count({
     where: {
       AND: [
@@ -144,13 +121,31 @@ export async function GET(
           : { fragId },
       ],
     },
-    orderBy,
+    orderBy: {
+      createdAt: "desc",
+    },
+    include: {
+      likes: {
+        where: {
+          isActive: true,
+        },
+        select: {
+          id: true,
+        },
+      },
+    },
     skip: Number(page) * Number(limit),
     take: Number(limit),
   });
 
   const hasNextPage = count > Number(page) * Number(limit) + Number(limit);
   const nextPage = hasNextPage ? Number(page) + 1 : null;
+
+  if (order === "like") {
+    posts.sort((a, b) => {
+      return b.likes.length - a.likes.length;
+    });
+  }
 
   return NextResponse.json({ result: posts, count, hasNextPage, nextPage });
 }
