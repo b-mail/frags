@@ -1,3 +1,5 @@
+"use client";
+
 import { getPostByPostId, getUserByUserId } from "@/lib/api";
 import AuthorInfo from "@/components/posts/AuthorInfo";
 import PostDate from "@/components/posts/PostDate";
@@ -6,23 +8,35 @@ import LikeButton from "@/components/posts/LikeButton";
 import CommentList from "@/components/comments/CommentList";
 import CommentInput from "@/components/comments/CommentInput";
 import DeleteButton from "@/components/DeleteButton";
-import { redirect } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
+import { Post, User } from "@prisma/client";
+import LoadingIndicator from "@/components/LoadingIndicator";
 
-export default async function PostPage({
+export default function PostPage({
   params,
 }: {
   params: { fragId: string; postId: string };
 }) {
   const fragId = Number(params.fragId);
   const postId = Number(params.postId);
-  let post, author;
 
-  try {
-    post = await getPostByPostId(postId);
-    author = await getUserByUserId(post.userId);
-  } catch (e) {
-    redirect(`/frags/${fragId}/posts`);
-  }
+  const {
+    data: post,
+    isSuccess,
+    isLoading: isLoadingPost,
+  } = useQuery<Post>({
+    queryKey: ["post", postId],
+    queryFn: async () => await getPostByPostId(postId),
+  });
+
+  const { data: author, isLoading: isLoadingUser } = useQuery<User>({
+    queryKey: ["user", post?.userId],
+    queryFn: async () => await getUserByUserId(post?.userId as number),
+    enabled: isSuccess,
+  });
+
+  if (isLoadingPost || isLoadingUser)
+    return <LoadingIndicator message={"게시글을 불러오는 중입니다."} />;
 
   return (
     <div className="flex flex-col gap-10">
@@ -31,7 +45,7 @@ export default async function PostPage({
         style={{ width: "48rem" }}
       >
         <div className="flex flex-col items-start justify-start gap-6 ">
-          <h1 className="text-2xl font-bold">{post.title}</h1>
+          <h1 className="text-2xl font-bold">{post?.title}</h1>
           <div className="flex w-full justify-between gap-2">
             <div className="flex items-center justify-center gap-2">
               <AuthorInfo
@@ -39,8 +53,8 @@ export default async function PostPage({
                 enableIcon={true}
                 className="bg-slate-800"
               />
-              <PostDate date={post.createdAt} />
-              <PostTime date={post.createdAt} />
+              <PostDate date={post?.createdAt} />
+              <PostTime date={post?.createdAt} />
             </div>
             <DeleteButton
               id={postId}

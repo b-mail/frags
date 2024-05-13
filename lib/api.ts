@@ -136,6 +136,7 @@ export async function joinFragByFragId(token: string, fragId: number | string) {
   );
 
   if (res.status >= 400) {
+    console.log(res.data.message);
     throw new Error(res.data.message);
   }
 
