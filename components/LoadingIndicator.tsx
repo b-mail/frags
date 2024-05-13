@@ -1,6 +1,14 @@
-export default function LoadingIndicator({ message }: { message: string }) {
+export default function LoadingIndicator({
+  message,
+  noShadow = false,
+}: {
+  message: string;
+  noShadow?: boolean;
+}) {
   return (
-    <div className="flex items-center justify-center gap-4 rounded-2xl bg-slate-900 p-4 shadow-2xl">
+    <div
+      className={`flex items-center justify-center gap-4 rounded-2xl bg-slate-900 p-4 ${noShadow ? "" : "shadow-2xl"}`}
+    >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"

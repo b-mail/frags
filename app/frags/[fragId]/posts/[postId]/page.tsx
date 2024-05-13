@@ -1,24 +1,28 @@
-import {
-  getCommentsByPostId,
-  getPostByPostId,
-  getUserByUserId,
-} from "@/lib/api";
+import { getPostByPostId, getUserByUserId } from "@/lib/api";
 import AuthorInfo from "@/components/posts/AuthorInfo";
 import PostDate from "@/components/posts/PostDate";
 import PostTime from "@/components/posts/PostTime";
 import LikeButton from "@/components/posts/LikeButton";
 import CommentList from "@/components/comments/CommentList";
 import CommentInput from "@/components/comments/CommentInput";
+import DeleteButton from "@/components/DeleteButton";
+import { redirect } from "next/navigation";
 
 export default async function PostPage({
   params,
 }: {
-  params: { postId: string };
+  params: { fragId: string; postId: string };
 }) {
+  const fragId = Number(params.fragId);
   const postId = Number(params.postId);
+  let post, author;
 
-  const post = await getPostByPostId(postId);
-  const author = await getUserByUserId(post.userId);
+  try {
+    post = await getPostByPostId(postId);
+    author = await getUserByUserId(post.userId);
+  } catch (e) {
+    redirect(`/frags/${fragId}/posts`);
+  }
 
   return (
     <div className="flex flex-col gap-10">
@@ -28,14 +32,22 @@ export default async function PostPage({
       >
         <div className="flex flex-col items-start justify-start gap-6 ">
           <h1 className="text-2xl font-bold">{post.title}</h1>
-          <div className="flex items-center justify-start gap-2">
-            <AuthorInfo
+          <div className="flex w-full justify-between gap-2">
+            <div className="flex items-center justify-center gap-2">
+              <AuthorInfo
+                author={author}
+                enableIcon={true}
+                className="bg-slate-800"
+              />
+              <PostDate date={post.createdAt} />
+              <PostTime date={post.createdAt} />
+            </div>
+            <DeleteButton
+              id={postId}
+              fragId={fragId}
+              type="post"
               author={author}
-              enableIcon={true}
-              className="bg-slate-800"
             />
-            <PostDate date={post.createdAt} />
-            <PostTime date={post.createdAt} />
           </div>
         </div>
         <hr className="w-full border border-slate-700" />

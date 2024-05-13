@@ -266,3 +266,37 @@ export async function createCommentByPostId(
 
   return res.data;
 }
+
+export async function deletePostByPostId(
+  token: string,
+  postId: number | string,
+) {
+  const res = await axios.delete(`/posts/${postId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (res.status >= 400) {
+    throw new Error(res.data.message);
+  }
+
+  return res.data;
+}
+
+export async function deleteCommentByCommentId(
+  token: string,
+  commentId: number | string,
+) {
+  const res = await axios.delete(`/comments/${commentId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (res.status >= 400) {
+    throw new Error(res.data.message);
+  }
+
+  return res.data;
+}

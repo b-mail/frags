@@ -48,7 +48,10 @@ export default function FragListItem({ frag }: { frag: Frag }) {
     <li className="flex flex-col items-center justify-between gap-4 rounded-2xl bg-slate-900 p-6 shadow-2xl">
       <div className="flex items-center justify-between">
         <div className="flex w-96 items-end gap-4">
-          <Link href={`/frags/${id}/posts`} className="text-2xl font-bold">
+          <Link
+            href={`/frags/${id}/posts`}
+            className="text-2xl font-bold hover:text-green-400"
+          >
             {name}
           </Link>
           {isMemberSuccess && <MemberCount count={data.result.length} />}
