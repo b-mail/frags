@@ -10,6 +10,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createFrag } from "@/lib/api";
 import useAuth from "@/store/AuthStore";
 import { useRouter } from "next/navigation";
+import LoadingIndicator from "@/components/LoadingIndicator";
 
 export default function NewFragPage() {
   const accessToken = useAuth.use.accessToken();
@@ -22,7 +23,7 @@ export default function NewFragPage() {
     description: "",
   });
 
-  const { mutate } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: async () => {
       await createFrag(accessToken as string, values);
     },
@@ -56,6 +57,14 @@ export default function NewFragPage() {
       router.push("/login");
     }
   }, [accessToken, queryClient, router]);
+
+  if (isPending) {
+    return (
+      <div className="fixed left-0 top-0 z-40 flex h-full w-full items-center justify-center bg-slate-900 bg-opacity-50 backdrop-blur-lg">
+        <LoadingIndicator message="FRAG 생성 중" />
+      </div>
+    );
+  }
 
   return (
     <form
@@ -96,6 +105,7 @@ export default function NewFragPage() {
       <button
         className="rounded-2xl bg-green-400 py-2 text-lg font-bold hover:bg-green-500"
         type="submit"
+        disabled={isPending}
       >
         완료
       </button>

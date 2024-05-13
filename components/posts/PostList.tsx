@@ -29,6 +29,7 @@ export default function PostList({
     data,
     isError,
     isLoading,
+    isFetching,
     isFetchingNextPage,
     fetchNextPage,
     hasNextPage,
@@ -69,7 +70,7 @@ export default function PostList({
     }
   }, [isError, router]);
 
-  return isLoading ? (
+  return isLoading || isFetching ? (
     <LoadingIndicator message={"게시글 불러오는 중"} />
   ) : (
     <div className=" flex w-full flex-col gap-6">
