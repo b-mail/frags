@@ -3,10 +3,10 @@
 import Link from "next/link";
 import useAuth from "@/store/AuthStore";
 import UserMenu from "@/components/nav/UserMenu";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import MenuIcon from "@/components/nav/MenuIcon";
 import { logout, refresh } from "@/lib/api";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 
 export default function Nav() {
@@ -15,9 +15,11 @@ export default function Nav() {
   const setUser = useAuth.use.setUser();
   const setAccessToken = useAuth.use.setAccessToken();
 
+  const queryClient = useQueryClient();
+
   const refreshMutation = useMutation({
     mutationKey: ["refresh"],
-    mutationFn: refresh,
+    mutationFn: async () => await refresh(),
     onSuccess: (data) => {
       setUser(data.user);
       setAccessToken(data.accessToken);
@@ -25,7 +27,7 @@ export default function Nav() {
   });
 
   const logoutMutation = useMutation({
-    mutationFn: logout,
+    mutationFn: async () => await logout(),
     onSettled: () => {
       setUser(null);
       setAccessToken(null);
@@ -38,10 +40,10 @@ export default function Nav() {
   };
 
   useEffect(() => {
-    if (!user) {
+    if (!user && !queryClient.isMutating({ mutationKey: ["refresh"] })) {
       refreshMutation.mutate();
     }
-  }, []);
+  }, [user, queryClient, refreshMutation]);
 
   return (
     <nav className="fixed left-0 top-0 z-50 flex h-16 w-full items-center justify-between bg-slate-900 bg-opacity-75 px-10 shadow-xl backdrop-blur-lg">

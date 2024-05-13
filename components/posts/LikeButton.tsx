@@ -30,8 +30,27 @@ export default function LikeButton({ postId }: { postId: number }) {
         queryKey: ["post", postId, "likes"],
       });
     },
-  });
+    onMutate: async () => {
+      await queryClient.cancelQueries({ queryKey: ["post", postId, "likes"] });
 
+      const prevLikes = queryClient.getQueryData<Like[]>([
+        "post",
+        postId,
+        "likes",
+      ]);
+
+      queryClient.setQueryData(
+        ["post", postId, "likes"],
+        [
+          ...prevLikes!,
+          {
+            userId: user?.id as number,
+            postId,
+          },
+        ],
+      );
+    },
+  });
   const { mutate: unlike, isPending: isUnlikePending } = useMutation({
     mutationFn: async () =>
       await cancelLikePostByPostId(accessToken as string, postId),
@@ -39,6 +58,20 @@ export default function LikeButton({ postId }: { postId: number }) {
       queryClient.invalidateQueries({
         queryKey: ["post", postId, "likes"],
       });
+    },
+    onMutate: async () => {
+      await queryClient.cancelQueries({ queryKey: ["post", postId, "likes"] });
+
+      const prevLikes = queryClient.getQueryData<Like[]>([
+        "post",
+        postId,
+        "likes",
+      ]);
+
+      queryClient.setQueryData(
+        ["post", postId, "likes"],
+        [...prevLikes!].slice(0, prevLikes!.length - 1),
+      );
     },
   });
 
@@ -58,7 +91,7 @@ export default function LikeButton({ postId }: { postId: number }) {
 
   return (
     <button
-      className="flex h-16 w-24 items-center justify-center gap-2 rounded-2xl bg-slate-800 p-4 hover:bg-slate-700"
+      className="flex h-16 w-24 items-center justify-center gap-2 rounded-2xl bg-slate-800 p-4 hover:bg-slate-700 disabled:hover:bg-slate-800"
       onClick={handleClick}
       disabled={isLikePending || isUnlikePending}
     >
