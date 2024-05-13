@@ -213,3 +213,56 @@ export async function getLikesByPostId(postId: number | string) {
 
   return res.data;
 }
+
+export async function likePostByPostId(token: string, postId: number | string) {
+  const res = await axios.post(
+    `/posts/${postId}/likes`,
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+
+  if (res.status >= 400) {
+    throw new Error(res.data.message);
+  }
+
+  return res.data;
+}
+
+export async function cancelLikePostByPostId(
+  token: string,
+  postId: number | string,
+) {
+  const res = await axios.delete(`/posts/${postId}/likes`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (res.status >= 400) {
+    throw new Error(res.data.message);
+  }
+
+  return res.data;
+}
+
+export async function createCommentByPostId(
+  token: string,
+  postId: number | string,
+  body: { content: string },
+) {
+  const res = await axios.post(`/posts/${postId}/comments`, body, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (res.status >= 400) {
+    throw new Error(res.data.message);
+  }
+
+  return res.data;
+}

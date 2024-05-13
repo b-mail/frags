@@ -13,5 +13,23 @@ export async function GET(
     },
   });
 
+  if (!post) {
+    return NextResponse.json(
+      { message: "해당 게시글이 존재하지 않습니다." },
+      { status: 404 },
+    );
+  }
+
+  await prisma.post.update({
+    where: {
+      id: postId,
+    },
+    data: {
+      view: {
+        increment: 1,
+      },
+    },
+  });
+
   return NextResponse.json(post);
 }
