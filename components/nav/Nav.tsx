@@ -3,19 +3,18 @@
 import Link from "next/link";
 import useAuth from "@/store/AuthStore";
 import UserMenu from "@/components/nav/UserMenu";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import MenuIcon from "@/components/nav/MenuIcon";
 import { logout, refresh } from "@/lib/api";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import Image from "next/image";
 
 export default function Nav() {
   const [isActive, setIsActive] = useState(false);
+  const [isRefreshed, setIsRefreshed] = useState(false);
   const user = useAuth.use.user();
   const setUser = useAuth.use.setUser();
   const setAccessToken = useAuth.use.setAccessToken();
-
-  const queryClient = useQueryClient();
 
   const refreshMutation = useMutation({
     mutationKey: ["refresh"],
@@ -24,9 +23,13 @@ export default function Nav() {
       setUser(data.user);
       setAccessToken(data.accessToken);
     },
+    onMutate: () => {
+      setIsRefreshed(true);
+    },
   });
 
   const logoutMutation = useMutation({
+    mutationKey: ["logout"],
     mutationFn: async () => await logout(),
     onSettled: () => {
       setUser(null);
@@ -40,10 +43,10 @@ export default function Nav() {
   };
 
   useEffect(() => {
-    if (!user && !queryClient.isMutating({ mutationKey: ["refresh"] })) {
+    if (!isRefreshed && !user && !refreshMutation.isPending) {
       refreshMutation.mutate();
     }
-  }, [user, queryClient, refreshMutation]);
+  }, [isRefreshed, user, refreshMutation]);
 
   return (
     <nav className="fixed left-0 top-0 z-50 flex h-16 w-full items-center justify-between bg-slate-900 bg-opacity-75 px-10 shadow-xl backdrop-blur-lg">
@@ -51,7 +54,7 @@ export default function Nav() {
         href="/"
         className="flex cursor-pointer items-center justify-center gap-2"
       >
-        <Image src={"/2.png"} alt={"로고"} width={40} height={40} />
+        <Image src={"/logo.png"} alt={"로고"} width={40} height={40} />
         <div className="text-2xl font-bold hover:text-green-400">FRAGS</div>
       </Link>
       <section className="flex w-48 items-center justify-center">

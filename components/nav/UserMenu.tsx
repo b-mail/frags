@@ -3,7 +3,7 @@
 import { User } from "@prisma/client";
 import Link from "next/link";
 import { logout } from "@/lib/api";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import useAuth from "@/store/AuthStore";
 
 export default function UserMenu({
@@ -16,6 +16,8 @@ export default function UserMenu({
   onLogout: () => void;
 }) {
   const { name, email, bio } = user;
+
+  const queryClient = useQueryClient();
 
   return isActive ? (
     <div className="absolute top-16 flex w-60 flex-col gap-4 rounded-b-2xl bg-slate-900 p-6 shadow-2xl">
@@ -32,8 +34,9 @@ export default function UserMenu({
         마이페이지
       </Link>
       <button
-        className="rounded-lg bg-slate-800 py-2 text-center text-red-500 hover:bg-slate-700 hover:text-red-400"
+        className="rounded-lg bg-slate-800 py-2 text-center text-red-500 hover:bg-slate-700 hover:text-red-400 disabled:bg-slate-800 disabled:text-slate-500"
         onClick={onLogout}
+        disabled={!!queryClient.isMutating({ mutationKey: ["logout"] })}
       >
         로그아웃
       </button>

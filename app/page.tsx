@@ -4,7 +4,7 @@ import Image from "next/image";
 export default function HomePage() {
   return (
     <div className="fixed left-0 top-0 flex h-full w-full flex-col items-center justify-center gap-10">
-      <Image src={"/Untitled-1.png"} alt={"로고"} width={200} height={200} />
+      <Image src={"/logo_filled.png"} alt={"로고"} width={200} height={200} />
       <div>
         <div className="text-center text-6xl font-bold">FRAGS</div>
         <div className="text-lg text-slate-500">Fragments of the World</div>
