@@ -55,7 +55,7 @@ export default function LoginForm() {
   };
 
   useEffect(() => {
-    if (user) router.push("/");
+    if (user) router.push("/frags");
   }, [user, router]);
 
   return (
