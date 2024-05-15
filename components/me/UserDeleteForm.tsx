@@ -85,7 +85,7 @@ export default function UserDeleteForm() {
         type="submit"
         disabled={isSubmitting}
       >
-        회원탈퇴
+        회원탈퇴하기
       </button>
       {error.message && (
         <div className="font-sm text-red-400">{error.message}</div>
