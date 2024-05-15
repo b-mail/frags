@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import EmailInput from "@/components/login-register/EmailInput";
 import PasswordInput from "@/components/login-register/PasswordInput";
 import { useRouter } from "next/navigation";
@@ -11,7 +11,6 @@ import { LoginFields, loginSchema } from "@/lib/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { deleteUserByUserId } from "@/lib/api";
 import ErrorMessage from "@/components/ErrorMessage";
-import { useQueryClient } from "@tanstack/react-query";
 
 export default function UserDeleteForm() {
   const [error, setError] = useState<{ message: string }>({
@@ -24,7 +23,6 @@ export default function UserDeleteForm() {
   const setAccessToken = useAuth.use.setAccessToken();
 
   const router = useRouter();
-  const queryClient = useQueryClient();
 
   const {
     register,
@@ -49,12 +47,6 @@ export default function UserDeleteForm() {
       }
     }
   };
-
-  useEffect(() => {
-    if (!user && !queryClient.isMutating({ mutationKey: ["refresh"] })) {
-      router.push("/");
-    }
-  }, [user, router, queryClient]);
 
   return (
     <form
