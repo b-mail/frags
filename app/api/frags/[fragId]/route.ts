@@ -13,5 +13,12 @@ export async function GET(
     },
   });
 
+  if (!frag) {
+    return NextResponse.json(
+      { message: "해당 FRAG이 존재하지 않습니다." },
+      { status: 404 },
+    );
+  }
+
   return NextResponse.json(frag);
 }

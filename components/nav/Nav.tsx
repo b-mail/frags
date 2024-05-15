@@ -28,20 +28,6 @@ export default function Nav() {
     },
   });
 
-  const logoutMutation = useMutation({
-    mutationKey: ["logout"],
-    mutationFn: async () => await logout(),
-    onSettled: () => {
-      setUser(null);
-      setAccessToken(null);
-      setIsActive(false);
-    },
-  });
-
-  const handleLogout = () => {
-    logoutMutation.mutate();
-  };
-
   useEffect(() => {
     if (!isRefreshed && !user && !refreshMutation.isPending) {
       refreshMutation.mutate();
@@ -69,7 +55,7 @@ export default function Nav() {
               </div>
               <MenuIcon isActive={isActive} />
             </button>
-            <UserMenu user={user} isActive={isActive} onLogout={handleLogout} />
+            <UserMenu user={user} isActive={isActive} />
           </div>
         ) : (
           <div className="flex w-full items-center justify-center gap-4 text-center">
