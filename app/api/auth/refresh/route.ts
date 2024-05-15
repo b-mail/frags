@@ -23,7 +23,7 @@ export async function GET(req: NextRequest) {
         message: decoded.error,
       },
       {
-        status: 401,
+        status: 409,
         headers: {
           "Set-Cookie": "refreshToken=; Path=/; HttpOnly; Max-Age=0",
         },

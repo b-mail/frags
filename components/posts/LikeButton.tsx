@@ -2,7 +2,7 @@
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
-  cancelLikePostByPostId,
+  unlikePostByPostId,
   getLikesByPostId,
   likePostByPostId,
 } from "@/lib/api";
@@ -53,7 +53,7 @@ export default function LikeButton({ postId }: { postId: number }) {
   });
   const { mutate: unlike, isPending: isUnlikePending } = useMutation({
     mutationFn: async () =>
-      await cancelLikePostByPostId(accessToken as string, postId),
+      await unlikePostByPostId(accessToken as string, postId),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["post", postId, "likes"],

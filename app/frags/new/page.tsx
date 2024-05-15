@@ -96,7 +96,7 @@ export default function NewFragPage() {
         />
       </div>
       <button
-        className="rounded-2xl bg-green-400 py-2 text-lg font-bold hover:bg-green-500"
+        className="rounded-2xl bg-green-400 py-2 text-lg font-bold hover:bg-green-500 disabled:bg-slate-500"
         type="submit"
         disabled={isPending}
       >

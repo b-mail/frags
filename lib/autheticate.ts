@@ -37,6 +37,23 @@ export async function authenticate(req: NextRequest) {
   return user;
 }
 
+export async function authenticateByUserId(req: NextRequest, userId: number) {
+  const user = await authenticate(req);
+
+  if (user instanceof NextResponse) {
+    return user;
+  }
+
+  if (user.id !== userId) {
+    return NextResponse.json(
+      { message: "해당 사용자의 권한이 없습니다." },
+      { status: 401 },
+    );
+  }
+
+  return user;
+}
+
 export async function authenticateByFragId(req: NextRequest, fragId: number) {
   const user = await authenticate(req);
 
@@ -61,7 +78,7 @@ export async function authenticateByFragId(req: NextRequest, fragId: number) {
   return user;
 }
 
-export async function authenticateBYPostId(req: NextRequest, postId: number) {
+export async function authenticateByPostId(req: NextRequest, postId: number) {
   const user = await authenticate(req);
 
   if (user instanceof NextResponse) {
