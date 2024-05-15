@@ -2,7 +2,7 @@
 
 import { User } from "@prisma/client";
 import Link from "next/link";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { logout } from "@/lib/api";
 import useAuth from "@/store/AuthStore";
 import LoadingModal from "@/components/LoadingModal";
