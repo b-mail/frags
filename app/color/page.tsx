@@ -5,9 +5,16 @@ export default function HomePage() {
   return (
     <div className="flex h-full w-full flex-col items-center justify-center gap-16 ">
       <div className="fixed left-0 top-0 -z-50 min-h-full min-w-full bg-gradient-to-tl from-slate-900 to-green-900"></div>
-      <div className=" flex items-center justify-center gap-10">
-        <Image src={"/logo_filled.png"} alt={"로고"} width={250} height={250} />
-      </div>
+      <Link href={"/"}>
+        <div className=" flex items-center justify-center gap-10">
+          <Image
+            src={"/logo_filled.png"}
+            alt={"로고"}
+            width={250}
+            height={250}
+          />
+        </div>
+      </Link>
       <div className="flex flex-col gap-10" style={{ width: "48rem" }}>
         <div className="flex flex-col gap-4 rounded-2xl bg-slate-900 bg-opacity-70 p-10 shadow-2xl backdrop-blur-md">
           <h2 className="text-2xl font-bold text-green-400">FRAGS?</h2>
