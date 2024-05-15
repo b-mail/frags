@@ -6,7 +6,7 @@ import { deleteCommentByCommentId, deletePostByPostId } from "@/lib/api";
 import { MouseEventHandler } from "react";
 import { useRouter } from "next/navigation";
 import { User } from "@prisma/client";
-import LoadingIndicator from "@/components/LoadingIndicator";
+import LoadingModal from "@/components/LoadingModal";
 
 export default function DeleteButton({
   id,
@@ -59,20 +59,17 @@ export default function DeleteButton({
     return null;
   }
 
-  if (isPending) {
-    return (
-      <div className="fixed left-0 top-0 z-40 flex h-full w-full items-center justify-center bg-slate-900 bg-opacity-50 backdrop-blur-lg">
-        <LoadingIndicator message="삭제 중입니다." />
-      </div>
-    );
-  }
-
   return (
     <button
       className="rounded-lg bg-slate-800 px-4 py-2 text-white"
       onClick={handleClick}
       disabled={isPending}
     >
+      {isPending && (
+        <LoadingModal
+          message={`${type === "post" ? "게시글" : "댓글"} 삭제 중`}
+        />
+      )}
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"

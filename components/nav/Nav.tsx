@@ -35,7 +35,7 @@ export default function Nav() {
   }, [isRefreshed, user, refreshMutation]);
 
   return (
-    <nav className="fixed left-0 top-0 z-50 flex h-16 w-full items-center justify-between bg-slate-900 bg-opacity-75 px-10 shadow-xl backdrop-blur-lg">
+    <nav className="fixed left-0 top-0 z-40 flex h-16 w-full items-center justify-between bg-slate-900 bg-opacity-75 px-10 shadow-xl backdrop-blur-lg">
       <Link
         href="/"
         className="flex cursor-pointer items-center justify-center gap-2"

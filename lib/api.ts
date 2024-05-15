@@ -1,5 +1,4 @@
 import axios from "@/lib/axios";
-import useAuth from "@/store/AuthStore";
 
 export async function register(body: {
   name: string;
@@ -185,8 +184,12 @@ export async function createPost(
   return res.data;
 }
 
-export async function getPostByPostId(postId: number | string) {
-  const res = await axios.get(`/posts/${postId}`);
+export async function getPostByPostId(token: string, postId: number | string) {
+  const res = await axios.get(`/posts/${postId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 
   if (res.status >= 400) {
     throw new Error(res.data.message);

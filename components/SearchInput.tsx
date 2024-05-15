@@ -18,7 +18,7 @@ export default function SearchInput({
       }}
     >
       <input
-        className="flex-grow rounded-2xl border-4 border-slate-800 bg-slate-800 px-4 py-2 placeholder:text-slate-500 focus:border-slate-700 focus:outline-0"
+        className="flex-grow rounded-2xl border-4 border-slate-700 bg-slate-800 px-4 py-2 placeholder:text-slate-500 focus:border-slate-500 focus:outline-0"
         placeholder="검색어를 입력하세요"
         ref={searchInputRef}
       />

@@ -11,6 +11,7 @@ import DeleteButton from "@/components/DeleteButton";
 import { useQuery } from "@tanstack/react-query";
 import { Post, User } from "@prisma/client";
 import LoadingIndicator from "@/components/LoadingIndicator";
+import useAuth from "@/store/AuthStore";
 
 export default function PostPage({
   params,
@@ -20,14 +21,16 @@ export default function PostPage({
   const fragId = Number(params.fragId);
   const postId = Number(params.postId);
 
+  const accessToken = useAuth.use.accessToken();
+
   const {
     data: post,
-    isSuccess,
     isLoading: isLoadingPost,
     isSuccess: isSuccessPost,
   } = useQuery<Post>({
     queryKey: ["post", postId],
-    queryFn: async () => await getPostByPostId(postId),
+    queryFn: async () => await getPostByPostId(accessToken as string, postId),
+    enabled: !!accessToken,
   });
 
   const {
@@ -37,11 +40,12 @@ export default function PostPage({
   } = useQuery<User>({
     queryKey: ["user", post?.userId],
     queryFn: async () => await getUserByUserId(post?.userId as number),
-    enabled: isSuccess,
+    enabled: isSuccessPost,
   });
 
-  if (isLoadingPost || isLoadingUser)
-    return <LoadingIndicator message={"게시글을 불러오는 중입니다."} />;
+  if (isLoadingPost || isLoadingUser) {
+    return <LoadingIndicator message={"게시글 불러오는 중"} />;
+  }
 
   return (
     <div className="flex flex-col gap-10">
