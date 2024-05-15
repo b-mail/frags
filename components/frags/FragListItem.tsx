@@ -7,6 +7,7 @@ import MemberCount from "@/components/frags/MemberCount";
 import { useEffect, useState } from "react";
 import useAuth from "@/store/AuthStore";
 import Link from "next/link";
+import LoadingModal from "@/components/LoadingModal";
 
 export default function FragListItem({ frag }: { frag: Frag }) {
   const { id, name, description, adminId } = frag;
@@ -26,7 +27,7 @@ export default function FragListItem({ frag }: { frag: Frag }) {
     staleTime: 1000 * 60 * 10,
   });
 
-  const { mutate } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: async () =>
       await joinFragByFragId(accessToken as string, frag.id),
     onSuccess: () => {
@@ -46,6 +47,7 @@ export default function FragListItem({ frag }: { frag: Frag }) {
 
   return (
     <li className="flex flex-col items-center justify-between gap-4 rounded-2xl bg-slate-900 p-6 shadow-2xl">
+      {isPending && <LoadingModal message={"가입 중"} />}
       <div className="flex items-center justify-between">
         <div className="flex w-96 items-end gap-4">
           <Link

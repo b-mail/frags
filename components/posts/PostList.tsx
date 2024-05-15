@@ -71,7 +71,7 @@ export default function PostList({
   }, [isError, router]);
 
   return isLoading || isFetching ? (
-    <LoadingIndicator message={"게시글 불러오는 중"} />
+    <LoadingIndicator message={"게시글 목록 불러오는 중"} />
   ) : (
     <div className=" flex w-full flex-col gap-6">
       {data?.pages.flatMap((page) => page.result).length === 0 ? (

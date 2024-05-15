@@ -8,11 +8,6 @@ export async function GET(
 ) {
   const postId = Number(params.postId);
 
-  const user = await authenticateBYPostId(req, postId);
-  if (user instanceof NextResponse) {
-    return user;
-  }
-
   const comments = await prisma.comment.findMany({
     where: {
       postId,

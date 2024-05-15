@@ -1,20 +1,21 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/db";
 import * as crypto from "node:crypto";
+import { registerSchema } from "@/lib/schema";
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
-  const { name, email, password, bio } = body;
 
-  const isValid = name && email && password;
-  if (!isValid) {
+  try {
+    registerSchema.parse(body);
+  } catch (error) {
     return NextResponse.json(
-      {
-        message: "필수 정보가 제공되지 않았습니다.",
-      },
+      { message: "입력한 정보가 올바르지 않습니다." },
       { status: 400 },
     );
   }
+
+  const { name, email, password, bio } = body;
 
   const isExistingName = await prisma.user.findUnique({
     where: { name },
@@ -25,7 +26,7 @@ export async function POST(req: NextRequest) {
       {
         message: "이미 사용 중인 이름입니다.",
       },
-      { status: 400 },
+      { status: 409 },
     );
   }
 
@@ -38,7 +39,7 @@ export async function POST(req: NextRequest) {
       {
         message: "이미 사용 중인 이메일 주소입니다.",
       },
-      { status: 400 },
+      { status: 409 },
     );
   }
 

@@ -2,20 +2,21 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/db";
 import * as crypto from "node:crypto";
 import { createAccessToken, createRefreshToken } from "@/lib/createToken";
+import { loginSchema } from "@/lib/schema";
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
-  const { email, password } = body;
 
-  const isValid = email && password;
-  if (!isValid) {
+  try {
+    loginSchema.parse(body);
+  } catch (error) {
     return NextResponse.json(
-      {
-        message: "필수 정보가 제공되지 않았습니다.",
-      },
+      { message: "입력한 정보가 올바르지 않습니다." },
       { status: 400 },
     );
   }
+
+  const { email, password } = body;
 
   const user = await prisma.user.findUnique({
     where: { email },
