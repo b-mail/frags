@@ -1,22 +1,10 @@
 "use client";
 
 import useAuth from "@/store/AuthStore";
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { useQueryClient } from "@tanstack/react-query";
 import LoadingIndicator from "@/components/LoadingIndicator";
 
 export default function MyPage() {
   const user = useAuth.use.user();
-
-  const router = useRouter();
-  const queryClient = useQueryClient();
-
-  useEffect(() => {
-    if (!user && !queryClient.isMutating({ mutationKey: ["refresh"] })) {
-      router.push("/login");
-    }
-  }, [user, queryClient, router]);
 
   if (!user) {
     return (

@@ -52,12 +52,6 @@ export default function PostForm({
     mutate();
   };
 
-  useEffect(() => {
-    if (!queryClient.isMutating({ mutationKey: ["refresh"] }) && !accessToken) {
-      router.push("/login");
-    }
-  }, [accessToken, queryClient, router]);
-
   return (
     <form
       className="flex flex-col gap-4 rounded-2xl bg-slate-900 p-10 shadow-2xl"

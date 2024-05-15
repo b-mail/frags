@@ -18,8 +18,9 @@ export default function RegisterForm() {
   const [error, setError] = useState<{ message: string }>({
     message: "",
   });
-  const router = useRouter();
   const user = useAuth.use.user();
+
+  const router = useRouter();
 
   const {
     register,

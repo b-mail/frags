@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import EmailInput from "@/components/login-register/EmailInput";
 import PasswordInput from "@/components/login-register/PasswordInput";
 import NameInput from "@/components/login-register/NameInput";
@@ -11,10 +11,9 @@ import LoadingModal from "@/components/LoadingModal";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { RegisterFields, registerSchema } from "@/lib/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { register as signIn, updateUser } from "@/lib/api";
+import { updateUser } from "@/lib/api";
 import { User } from "@prisma/client";
 import ErrorMessage from "@/components/ErrorMessage";
-import { useQueryClient } from "@tanstack/react-query";
 
 export default function UserEditForm({ user }: { user: User }) {
   const [error, setError] = useState<{ message: string }>({
@@ -25,7 +24,6 @@ export default function UserEditForm({ user }: { user: User }) {
   const setUser = useAuth.use.setUser();
 
   const router = useRouter();
-  const queryClient = useQueryClient();
 
   const {
     register,
@@ -56,11 +54,6 @@ export default function UserEditForm({ user }: { user: User }) {
       }
     }
   };
-  useEffect(() => {
-    if (!user && !queryClient.isMutating({ mutationKey: ["refresh"] })) {
-      router.push("/");
-    }
-  }, [user, router, queryClient]);
 
   return (
     <form

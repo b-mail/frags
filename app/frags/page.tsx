@@ -1,9 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useQueryClient } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
-import useAuth from "@/store/AuthStore";
+import { useState } from "react";
 import FragList from "@/components/frags/FragList";
 import FragOrder from "@/components/frags/FragOrder";
 import FragFilter from "@/components/frags/FragFilter";
@@ -16,17 +13,6 @@ export default function FragsPage() {
   );
   const [search, setSearch] = useState<string>("");
   const [filter, setFilter] = useState<"all" | "member" | "admin">("all");
-
-  const queryClient = useQueryClient();
-  const router = useRouter();
-
-  const user = useAuth.use.user();
-
-  useEffect(() => {
-    if (!queryClient.isMutating({ mutationKey: ["refresh"] }) && !user) {
-      router.push("/login");
-    }
-  }, [user, queryClient, router]);
 
   return (
     <div className="flex flex-col items-center gap-12">

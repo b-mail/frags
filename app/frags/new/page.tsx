@@ -1,11 +1,6 @@
 "use client";
 
-import {
-  ChangeEventHandler,
-  FormEventHandler,
-  useEffect,
-  useState,
-} from "react";
+import { ChangeEventHandler, FormEventHandler, useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createFrag } from "@/lib/api";
 import useAuth from "@/store/AuthStore";
@@ -51,12 +46,6 @@ export default function NewFragPage() {
     e.preventDefault();
     mutate();
   };
-
-  useEffect(() => {
-    if (!queryClient.isMutating({ mutationKey: ["refresh"] }) && !accessToken) {
-      router.push("/login");
-    }
-  }, [accessToken, queryClient, router]);
 
   return (
     <form
