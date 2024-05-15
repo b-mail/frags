@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import EmailInput from "@/components/login-register/EmailInput";
 import PasswordInput from "@/components/login-register/PasswordInput";
 import { useRouter } from "next/navigation";
@@ -10,17 +10,21 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { LoginFields, loginSchema } from "@/lib/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { deleteUserByUserId } from "@/lib/api";
+import ErrorMessage from "@/components/ErrorMessage";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function UserDeleteForm() {
   const [error, setError] = useState<{ message: string }>({
     message: "",
   });
-  const router = useRouter();
 
   const user = useAuth.use.user();
   const accessToken = useAuth.use.accessToken();
   const setUser = useAuth.use.setUser();
   const setAccessToken = useAuth.use.setAccessToken();
+
+  const router = useRouter();
+  const queryClient = useQueryClient();
 
   const {
     register,
@@ -45,6 +49,12 @@ export default function UserDeleteForm() {
       }
     }
   };
+
+  useEffect(() => {
+    if (!user && !queryClient.isMutating({ mutationKey: ["refresh"] })) {
+      router.push("/");
+    }
+  }, [user, router, queryClient]);
 
   return (
     <form
@@ -80,6 +90,7 @@ export default function UserDeleteForm() {
       <hr className="w-full border border-slate-800" />
       <EmailInput register={register} error={errors.email?.message} />
       <PasswordInput register={register} error={errors.password?.message} />
+      {error.message && <ErrorMessage message={error.message} />}
       <button
         className="w-full rounded-2xl bg-red-400 py-4 text-lg font-bold hover:bg-red-500 disabled:bg-slate-500"
         type="submit"
@@ -87,9 +98,6 @@ export default function UserDeleteForm() {
       >
         회원탈퇴하기
       </button>
-      {error.message && (
-        <div className="font-sm text-red-400">{error.message}</div>
-      )}
     </form>
   );
 }

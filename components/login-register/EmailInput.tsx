@@ -15,13 +15,14 @@ export default function EmailInput({
     | UseFormRegister<RegisterFields>;
   error?: string;
 }) {
-  const className = `${error ? "border-red-400 focus:border-red-400" : "border-slate-700 focus-slate-500"} w-full rounded-2xl border-4 bg-slate-800 p-4 placeholder:text-slate-500 focus:outline-0`;
+  const className = `${error ? "border-red-400 focus:border-red-400" : "border-slate-700 focus-slate-500"} w-full rounded-2xl border-4 bg-slate-800 p-4 placeholder:text-slate-500 focus:outline-0 relative z-20`;
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 ">
       <label className="text-xl font-bold" htmlFor="email">
         이메일 <span className="text-slate-500">*</span>
       </label>
+
       <input
         className={className}
         id="email"

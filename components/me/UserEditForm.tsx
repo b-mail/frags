@@ -13,14 +13,19 @@ import { RegisterFields, registerSchema } from "@/lib/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { register as signIn, updateUser } from "@/lib/api";
 import { User } from "@prisma/client";
+import ErrorMessage from "@/components/ErrorMessage";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function UserEditForm({ user }: { user: User }) {
   const [error, setError] = useState<{ message: string }>({
     message: "",
   });
-  const router = useRouter();
+
   const accessToken = useAuth.use.accessToken();
   const setUser = useAuth.use.setUser();
+
+  const router = useRouter();
+  const queryClient = useQueryClient();
 
   const {
     register,
@@ -51,6 +56,11 @@ export default function UserEditForm({ user }: { user: User }) {
       }
     }
   };
+  useEffect(() => {
+    if (!user && !queryClient.isMutating({ mutationKey: ["refresh"] })) {
+      router.push("/");
+    }
+  }, [user, router, queryClient]);
 
   return (
     <form
@@ -72,6 +82,7 @@ export default function UserEditForm({ user }: { user: User }) {
         length={watch("bio")?.length || 0}
         error={errors.bio?.message}
       />
+      {error.message && <ErrorMessage message={error.message} />}
       <button
         className="w-full rounded-2xl bg-green-400 py-4 text-lg font-bold hover:bg-green-500 disabled:bg-slate-500"
         type="submit"
@@ -79,9 +90,6 @@ export default function UserEditForm({ user }: { user: User }) {
       >
         회원 정보 수정하기
       </button>
-      {error.message && (
-        <div className="font-sm text-red-400">{error.message}</div>
-      )}
     </form>
   );
 }
