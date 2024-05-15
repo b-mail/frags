@@ -6,6 +6,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { logout } from "@/lib/api";
 import useAuth from "@/store/AuthStore";
 import LoadingModal from "@/components/LoadingModal";
+import { useRouter } from "next/navigation";
 
 export default function UserMenu({
   user,
@@ -19,12 +20,15 @@ export default function UserMenu({
   const setUser = useAuth.use.setUser();
   const setAccessToken = useAuth.use.setAccessToken();
 
+  const router = useRouter();
+
   const { mutate, isPending } = useMutation({
     mutationKey: ["logout"],
     mutationFn: async () => await logout(),
     onSettled: () => {
       setUser(null);
       setAccessToken(null);
+      router.push("/");
     },
   });
 

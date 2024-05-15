@@ -12,6 +12,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { RegisterFields, registerSchema } from "@/lib/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { register as signIn } from "@/lib/api";
+import ErrorMessage from "@/components/ErrorMessage";
 
 export default function RegisterForm() {
   const [error, setError] = useState<{ message: string }>({
@@ -61,6 +62,7 @@ export default function RegisterForm() {
         length={watch("bio")?.length || 0}
         error={errors.bio?.message}
       />
+      {error.message && <ErrorMessage message={error.message} />}
       <button
         className="w-full rounded-2xl bg-green-400 py-4 text-lg font-bold hover:bg-green-500 disabled:bg-slate-500"
         type="submit"
@@ -68,9 +70,6 @@ export default function RegisterForm() {
       >
         회원가입하기
       </button>
-      {error.message && (
-        <div className="font-sm text-red-400">{error.message}</div>
-      )}
     </form>
   );
 }

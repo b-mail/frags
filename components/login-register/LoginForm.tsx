@@ -10,6 +10,7 @@ import LoadingModal from "@/components/LoadingModal";
 import useAuth from "@/store/AuthStore";
 import { LoginFields, loginSchema } from "@/lib/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import ErrorMessage from "@/components/ErrorMessage";
 
 export default function LoginForm() {
   const router = useRouter();
@@ -57,6 +58,7 @@ export default function LoginForm() {
       {isSubmitting && <LoadingModal message={"로그인 중"} />}
       <EmailInput register={register} error={errors.email?.message} />
       <PasswordInput register={register} error={errors.password?.message} />
+      {error.message && <ErrorMessage message={error.message} />}
       <button
         className="w-full rounded-2xl bg-green-400 py-4 text-lg font-bold hover:bg-green-500 disabled:bg-slate-500"
         type="submit"
@@ -64,9 +66,6 @@ export default function LoginForm() {
       >
         로그인하기
       </button>
-      {error.message && (
-        <div className="text-sm text-red-400">{error.message}</div>
-      )}
     </form>
   );
 }
