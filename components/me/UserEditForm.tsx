@@ -11,14 +11,16 @@ import LoadingModal from "@/components/LoadingModal";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { RegisterFields, registerSchema } from "@/lib/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { register as signIn } from "@/lib/api";
+import { register as signIn, updateUser } from "@/lib/api";
+import { User } from "@prisma/client";
 
-export default function RegisterForm() {
+export default function UserEditForm({ user }: { user: User }) {
   const [error, setError] = useState<{ message: string }>({
     message: "",
   });
   const router = useRouter();
-  const user = useAuth.use.user();
+  const accessToken = useAuth.use.accessToken();
+  const setUser = useAuth.use.setUser();
 
   const {
     register,
@@ -27,12 +29,22 @@ export default function RegisterForm() {
     formState: { errors, isSubmitting },
   } = useForm<RegisterFields>({
     resolver: zodResolver(registerSchema),
+    defaultValues: {
+      name: user.name,
+      email: user.email,
+      password: "",
+      bio: user.bio ?? undefined,
+    },
   });
 
   const onSubmit: SubmitHandler<RegisterFields> = async (data) => {
     try {
-      const result = await signIn(data);
-      router.push("/login");
+      if (!accessToken) {
+        return;
+      }
+      const result = await updateUser(accessToken, data);
+      setUser(result.user);
+      router.push("/me");
     } catch (error) {
       if (error instanceof Error) {
         setError(error);
@@ -40,22 +52,17 @@ export default function RegisterForm() {
     }
   };
 
-  useEffect(() => {
-    if (user) {
-      router.push("/");
-    }
-  }, [user, router]);
-
   return (
     <form
       className="flex flex-col gap-8 rounded-2xl bg-slate-900 p-10 shadow-2xl"
-      style={{ width: "32rem" }}
+      style={{ width: "48rem" }}
       onSubmit={handleSubmit(onSubmit)}
     >
-      {isSubmitting && <LoadingModal message={"회원가입 중"} />}
+      {isSubmitting && <LoadingModal message={"회원 정보 수정 중"} />}
+      <PasswordInput register={register} error={errors.password?.message} />
+      <hr className="w-full border border-slate-800" />
       <NameInput register={register} error={errors.name?.message} />
       <EmailInput register={register} error={errors.email?.message} />
-      <PasswordInput register={register} error={errors.password?.message} />
       <BioInput
         register={register}
         length={watch("bio")?.length || 0}
@@ -66,7 +73,7 @@ export default function RegisterForm() {
         type="submit"
         disabled={isSubmitting}
       >
-        회원가입하기
+        확인
       </button>
       {error.message && (
         <div className="font-sm text-red-400">{error.message}</div>

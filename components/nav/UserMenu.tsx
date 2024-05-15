@@ -43,7 +43,7 @@ export default function UserMenu({
       <hr className="border border-slate-800" />
       <Link
         className="rounded-lg bg-slate-800 py-2 text-center text-slate-400 hover:bg-slate-700 hover:text-slate-300"
-        href="/mypage"
+        href="/me"
       >
         마이페이지
       </Link>

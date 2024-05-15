@@ -1,5 +1,7 @@
 import axios from "@/lib/axios";
 
+// Authentication
+
 export async function register(body: {
   name: string;
   email: string;
@@ -50,6 +52,8 @@ export async function refresh() {
 
   return res.data;
 }
+
+// Frag
 
 export async function getFrags(
   token: string,
@@ -103,6 +107,27 @@ export async function createFrag(
   return res.data;
 }
 
+export async function joinFragByFragId(token: string, fragId: number | string) {
+  const res = await axios.post(
+    `/frags/${fragId}/members`,
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+
+  if (res.status >= 400) {
+    console.log(res.data.message);
+    throw new Error(res.data.message);
+  }
+
+  return res.data;
+}
+
+// User
+
 export async function getUserByUserId(userId: number | string) {
   const res = await axios.get(`/users/${userId}`);
 
@@ -123,24 +148,42 @@ export async function getUsersByFragId(fragId: number | string) {
   return res.data;
 }
 
-export async function joinFragByFragId(token: string, fragId: number | string) {
-  const res = await axios.post(
-    `/frags/${fragId}/members`,
-    {},
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+export async function updateUser(
+  token: string,
+  body: { name: string; email: string; bio: string },
+) {
+  const res = await axios.put("/users", body, {
+    headers: {
+      Authorization: `Bearer ${token}`,
     },
-  );
+  });
 
   if (res.status >= 400) {
-    console.log(res.data.message);
     throw new Error(res.data.message);
   }
 
   return res.data;
 }
+
+export async function deleteUserByUserId(
+  token: string,
+  userId: number | string,
+  body: { email: string; password: string },
+) {
+  const res = await axios.post(`/users/${userId}/delete`, body, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (res.status >= 400) {
+    throw new Error(res.data.message);
+  }
+
+  return res.data;
+}
+
+// Post
 
 export async function getPostsByFragId(
   token: string,
@@ -166,24 +209,6 @@ export async function getPostsByFragId(
   return res.data;
 }
 
-export async function createPost(
-  token: string,
-  fragId: number | string,
-  body: { title: string; content: string },
-) {
-  const res = await axios.post(`/frags/${fragId}/posts`, body, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-
-  if (res.status >= 400) {
-    throw new Error(res.data.message);
-  }
-
-  return res.data;
-}
-
 export async function getPostByPostId(token: string, postId: number | string) {
   const res = await axios.get(`/posts/${postId}`, {
     headers: {
@@ -198,67 +223,12 @@ export async function getPostByPostId(token: string, postId: number | string) {
   return res.data;
 }
 
-export async function getCommentsByPostId(postId: number | string) {
-  const res = await axios.get(`/posts/${postId}/comments`);
-
-  if (res.status >= 400) {
-    throw new Error(res.data.message);
-  }
-
-  return res.data;
-}
-
-export async function getLikesByPostId(postId: number | string) {
-  const res = await axios.get(`/posts/${postId}/likes`);
-
-  if (res.status >= 400) {
-    throw new Error(res.data.message);
-  }
-
-  return res.data;
-}
-
-export async function likePostByPostId(token: string, postId: number | string) {
-  const res = await axios.post(
-    `/posts/${postId}/likes`,
-    {},
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    },
-  );
-
-  if (res.status >= 400) {
-    throw new Error(res.data.message);
-  }
-
-  return res.data;
-}
-
-export async function cancelLikePostByPostId(
+export async function createPost(
   token: string,
-  postId: number | string,
+  fragId: number | string,
+  body: { title: string; content: string },
 ) {
-  const res = await axios.delete(`/posts/${postId}/likes`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-
-  if (res.status >= 400) {
-    throw new Error(res.data.message);
-  }
-
-  return res.data;
-}
-
-export async function createCommentByPostId(
-  token: string,
-  postId: number | string,
-  body: { content: string },
-) {
-  const res = await axios.post(`/posts/${postId}/comments`, body, {
+  const res = await axios.post(`/frags/${fragId}/posts`, body, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -288,11 +258,88 @@ export async function deletePostByPostId(
   return res.data;
 }
 
+// Comment
+
+export async function getCommentsByPostId(postId: number | string) {
+  const res = await axios.get(`/posts/${postId}/comments`);
+
+  if (res.status >= 400) {
+    throw new Error(res.data.message);
+  }
+
+  return res.data;
+}
+
+export async function createCommentByPostId(
+  token: string,
+  postId: number | string,
+  body: { content: string },
+) {
+  const res = await axios.post(`/posts/${postId}/comments`, body, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (res.status >= 400) {
+    throw new Error(res.data.message);
+  }
+
+  return res.data;
+}
+
 export async function deleteCommentByCommentId(
   token: string,
   commentId: number | string,
 ) {
   const res = await axios.delete(`/comments/${commentId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (res.status >= 400) {
+    throw new Error(res.data.message);
+  }
+
+  return res.data;
+}
+
+// Like
+
+export async function getLikesByPostId(postId: number | string) {
+  const res = await axios.get(`/posts/${postId}/likes`);
+
+  if (res.status >= 400) {
+    throw new Error(res.data.message);
+  }
+
+  return res.data;
+}
+
+export async function likePostByPostId(token: string, postId: number | string) {
+  const res = await axios.post(
+    `/posts/${postId}/likes`,
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+
+  if (res.status >= 400) {
+    throw new Error(res.data.message);
+  }
+
+  return res.data;
+}
+
+export async function unlikePostByPostId(
+  token: string,
+  postId: number | string,
+) {
+  const res = await axios.delete(`/posts/${postId}/likes`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

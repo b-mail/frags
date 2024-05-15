@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/db";
-import { authenticateBYPostId } from "@/lib/autheticate";
+import { authenticateByPostId } from "@/lib/autheticate";
 
 export async function GET(
   req: NextRequest,
@@ -8,7 +8,7 @@ export async function GET(
 ) {
   const postId = Number(params.postId);
 
-  const user = await authenticateBYPostId(req, postId);
+  const user = await authenticateByPostId(req, postId);
 
   if (user instanceof NextResponse) {
     return user;
@@ -47,7 +47,7 @@ export async function DELETE(
 ) {
   const postId = Number(params.postId);
 
-  const user = await authenticateBYPostId(req, postId);
+  const user = await authenticateByPostId(req, postId);
   if (user instanceof NextResponse) {
     return user;
   }

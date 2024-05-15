@@ -85,7 +85,7 @@ export default function FragList({
               .flatMap((page) => page.result)
               .map((frag) => <FragListItem key={frag.id} frag={frag} />)
           ) : (
-            <li className="rounded-2xl bg-slate-900 p-6 shadow-2xl">
+            <li className="rounded-2xl bg-slate-900 p-6 text-slate-500 shadow-2xl">
               검색 조건에 맞는 FRAG을 찾을 수 없습니다.
             </li>
           )}
