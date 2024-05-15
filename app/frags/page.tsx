@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import useAuth from "@/store/AuthStore";
@@ -16,8 +16,6 @@ export default function FragsPage() {
   );
   const [search, setSearch] = useState<string>("");
   const [filter, setFilter] = useState<"all" | "member" | "admin">("all");
-
-  const searchInputRef = useRef<HTMLInputElement>(null);
 
   const queryClient = useQueryClient();
   const router = useRouter();

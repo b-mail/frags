@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { validateAccessToken } from "@/lib/validateToken";
 import prisma from "@/lib/db";
 import { Frag } from "@prisma/client";
+import { authenticate } from "@/lib/autheticate";
 
 export async function GET(req: NextRequest) {
   const page = req.nextUrl.searchParams.get("page");
@@ -152,59 +152,40 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
-  const token = req.headers.get("Authorization")?.split(" ")[1];
-
-  if (!token) {
-    return NextResponse.json(
-      { message: "로그인이 필요합니다." },
-      { status: 401 },
-    );
+  const user = await authenticate(req);
+  if (user instanceof NextResponse) {
+    return user;
   }
 
-  const decoded = validateAccessToken(token);
-
-  if (!decoded.isValid) {
-    return NextResponse.json(
-      { message: "유효하지 않은 토큰입니다." },
-      { status: 401 },
-    );
-  }
-
-  const user = await prisma.user.findUnique({
-    where: {
-      id: decoded.uid,
-    },
-  });
-
-  if (!user) {
-    return NextResponse.json(
-      { message: "해당 사용자가 존재하지 않습니다." },
-      { status: 401 },
-    );
-  }
   const body = await req.json();
   const { name, description } = body;
+  try {
+    const frag = await prisma.frag.create({
+      data: {
+        name,
+        description,
+        adminId: user.id,
+      },
+    });
 
-  const frag = await prisma.frag.create({
-    data: {
-      name,
-      description,
-      adminId: user.id,
-    },
-  });
+    await prisma.userFragLink.create({
+      data: {
+        userId: user.id,
+        fragId: frag.id,
+      },
+    });
 
-  await prisma.userFragLink.create({
-    data: {
-      userId: user.id,
-      fragId: frag.id,
-    },
-  });
-
-  return NextResponse.json(
-    {
-      message: "FRAG 생성이 완료되었습니다.",
-      result: frag,
-    },
-    { status: 201 },
-  );
+    return NextResponse.json(
+      {
+        message: "FRAG 생성이 완료되었습니다.",
+        result: frag,
+      },
+      { status: 201 },
+    );
+  } catch (error) {
+    return NextResponse.json(
+      { message: "해당 이름의 FRAG이 이미 존재합니다." },
+      { status: 409 },
+    );
+  }
 }

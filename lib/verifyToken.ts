@@ -1,6 +1,6 @@
 import jwt, { TokenExpiredError } from "jsonwebtoken";
 
-export function validateAccessToken(token: string) {
+export function verifyAccessToken(token: string) {
   try {
     const decoded = jwt.verify(
       token,
@@ -29,7 +29,7 @@ export function validateAccessToken(token: string) {
   }
 }
 
-export function validateRefreshToken(token: string) {
+export function verifyRefreshToken(token: string) {
   try {
     const decoded = jwt.verify(
       token,

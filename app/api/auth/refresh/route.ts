@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/db";
-import { validateAccessToken, validateRefreshToken } from "@/lib/validateToken";
+import { verifyRefreshToken } from "@/lib/verifyToken";
 import { createAccessToken } from "@/lib/createToken";
 
 export async function GET(req: NextRequest) {
@@ -15,7 +15,7 @@ export async function GET(req: NextRequest) {
     );
   }
 
-  const decoded = validateRefreshToken(refreshToken.value);
+  const decoded = verifyRefreshToken(refreshToken.value);
 
   if (!decoded.isValid) {
     return NextResponse.json(

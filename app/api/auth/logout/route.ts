@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { validateAccessToken } from "@/lib/validateToken";
 import prisma from "@/lib/db";
 
 export async function DELETE(req: NextRequest) {
@@ -11,8 +10,6 @@ export async function DELETE(req: NextRequest) {
       { status: 401 },
     );
   }
-
-  const decoded = validateAccessToken(refreshToken.value);
 
   await prisma.refreshToken.delete({
     where: { token: refreshToken.value },

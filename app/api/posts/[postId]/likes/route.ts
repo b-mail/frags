@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/db";
-import { validateAccessToken } from "@/lib/validateToken";
+import { authenticateBYPostId } from "@/lib/autheticate";
 
 export async function GET(
   req: NextRequest,
@@ -22,53 +22,11 @@ export async function POST(
   req: NextRequest,
   { params }: { params: { postId: string } },
 ) {
-  const token = req.headers.get("Authorization")?.split(" ")[1];
-
-  if (!token) {
-    return NextResponse.json(
-      { message: "로그인이 필요합니다." },
-      { status: 401 },
-    );
-  }
-
-  const decoded = validateAccessToken(token);
-
-  if (!decoded.isValid) {
-    return NextResponse.json(
-      { message: "유효하지 않은 토큰입니다." },
-      { status: 401 },
-    );
-  }
-
-  const user = await prisma.user.findUnique({
-    where: {
-      id: decoded.uid,
-    },
-  });
-
-  if (!user) {
-    return NextResponse.json(
-      { message: "해당 사용자가 존재하지 않습니다." },
-      { status: 401 },
-    );
-  }
-
   const postId = Number(params.postId);
 
-  const isMember = await prisma.post
-    .findUnique({
-      where: {
-        id: postId,
-      },
-    })
-    .frag()
-    .members({ where: { id: user.id } });
-
-  if (!isMember) {
-    return NextResponse.json(
-      { message: "해당 FRAG의 멤버가 아닙니다." },
-      { status: 401 },
-    );
+  const user = await authenticateBYPostId(req, postId);
+  if (user instanceof NextResponse) {
+    return user;
   }
 
   const isLike = await prisma.like.findFirst({
@@ -113,38 +71,12 @@ export async function DELETE(
   req: NextRequest,
   { params }: { params: { postId: string } },
 ) {
-  const token = req.headers.get("Authorization")?.split(" ")[1];
-
-  if (!token) {
-    return NextResponse.json(
-      { message: "로그인이 필요합니다." },
-      { status: 401 },
-    );
-  }
-
-  const decoded = validateAccessToken(token);
-
-  if (!decoded.isValid) {
-    return NextResponse.json(
-      { message: "유효하지 않은 토큰입니다." },
-      { status: 401 },
-    );
-  }
-
-  const user = await prisma.user.findUnique({
-    where: {
-      id: decoded.uid,
-    },
-  });
-
-  if (!user) {
-    return NextResponse.json(
-      { message: "해당 사용자가 존재하지 않습니다." },
-      { status: 401 },
-    );
-  }
-
   const postId = Number(params.postId);
+
+  const user = await authenticateBYPostId(req, postId);
+  if (user instanceof NextResponse) {
+    return user;
+  }
 
   const isLike = await prisma.like.findFirst({
     where: {
