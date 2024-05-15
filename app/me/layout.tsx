@@ -9,7 +9,7 @@ export default function MyPageLayout({ children }: { children: ReactNode }) {
           className="rounded-2xl p-4 text-slate-500 hover:bg-slate-800 hover:text-green-400"
           href="/me"
         >
-          내 정보
+          프로필
         </Link>
         <Link
           className="rounded-2xl p-4 text-slate-500 hover:bg-slate-800 hover:text-green-400"

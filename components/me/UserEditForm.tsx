@@ -59,6 +59,10 @@ export default function UserEditForm({ user }: { user: User }) {
       onSubmit={handleSubmit(onSubmit)}
     >
       {isSubmitting && <LoadingModal message={"회원 정보 수정 중"} />}
+      <div className="rounded-2xl bg-slate-800 p-4 text-green-400">
+        회원 정보를 수정하려면 비밀번호가 필요합니다. 아래 입력란에 비밀번호를
+        입력해주세요!
+      </div>
       <PasswordInput register={register} error={errors.password?.message} />
       <hr className="w-full border border-slate-800" />
       <NameInput register={register} error={errors.name?.message} />
@@ -73,7 +77,7 @@ export default function UserEditForm({ user }: { user: User }) {
         type="submit"
         disabled={isSubmitting}
       >
-        확인
+        회원 정보 수정하기
       </button>
       {error.message && (
         <div className="font-sm text-red-400">{error.message}</div>

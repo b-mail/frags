@@ -58,7 +58,15 @@ export default function FragListItem({ frag }: { frag: Frag }) {
           </Link>
           {isMemberSuccess && <MemberCount count={data.result.length} />}
         </div>
-        <div className="flex w-96 items-center justify-end">
+        <div className="flex w-96 items-center justify-end gap-4">
+          {isMember && (
+            <Link
+              className="rounded-2xl bg-green-400 px-4 py-2 font-bold hover:bg-green-500"
+              href={`/frags/${id}/posts`}
+            >
+              입장하기
+            </Link>
+          )}
           <button
             className="rounded-2xl bg-green-400 px-4 py-2 font-bold hover:bg-green-500 disabled:bg-slate-800 disabled:hover:bg-slate-800"
             onClick={() => mutate()}

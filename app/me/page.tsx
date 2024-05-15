@@ -34,7 +34,7 @@ export default function MyPage() {
       <div className="flex flex-col gap-4">
         <div className="text-3xl font-bold">{user?.name}</div>
         <div className="rounded-2xl bg-slate-800 p-4 text-slate-400">
-          {user?.bio}
+          {user.bio && user.bio.length > 0 ? user?.bio : "소개가 없습니다."}
         </div>
         <div className="text-sm text-slate-500">
           <span className="mr-4 inline-block w-24 rounded-2xl bg-slate-800 p-2 text-center text-green-400">

@@ -17,7 +17,7 @@ export default function NameInput({
       <input
         className={className}
         id="name"
-        placeholder="멋쟁이 신사"
+        placeholder="닉네임을 입력해주세요!"
         {...register("name")}
       />
       {error && <div className="text-sm text-red-400">{error}</div>}
