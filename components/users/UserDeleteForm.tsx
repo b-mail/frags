@@ -1,16 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import EmailInput from "@/components/login-register/EmailInput";
-import PasswordInput from "@/components/login-register/PasswordInput";
-import { useRouter } from "next/navigation";
-import useAuth from "@/store/AuthStore";
-import LoadingModal from "@/components/LoadingModal";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { LoginFields, loginSchema } from "@/lib/schema";
+import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
+import useAuth from "@/store/AuthStore";
+import EmailInput from "@/components/users/EmailInput";
+import PasswordInput from "@/components/users/PasswordInput";
+import LoadingModal from "@/components/ui/LoadingModal";
+import ErrorMessage from "@/components/ui/ErrorMessage";
+import { LoginFields, loginSchema } from "@/lib/schema";
 import { deleteUserByUserId } from "@/lib/api";
-import ErrorMessage from "@/components/ErrorMessage";
 
 export default function UserDeleteForm() {
   const [error, setError] = useState<{ message: string }>({

@@ -1,4 +1,4 @@
-export default function MemberCount({ count }: { count: number }) {
+export default function MemberBadge({ count }: { count: number }) {
   return (
     <div className="flex items-center justify-center gap-2 rounded-md bg-slate-800 px-2 py-1">
       <svg

@@ -1,9 +1,9 @@
 "use client";
 
 import { Post } from "@prisma/client";
-import LikeCount from "@/components/posts/LikeCount";
-import CommentCount from "@/components/posts/CommentCount";
-import AuthorInfo from "@/components/posts/AuthorInfo";
+import LikeBadge from "@/components/ui/LikeBadge";
+import CommentBadge from "@/components/posts/CommentBadge";
+import UserBadge from "@/components/ui/UserBadge";
 import { useQuery } from "@tanstack/react-query";
 import {
   getCommentsByPostId,
@@ -11,7 +11,7 @@ import {
   getUserByUserId,
 } from "@/lib/api";
 import Link from "next/link";
-import ViewCount from "@/components/posts/ViewCount";
+import ViewBadge from "@/components/ui/ViewBadge";
 import { Suspense } from "react";
 
 export default function PostListItem({ post }: { post: Post }) {
@@ -43,10 +43,10 @@ export default function PostListItem({ post }: { post: Post }) {
         {title}
       </Link>
       <div className="flex w-96 items-center justify-end gap-2">
-        <AuthorInfo author={author} />
-        <ViewCount view={view} />
-        <LikeCount likes={likes} />
-        <CommentCount comments={comments} />
+        <UserBadge user={author} />
+        <ViewBadge view={view} />
+        <LikeBadge likes={likes} />
+        <CommentBadge comments={comments} />
       </div>
     </li>
   );

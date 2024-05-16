@@ -4,7 +4,8 @@ import { getCommentsByPostId } from "@/lib/api";
 import { useQuery } from "@tanstack/react-query";
 import CommentListItem from "@/components/comments/CommentListItem";
 import { Comment } from "@prisma/client";
-import LoadingIndicator from "@/components/LoadingIndicator";
+import LoadingIndicator from "@/components/ui/LoadingIndicator";
+import LoadingContainer from "@/components/ui/LoadingContainer";
 
 export default function CommentList({ postId }: { postId: number }) {
   const { data: comments, isLoading } = useQuery<Comment[]>({
@@ -21,14 +22,16 @@ export default function CommentList({ postId }: { postId: number }) {
   }
 
   return (
-    <ul className="flex w-full flex-col gap-6">
-      {isLoading ? (
-        <LoadingIndicator message={"댓글을 불러오는 중"} noShadow={true} />
-      ) : (
-        comments?.map((comment) => (
+    <LoadingContainer
+      isLoading={isLoading}
+      message={"댓글 불러오는 중"}
+      noShadow={true}
+    >
+      <ul className="flex w-full flex-col gap-6">
+        {comments?.map((comment) => (
           <CommentListItem key={comment.id} comment={comment} />
-        ))
-      )}
-    </ul>
+        ))}
+      </ul>
+    </LoadingContainer>
   );
 }

@@ -5,7 +5,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createFrag } from "@/lib/api";
 import useAuth from "@/store/AuthStore";
 import { useRouter } from "next/navigation";
-import LoadingModal from "@/components/LoadingModal";
+import LoadingModal from "@/components/ui/LoadingModal";
 
 export default function NewFragPage() {
   const accessToken = useAuth.use.accessToken();

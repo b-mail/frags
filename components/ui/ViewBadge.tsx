@@ -1,4 +1,4 @@
-export default function ViewCount({ view }: { view: number }) {
+export default function ViewBadge({ view }: { view: number }) {
   return (
     <div className="flex w-16 items-center justify-between gap-1 rounded-lg bg-slate-800 p-2">
       <svg
@@ -21,7 +21,7 @@ export default function ViewCount({ view }: { view: number }) {
         />
       </svg>
 
-      <div className="text-sm text-slate-400">{view}</div>
+      <div className="text-sm text-slate-400">{view > 99 ? "99+" : view}</div>
     </div>
   );
 }

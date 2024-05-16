@@ -5,34 +5,38 @@ import useAuth from "@/store/AuthStore";
 import UserMenu from "@/components/nav/UserMenu";
 import { useEffect, useState } from "react";
 import MenuIcon from "@/components/nav/MenuIcon";
-import { logout, refresh } from "@/lib/api";
+import { refresh } from "@/lib/api";
 import { useMutation } from "@tanstack/react-query";
 import Image from "next/image";
 
 export default function Nav() {
   const [isActive, setIsActive] = useState(false);
-  const [isRefreshed, setIsRefreshed] = useState(false);
+
   const user = useAuth.use.user();
   const setUser = useAuth.use.setUser();
   const setAccessToken = useAuth.use.setAccessToken();
+  const setIsRefreshing = useAuth.use.setIsRefreshing();
 
-  const refreshMutation = useMutation({
+  const { mutate } = useMutation({
     mutationKey: ["refresh"],
     mutationFn: async () => await refresh(),
+    onMutate: () => {
+      setIsRefreshing(true);
+    },
+    onSettled: () => {
+      setIsRefreshing(false);
+    },
     onSuccess: (data) => {
       setUser(data.user);
       setAccessToken(data.accessToken);
     },
-    onMutate: () => {
-      setIsRefreshed(true);
-    },
   });
 
   useEffect(() => {
-    if (!isRefreshed && !user && !refreshMutation.isPending) {
-      refreshMutation.mutate();
+    if (!user) {
+      mutate();
     }
-  }, [isRefreshed, user, refreshMutation]);
+  }, []);
 
   return (
     <nav className="fixed left-0 top-0 z-40 flex h-16 w-full items-center justify-between bg-slate-900 bg-opacity-75 px-10 shadow-xl backdrop-blur-lg">

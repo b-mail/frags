@@ -2,17 +2,15 @@
 
 import { Frag, User } from "@prisma/client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { joinFragByFragId, getUsersByFragId, getUserByUserId } from "@/lib/api";
-import MemberCount from "@/components/frags/MemberCount";
-import { useEffect, useState } from "react";
+import { joinFragByFragId, getUsersByFragId } from "@/lib/api";
+import MemberBadge from "@/components/frags/MemberBadge";
+import { useEffect, useMemo, useState } from "react";
 import useAuth from "@/store/AuthStore";
 import Link from "next/link";
-import LoadingModal from "@/components/LoadingModal";
+import LoadingModal from "@/components/ui/LoadingModal";
 
 export default function FragListItem({ frag }: { frag: Frag }) {
   const { id, name, description, adminId } = frag;
-  const [isMember, setIsMember] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
 
   const user = useAuth.use.user();
   const accessToken = useAuth.use.accessToken();
@@ -31,19 +29,17 @@ export default function FragListItem({ frag }: { frag: Frag }) {
     mutationFn: async () =>
       await joinFragByFragId(accessToken as string, frag.id),
     onSuccess: () => {
-      setIsMember(true);
       queryClient.invalidateQueries({
         queryKey: ["frag", frag.id, "members"],
       });
     },
   });
 
-  useEffect(() => {
-    setIsAdmin(user?.id === adminId);
-    if (isMemberSuccess) {
-      setIsMember(data.result.some((member) => user?.id === member.id));
-    }
-  }, [data, isMemberSuccess, adminId, user?.id]);
+  const isAdmin = useMemo(() => user?.id === adminId, [user?.id, adminId]);
+  const isMember = useMemo(
+    () => data?.result.some((member) => member.id === user?.id),
+    [data?.result, user?.id],
+  );
 
   return (
     <li className="flex flex-col items-center justify-between gap-4 rounded-2xl bg-slate-900 p-6 shadow-2xl">
@@ -56,7 +52,7 @@ export default function FragListItem({ frag }: { frag: Frag }) {
           >
             {name}
           </Link>
-          {isMemberSuccess && <MemberCount count={data.result.length} />}
+          {isMemberSuccess && <MemberBadge count={data.result.length} />}
         </div>
         <div className="flex w-96 items-center justify-end gap-4">
           {isMember && (

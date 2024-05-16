@@ -1,16 +1,14 @@
 "use client";
 
 import { Comment, User } from "@prisma/client";
-import useAuth from "@/store/AuthStore";
 import { useQuery } from "@tanstack/react-query";
 import { getUserByUserId } from "@/lib/api";
-import AuthorInfo from "@/components/posts/AuthorInfo";
-import DeleteButton from "@/components/DeleteButton";
+import UserBadge from "@/components/ui/UserBadge";
+import DateBadge from "@/components/ui/DateBadge";
+import TimeBadge from "@/components/ui/TimeBadge";
 
 export default function CommentListItem({ comment }: { comment: Comment }) {
-  const { id, content, userId, createdAt } = comment;
-
-  const user = useAuth.use.user();
+  const { content, userId, createdAt } = comment;
 
   const { data: author, isSuccess } = useQuery<User>({
     queryKey: ["user", userId],
@@ -20,26 +18,19 @@ export default function CommentListItem({ comment }: { comment: Comment }) {
   return (
     <li className="flex flex-col gap-4">
       <hr className="w-full border border-slate-700" />
-
       <div className="flex items-start justify-between">
         <div className="flex gap-2">
-          {isSuccess && (
-            <AuthorInfo
-              author={author}
-              enableIcon={true}
-              className="bg-slate-800"
-            />
-          )}
-          <DeleteButton id={id} type={"comment"} author={author ?? null} />
+          <UserBadge
+            userName={author?.name ?? "홍길동"}
+            enableIcon={true}
+            className="bg-slate-800"
+          />
         </div>
-
         <div className="flex gap-2 text-sm">
-          <div className=" text-slate-500">
-            {createdAt.toString().slice(0, 10).split("-").join(". ")}
-          </div>
-          <div className=" text-slate-500">
-            {createdAt.toString().slice(11, 16)}
-          </div>
+          <DateBadge
+            date={createdAt.toString().slice(0, 10).replaceAll("-", ". ")}
+          />
+          <TimeBadge time={createdAt.toString().slice(11, 16)} />
         </div>
       </div>
       <div className="px-2">{content}</div>

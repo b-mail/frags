@@ -2,22 +2,17 @@
 
 import { Frag } from "@prisma/client";
 import FragListItem from "@/components/frags/FragListItem";
-import LoadingIndicator from "@/components/LoadingIndicator";
+import LoadingIndicator from "@/components/ui/LoadingIndicator";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { getFrags } from "@/lib/api";
 import useAuth from "@/store/AuthStore";
 import { useEffect, useRef } from "react";
+import useFragSearch from "@/store/FragSearchStore";
 
-export default function FragList({
-  searchOption,
-}: {
-  searchOption: {
-    order: "latest" | "alphabet" | "member";
-    search: string;
-    filter: "all" | "member" | "admin";
-  };
-}) {
-  const { order, search, filter } = searchOption;
+export default function FragList() {
+  const search = useFragSearch.use.search();
+  const order = useFragSearch.use.order();
+  const filter = useFragSearch.use.filter();
 
   const user = useAuth.use.user();
   const accessToken = useAuth.use.accessToken();
@@ -37,7 +32,7 @@ export default function FragList({
     hasNextPage: boolean;
     nextPage: number;
   }>({
-    queryKey: ["frags", order, search, filter],
+    queryKey: ["frags", search, order, filter],
     queryFn: async ({ pageParam }) => {
       return await getFrags(accessToken as string, {
         page: pageParam as number,

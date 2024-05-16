@@ -6,7 +6,7 @@ import { deleteCommentByCommentId, deletePostByPostId } from "@/lib/api";
 import { MouseEventHandler } from "react";
 import { useRouter } from "next/navigation";
 import { User } from "@prisma/client";
-import LoadingModal from "@/components/LoadingModal";
+import LoadingModal from "@/components/ui/LoadingModal";
 
 export default function DeleteButton({
   id,
