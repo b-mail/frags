@@ -1,21 +1,20 @@
 "use client";
 
-import { Post } from "@prisma/client";
-import LikeBadge from "@/components/ui/LikeBadge";
-import CommentBadge from "@/components/posts/CommentBadge";
-import UserBadge from "@/components/ui/UserBadge";
 import { useQuery } from "@tanstack/react-query";
+import Link from "next/link";
 import {
   getCommentsByPostId,
   getLikesByPostId,
   getUserByUserId,
 } from "@/lib/api";
-import Link from "next/link";
+import { Post } from "@prisma/client";
+import LikeBadge from "@/components/ui/LikeBadge";
+import CommentBadge from "@/components/posts/CommentBadge";
+import UserBadge from "@/components/ui/UserBadge";
 import ViewBadge from "@/components/ui/ViewBadge";
-import { Suspense } from "react";
 
 export default function PostListItem({ post }: { post: Post }) {
-  const { id, title, content, userId, fragId, view, createdAt } = post;
+  const { id, title, userId, fragId, view } = post;
 
   const { data: author } = useQuery({
     queryKey: ["user", userId],
@@ -43,7 +42,7 @@ export default function PostListItem({ post }: { post: Post }) {
         {title}
       </Link>
       <div className="flex w-96 items-center justify-end gap-2">
-        <UserBadge user={author} />
+        <UserBadge userName={author?.name} />
         <ViewBadge view={view} />
         <LikeBadge likes={likes} />
         <CommentBadge comments={comments} />

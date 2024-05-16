@@ -45,7 +45,7 @@ export default function FragList() {
     },
     enabled: !!accessToken,
     initialPageParam: 0,
-    getNextPageParam: (lastPage, allPage) =>
+    getNextPageParam: (lastPage) =>
       lastPage.hasNextPage ? lastPage.nextPage : undefined,
   });
 

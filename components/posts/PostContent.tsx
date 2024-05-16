@@ -23,11 +23,7 @@ export default function PostContent({ postId }: { postId: number }) {
     enabled: !!accessToken,
   });
 
-  const {
-    data: author,
-    isLoading: isLoadingUser,
-    isSuccess: isSuccessUser,
-  } = useQuery<User>({
+  const { data: author, isLoading: isLoadingUser } = useQuery<User>({
     queryKey: ["user", post?.userId],
     queryFn: async () => await getUserByUserId(post?.userId as number),
     enabled: isSuccessPost,

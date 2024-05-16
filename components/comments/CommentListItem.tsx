@@ -10,7 +10,7 @@ import TimeBadge from "@/components/ui/TimeBadge";
 export default function CommentListItem({ comment }: { comment: Comment }) {
   const { content, userId, createdAt } = comment;
 
-  const { data: author, isSuccess } = useQuery<User>({
+  const { data: author } = useQuery<User>({
     queryKey: ["user", userId],
     queryFn: async () => getUserByUserId(userId),
   });

@@ -33,7 +33,7 @@ export default function RegisterForm() {
 
   const onSubmit: SubmitHandler<RegisterFields> = async (data) => {
     try {
-      const result = await signIn(data);
+      await signIn(data);
       router.push("/login");
     } catch (error) {
       if (error instanceof Error) {
