@@ -8,7 +8,6 @@ import { Post } from "@prisma/client";
 import useAuth from "@/store/AuthStore";
 import usePostSearch from "@/store/PostSearchStore";
 import PostListItem from "@/components/posts/PostListItem";
-import LoadingIndicator from "@/components/ui/LoadingIndicator";
 import LoadingContainer from "@/components/ui/LoadingContainer";
 
 export default function PostList({ fragId }: { fragId: number }) {
@@ -17,7 +16,6 @@ export default function PostList({ fragId }: { fragId: number }) {
 
   const accessToken = useAuth.use.accessToken();
 
-  const queryClient = useQueryClient();
   const router = useRouter();
 
   const {
@@ -44,7 +42,7 @@ export default function PostList({ fragId }: { fragId: number }) {
       }),
     enabled: !!accessToken,
     initialPageParam: 0,
-    getNextPageParam: (lastPage, allPages) =>
+    getNextPageParam: (lastPage) =>
       lastPage.hasNextPage ? lastPage.nextPage : undefined,
   });
 

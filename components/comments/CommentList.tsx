@@ -4,7 +4,6 @@ import { getCommentsByPostId } from "@/lib/api";
 import { useQuery } from "@tanstack/react-query";
 import CommentListItem from "@/components/comments/CommentListItem";
 import { Comment } from "@prisma/client";
-import LoadingIndicator from "@/components/ui/LoadingIndicator";
 import LoadingContainer from "@/components/ui/LoadingContainer";
 
 export default function CommentList({ postId }: { postId: number }) {

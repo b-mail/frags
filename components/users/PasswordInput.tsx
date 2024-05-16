@@ -1,4 +1,4 @@
-import { LoginFields, RegisterFields } from "@/lib/schema";
+import { RegisterFields } from "@/lib/schema";
 import { UseFormRegister } from "react-hook-form";
 
 export default function PasswordInput({

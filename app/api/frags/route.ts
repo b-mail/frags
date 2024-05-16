@@ -18,7 +18,7 @@ export async function GET(req: NextRequest) {
     );
   }
 
-  let orderBy = {};
+  let orderBy: {};
 
   switch (order) {
     case "latest":
@@ -64,7 +64,7 @@ export async function GET(req: NextRequest) {
       : undefined,
   });
 
-  let frags: Frag[] = [];
+  let frags: Frag[];
 
   if (member) {
     frags = await prisma.frag.findMany({

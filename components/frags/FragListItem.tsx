@@ -4,7 +4,7 @@ import { Frag, User } from "@prisma/client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { joinFragByFragId, getUsersByFragId } from "@/lib/api";
 import MemberBadge from "@/components/frags/MemberBadge";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import useAuth from "@/store/AuthStore";
 import Link from "next/link";
 import LoadingModal from "@/components/ui/LoadingModal";
