@@ -1,18 +1,18 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { User } from "@prisma/client";
+import { RegisterFields, registerSchema } from "@/lib/schema";
+import { updateUser } from "@/lib/api";
+import useAuth from "@/store/AuthStore";
 import EmailInput from "@/components/users/EmailInput";
 import PasswordInput from "@/components/users/PasswordInput";
 import NameInput from "@/components/users/NameInput";
 import BioInput from "@/components/users/BioInput";
-import { useRouter } from "next/navigation";
-import useAuth from "@/store/AuthStore";
 import LoadingModal from "@/components/ui/LoadingModal";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { RegisterFields, registerSchema } from "@/lib/schema";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { updateUser } from "@/lib/api";
-import { User } from "@prisma/client";
 import ErrorMessage from "@/components/ui/ErrorMessage";
 
 export default function UserEditForm({ user }: { user: User | null }) {
