@@ -1,17 +1,12 @@
 "use client";
 
-import {
-  ChangeEventHandler,
-  FormEventHandler,
-  useEffect,
-  useState,
-} from "react";
+import { ChangeEventHandler, FormEventHandler, useState } from "react";
 import useAuth from "@/store/AuthStore";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { createPost } from "@/lib/api";
 import Link from "next/link";
-import LoadingModal from "@/components/LoadingModal";
+import LoadingModal from "@/components/ui/LoadingModal";
 
 export default function PostForm({
   fragId,

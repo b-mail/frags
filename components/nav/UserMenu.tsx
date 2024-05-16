@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useMutation } from "@tanstack/react-query";
 import { logout } from "@/lib/api";
 import useAuth from "@/store/AuthStore";
-import LoadingModal from "@/components/LoadingModal";
+import LoadingModal from "@/components/ui/LoadingModal";
 import { useRouter } from "next/navigation";
 
 export default function UserMenu({

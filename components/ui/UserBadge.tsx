@@ -1,11 +1,9 @@
-import { User } from "@prisma/client";
-
-export default function AuthorInfo({
-  author,
+export default function UserBadge({
+  userName,
   enableIcon = false,
   className = "",
 }: {
-  author: User;
+  userName: string;
   enableIcon?: boolean;
   className?: string;
 }) {
@@ -29,7 +27,7 @@ export default function AuthorInfo({
           />
         </svg>
       )}
-      <div className="text-sm text-slate-400">{author?.name}</div>
+      <div className="text-sm text-slate-400">{userName}</div>
     </div>
   );
 }

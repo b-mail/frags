@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import Link from "next/link";
-import ProtectedRoute from "@/components/ProtectedRoute";
+import ProtectedRoute from "@/components/utils/ProtectedRoute";
 
 export default function MyPageLayout({ children }: { children: ReactNode }) {
   return (
@@ -26,7 +26,7 @@ export default function MyPageLayout({ children }: { children: ReactNode }) {
             회원탈퇴
           </Link>
         </div>
-        {children}
+        <div style={{ width: "48rem" }}>{children}</div>
       </div>
     </ProtectedRoute>
   );

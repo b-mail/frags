@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import PostsSideBar from "@/components/posts/PostsSideBar";
+import PostSideBar from "@/components/posts/PostSideBar";
 
 export default async function PostsLayout({
   children,
@@ -10,7 +10,7 @@ export default async function PostsLayout({
 }) {
   return (
     <div className="relative flex gap-10 ">
-      <PostsSideBar fragId={params.fragId} />
+      <PostSideBar fragId={params.fragId} />
       {children}
     </div>
   );

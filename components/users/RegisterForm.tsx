@@ -1,18 +1,18 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import EmailInput from "@/components/login-register/EmailInput";
-import PasswordInput from "@/components/login-register/PasswordInput";
-import NameInput from "@/components/login-register/NameInput";
-import BioInput from "@/components/login-register/BioInput";
+import EmailInput from "@/components/users/EmailInput";
+import PasswordInput from "@/components/users/PasswordInput";
+import NameInput from "@/components/users/NameInput";
+import BioInput from "@/components/users/BioInput";
 import { useRouter } from "next/navigation";
 import useAuth from "@/store/AuthStore";
-import LoadingModal from "@/components/LoadingModal";
+import LoadingModal from "@/components/ui/LoadingModal";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { RegisterFields, registerSchema } from "@/lib/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { register as signIn } from "@/lib/api";
-import ErrorMessage from "@/components/ErrorMessage";
+import ErrorMessage from "@/components/ui/ErrorMessage";
 
 export default function RegisterForm() {
   const [error, setError] = useState<{ message: string }>({

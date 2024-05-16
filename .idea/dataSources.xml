@@ -8,5 +8,12 @@
       <jdbc-url>jdbc:postgresql://ep-morning-sky-a4njnt68-pooler.us-east-1.aws.neon.tech:5432/postgres</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="frags@localhost" uuid="7c6bdbf0-e6bd-4c08-9f6a-dc5b6e8211ea">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://localhost:5432/frags</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>

@@ -1,4 +1,4 @@
-export default function PostTime({ date }: { date: string }) {
+export default function TimeBadge({ time }: { time: string }) {
   return (
     <div className="flex items-center justify-between gap-1 rounded-lg bg-slate-800 p-2">
       <svg
@@ -15,10 +15,7 @@ export default function PostTime({ date }: { date: string }) {
           d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
         />
       </svg>
-
-      <div className="text-sm text-slate-400">
-        {date.toString().slice(11, 16)}
-      </div>
+      <div className="text-sm text-slate-400">{time}</div>
     </div>
   );
 }

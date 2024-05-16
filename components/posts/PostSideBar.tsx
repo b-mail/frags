@@ -5,11 +5,11 @@ import { getFragByFragId, getUsersByFragId } from "@/lib/api";
 import useAuth from "@/store/AuthStore";
 import Link from "next/link";
 import { Suspense, useState } from "react";
-import LoadingIndicator from "@/components/LoadingIndicator";
+import LoadingIndicator from "@/components/ui/LoadingIndicator";
 import MemberList from "@/components/posts/MemberList";
 import { User } from "@prisma/client";
 
-export default function PostsSideBar({ fragId }: { fragId: string }) {
+export default function PostSideBar({ fragId }: { fragId: string }) {
   const id = Number(fragId);
   const [isActive, setIsActive] = useState(false);
 

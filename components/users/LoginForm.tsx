@@ -3,14 +3,14 @@
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import EmailInput from "@/components/login-register/EmailInput";
-import PasswordInput from "@/components/login-register/PasswordInput";
+import EmailInput from "@/components/users/EmailInput";
+import PasswordInput from "@/components/users/PasswordInput";
 import { login } from "@/lib/api";
-import LoadingModal from "@/components/LoadingModal";
+import LoadingModal from "@/components/ui/LoadingModal";
 import useAuth from "@/store/AuthStore";
 import { LoginFields, loginSchema } from "@/lib/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import ErrorMessage from "@/components/ErrorMessage";
+import ErrorMessage from "@/components/ui/ErrorMessage";
 
 export default function LoginForm() {
   const router = useRouter();
