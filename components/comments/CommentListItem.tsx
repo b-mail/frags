@@ -18,7 +18,6 @@ export default function CommentListItem({ comment }: { comment: Comment }) {
 
   return (
     <li className="flex flex-col gap-4">
-      <hr className="w-full border border-slate-700" />
       <div className="flex items-start justify-between">
         <div className="flex gap-2">
           <UserBadge
@@ -34,7 +33,8 @@ export default function CommentListItem({ comment }: { comment: Comment }) {
           <TimeBadge time={createdAt.toString().slice(11, 16)} />
         </div>
       </div>
-      <div className="px-2">{content}</div>
+      <div className="px-2 pb-6">{content}</div>
+      <hr className="w-full border border-slate-700" />
     </li>
   );
 }

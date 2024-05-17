@@ -65,21 +65,53 @@ export async function POST(
     },
   });
 
-  await prisma.post.deleteMany({
+  const posts = await prisma.post.findMany({
     where: {
       userId,
+    },
+  });
+
+  for (const post of posts) {
+    await prisma.like.deleteMany({
+      where: {
+        postId: post.id,
+      },
+    });
+    await prisma.comment.deleteMany({
+      where: {
+        postId: post.id,
+      },
+    });
+    await prisma.post.delete({
+      where: {
+        id: post.id,
+      },
+    });
+  }
+
+  const frags = await prisma.frag.findMany({
+    where: {
+      adminId: userId,
+    },
+  });
+
+  for (const frag of frags) {
+    await prisma.userFragLink.deleteMany({
+      where: {
+        id: frag.id,
+      },
+    });
+  }
+
+  await prisma.frag.deleteMany({
+    where: {
+      adminId: userId,
     },
   });
 
   await prisma.userFragLink.deleteMany({
     where: {
       userId,
-    },
-  });
-
-  await prisma.frag.deleteMany({
-    where: {
-      adminId: userId,
     },
   });
 

@@ -14,6 +14,7 @@ export default function PostPage({
       <PostContent postId={postId} />
       <section className="flex flex-col gap-4 rounded-2xl bg-slate-900 p-10 shadow-2xl">
         <CommentForm postId={postId} />
+        <hr className="w-full border border-slate-700" />
         <CommentList postId={postId} />
       </section>
     </div>

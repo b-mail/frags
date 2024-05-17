@@ -10,6 +10,7 @@ import usePostSearch from "@/store/PostSearchStore";
 import PostListItem from "@/components/posts/PostListItem";
 import LoadingContainer from "@/components/ui/LoadingContainer";
 import { ApiResponse } from "@/lib/type";
+import LoadingIndicator from "@/components/ui/LoadingIndicator";
 
 export default function PostList({ fragId }: { fragId: number }) {
   const search = usePostSearch.use.search();
@@ -23,7 +24,6 @@ export default function PostList({ fragId }: { fragId: number }) {
     data,
     isError,
     isLoading,
-    isFetching,
     isFetchingNextPage,
     fetchNextPage,
     hasNextPage,
@@ -50,8 +50,8 @@ export default function PostList({ fragId }: { fragId: number }) {
 
   return (
     <LoadingContainer
-      isLoading={isLoading || isFetching}
-      message={"게시글 목록 불러오는 중 "}
+      isLoading={!accessToken || isLoading}
+      message={"게시글 목록 불러오는 중"}
     >
       <div className=" flex w-full flex-col gap-6">
         {data?.pages.flat()[0].result.length === 0 ? (

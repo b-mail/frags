@@ -18,7 +18,7 @@ export default function LikeButton({ postId }: { postId: number }) {
   const accessToken = useAuth.use.accessToken();
   const queryClient = useQueryClient();
 
-  const { data: likes } = useQuery<ApiResponse<Like[]>>({
+  const { data: likes, isSuccess } = useQuery<ApiResponse<Like[]>>({
     queryKey: ["post", postId, "likes"],
     queryFn: async () => await getLikesByPostId(postId),
   });
@@ -34,22 +34,16 @@ export default function LikeButton({ postId }: { postId: number }) {
     onMutate: async () => {
       await queryClient.cancelQueries({ queryKey: ["post", postId, "likes"] });
 
-      const prevLikes = queryClient.getQueryData<Like[]>([
+      const prevLikes = queryClient.getQueryData<ApiResponse<Like[]>>([
         "post",
         postId,
         "likes",
       ]);
 
-      queryClient.setQueryData(
-        ["post", postId, "likes"],
-        [
-          ...prevLikes!,
-          {
-            userId: user?.id as number,
-            postId,
-          },
-        ],
-      );
+      queryClient.setQueryData(["post", postId, "likes"], {
+        ...prevLikes,
+        result: [...prevLikes!.result, { userId: user?.id, postId }],
+      });
     },
   });
 
@@ -64,20 +58,20 @@ export default function LikeButton({ postId }: { postId: number }) {
     onMutate: async () => {
       await queryClient.cancelQueries({ queryKey: ["post", postId, "likes"] });
 
-      const prevLikes = queryClient.getQueryData<Like[]>([
+      const prevLikes = queryClient.getQueryData<ApiResponse<Like[]>>([
         "post",
         postId,
         "likes",
       ]);
 
-      queryClient.setQueryData(
-        ["post", postId, "likes"],
-        [...prevLikes!].slice(0, prevLikes!.length - 1),
-      );
+      queryClient.setQueryData(["post", postId, "likes"], {
+        ...prevLikes,
+        result: [...prevLikes!.result].slice(0, prevLikes!.result.length - 1),
+      });
     },
   });
 
-  const handleClick: MouseEventHandler<HTMLButtonElement> = () => {
+  const handleClick: MouseEventHandler<HTMLButtonElement> = (e) => {
     if (isActive) {
       setIsActive(false);
       unlike();
@@ -89,7 +83,7 @@ export default function LikeButton({ postId }: { postId: number }) {
 
   useEffect(() => {
     setIsActive(
-      likes?.result.some((like) => like.userId === user?.id) ?? false,
+      likes?.result?.some((like) => like.userId === user?.id) ?? false,
     );
   }, [likes, user]);
 
@@ -97,7 +91,7 @@ export default function LikeButton({ postId }: { postId: number }) {
     <button
       className="flex h-16 w-24 items-center justify-center gap-2 rounded-2xl bg-slate-800 p-4 hover:bg-slate-700 disabled:hover:bg-slate-800"
       onClick={handleClick}
-      disabled={isLikePending || isUnlikePending}
+      disabled={!isSuccess || isLikePending || isUnlikePending}
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -118,7 +112,7 @@ export default function LikeButton({ postId }: { postId: number }) {
         )}
       </svg>
       <span className="text-xl font-bold text-slate-400">
-        {likes?.result.length ?? 0}
+        {likes?.result?.length ?? 0}
       </span>
     </button>
   );
