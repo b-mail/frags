@@ -2,29 +2,26 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { getFragByFragId, getUsersByFragId } from "@/lib/api";
-import useAuth from "@/store/AuthStore";
 import Link from "next/link";
 import { Suspense, useState } from "react";
 import LoadingIndicator from "@/components/ui/LoadingIndicator";
 import MemberList from "@/components/posts/MemberList";
-import { User } from "@prisma/client";
+import { Frag, User } from "@prisma/client";
+import { ApiResponse } from "@/lib/type";
 
-export default function PostSideBar({ fragId }: { fragId: string }) {
-  const id = Number(fragId);
+export default function PostSideBar({ fragId }: { fragId: number }) {
   const [isActive, setIsActive] = useState(false);
 
-  const accessToken = useAuth.use.accessToken();
-
-  const { data: frag } = useQuery({
-    queryKey: ["frag", id],
-    queryFn: async () => await getFragByFragId(id),
+  const { data: frag } = useQuery<ApiResponse<Frag>>({
+    queryKey: ["frag", fragId],
+    queryFn: async () => await getFragByFragId(fragId),
   });
 
-  const { data: members, isSuccess: isMemberSuccess } = useQuery<{
-    result: User[];
-  }>({
-    queryKey: ["frag", id, "members"],
-    queryFn: async () => await getUsersByFragId(id),
+  const { data: members, isSuccess: isMemberSuccess } = useQuery<
+    ApiResponse<User[]>
+  >({
+    queryKey: ["frag", fragId, "members"],
+    queryFn: async () => await getUsersByFragId(fragId),
   });
 
   const toggleActive = () => setIsActive(!isActive);
@@ -34,10 +31,10 @@ export default function PostSideBar({ fragId }: { fragId: string }) {
       <div
         className={`${isActive ? "left-0" : "-left-60"} fixed  top-24 flex w-60 flex-col items-center gap-6 rounded-r-2xl bg-slate-900 p-6 shadow-2xl transition-all`}
       >
-        <h1 className="text-2xl font-bold">{frag?.name ?? ""}</h1>
+        <h1 className="text-2xl font-bold">{frag?.result.name ?? ""}</h1>
         <Link
           className="w-full rounded-2xl bg-green-400 py-2 text-center font-bold hover:bg-green-500"
-          href={`/frags/${id}/new`}
+          href={`/frags/${fragId}/new`}
         >
           새 글 작성하기
         </Link>

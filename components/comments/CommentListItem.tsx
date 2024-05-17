@@ -6,11 +6,12 @@ import { getUserByUserId } from "@/lib/api";
 import UserBadge from "@/components/ui/UserBadge";
 import DateBadge from "@/components/ui/DateBadge";
 import TimeBadge from "@/components/ui/TimeBadge";
+import { ApiResponse } from "@/lib/type";
 
 export default function CommentListItem({ comment }: { comment: Comment }) {
   const { content, userId, createdAt } = comment;
 
-  const { data: author } = useQuery<User>({
+  const { data: author } = useQuery<ApiResponse<User>>({
     queryKey: ["user", userId],
     queryFn: async () => getUserByUserId(userId),
   });
@@ -21,7 +22,7 @@ export default function CommentListItem({ comment }: { comment: Comment }) {
       <div className="flex items-start justify-between">
         <div className="flex gap-2">
           <UserBadge
-            userName={author?.name ?? "홍길동"}
+            userName={author?.result.name ?? "홍길동"}
             enableIcon={true}
             className="bg-slate-800"
           />

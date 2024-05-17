@@ -15,7 +15,7 @@ export async function GET(
     },
   });
 
-  return NextResponse.json(likes);
+  return NextResponse.json({ result: likes });
 }
 
 export async function POST(

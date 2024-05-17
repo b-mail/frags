@@ -14,7 +14,7 @@ export default function ProtectedRoute({ children }: { children: ReactNode }) {
     if (!user && !isRefreshing) {
       router.push("/login");
     }
-  }, [user, isRefreshing]);
+  }, [user, isRefreshing, router]);
 
   return children;
 }

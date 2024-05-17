@@ -9,6 +9,7 @@ import DateBadge from "@/components/ui/DateBadge";
 import TimeBadge from "@/components/ui/TimeBadge";
 import LikeButton from "@/components/posts/LikeButton";
 import LoadingContainer from "@/components/ui/LoadingContainer";
+import { ApiResponse } from "@/lib/type";
 
 export default function PostContent({ postId }: { postId: number }) {
   const accessToken = useAuth.use.accessToken();
@@ -17,15 +18,15 @@ export default function PostContent({ postId }: { postId: number }) {
     data: post,
     isLoading: isLoadingPost,
     isSuccess: isSuccessPost,
-  } = useQuery<Post>({
+  } = useQuery<ApiResponse<Post>>({
     queryKey: ["post", postId],
     queryFn: async () => await getPostByPostId(accessToken as string, postId),
     enabled: !!accessToken,
   });
 
   const { data: author, isLoading: isLoadingUser } = useQuery<User>({
-    queryKey: ["user", post?.userId],
-    queryFn: async () => await getUserByUserId(post?.userId as number),
+    queryKey: ["user", post?.result.userId],
+    queryFn: async () => await getUserByUserId(post?.result.userId as number),
     enabled: isSuccessPost,
   });
 
@@ -36,7 +37,7 @@ export default function PostContent({ postId }: { postId: number }) {
     >
       <article className="flex flex-col gap-6 rounded-2xl bg-slate-900 p-10 shadow-2xl">
         <section className="flex flex-col items-start justify-start gap-6 ">
-          <h1 className="text-2xl font-bold">{post?.title}</h1>
+          <h1 className="text-2xl font-bold">{post?.result.title}</h1>
           <div className="flex w-full items-center justify-start gap-2">
             <UserBadge
               userName={author?.name ?? "홍길동"}
@@ -45,18 +46,20 @@ export default function PostContent({ postId }: { postId: number }) {
             />
             <DateBadge
               date={
-                post?.createdAt.toString().slice(0, 10).replaceAll("-", ". ") ??
-                "yyyy. mm. dd"
+                post?.result.createdAt
+                  .toString()
+                  .slice(0, 10)
+                  .replaceAll("-", ". ") ?? "yyyy. mm. dd"
               }
             />
             <TimeBadge
-              time={post?.createdAt.toString().slice(11, 16) ?? "tt:mm"}
+              time={post?.result.createdAt.toString().slice(11, 16) ?? "tt:mm"}
             />
           </div>
         </section>
         <hr className="w-full border border-slate-700" />
         <section className="flex flex-col gap-10">
-          <p className="leading-8">{post?.content ?? ""}</p>
+          <p className="leading-8">{post?.result.content ?? ""}</p>
           <div className="flex items-center justify-center">
             <LikeButton postId={postId} />
           </div>

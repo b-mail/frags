@@ -3,16 +3,17 @@
 import { getCommentsByPostId } from "@/lib/api";
 import { useQuery } from "@tanstack/react-query";
 import CommentListItem from "@/components/comments/CommentListItem";
-import { Comment } from "@prisma/client";
 import LoadingContainer from "@/components/ui/LoadingContainer";
+import { ApiResponse } from "@/lib/type";
+import { Comment } from "@prisma/client";
 
 export default function CommentList({ postId }: { postId: number }) {
-  const { data: comments, isLoading } = useQuery<Comment[]>({
+  const { data: comments, isLoading } = useQuery<ApiResponse<Comment[]>>({
     queryKey: ["post", postId, "comments"],
     queryFn: async () => await getCommentsByPostId(postId),
   });
 
-  if (comments && comments.length === 0) {
+  if (comments && comments.result.length === 0) {
     return (
       <div className="mt-4 flex w-full items-center justify-center text-slate-500">
         댓글이 없습니다. 첫번째 댓글을 달아보세요!
@@ -27,7 +28,7 @@ export default function CommentList({ postId }: { postId: number }) {
       noShadow={true}
     >
       <ul className="flex w-full flex-col gap-6">
-        {comments?.map((comment) => (
+        {comments?.result.map((comment) => (
           <CommentListItem key={comment.id} comment={comment} />
         ))}
       </ul>
