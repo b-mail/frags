@@ -6,7 +6,7 @@ export default function MyPageLayout({ children }: { children: ReactNode }) {
   return (
     <ProtectedRoute>
       <div className="flex items-start justify-center gap-10">
-        <div className="flex w-60 flex-col gap-2 rounded-2xl bg-slate-900 p-6">
+        <div className="flex w-60 flex-col gap-2 rounded-2xl bg-slate-900 p-6 shadow-2xl">
           <Link
             className="rounded-2xl p-4 text-slate-500 hover:bg-slate-800 hover:text-green-400"
             href="/me"
