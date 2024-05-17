@@ -8,9 +8,11 @@ export default async function PostsLayout({
   children: ReactNode;
   params: { fragId: string };
 }) {
+  const fragId = Number(params.fragId);
+
   return (
     <div className="relative flex gap-10 ">
-      <PostSideBar fragId={params.fragId} />
+      <PostSideBar fragId={fragId} />
       {children}
     </div>
   );

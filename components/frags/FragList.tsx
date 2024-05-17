@@ -1,13 +1,14 @@
 "use client";
 
-import { Frag } from "@prisma/client";
-import FragListItem from "@/components/frags/FragListItem";
-import LoadingIndicator from "@/components/ui/LoadingIndicator";
+import { useEffect, useRef } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { getFrags } from "@/lib/api";
 import useAuth from "@/store/AuthStore";
-import { useEffect, useRef } from "react";
 import useFragSearch from "@/store/FragSearchStore";
+import FragListItem from "@/components/frags/FragListItem";
+import LoadingIndicator from "@/components/ui/LoadingIndicator";
+import { ApiResponse } from "@/lib/type";
+import { Frag } from "@prisma/client";
 
 export default function FragList() {
   const search = useFragSearch.use.search();
@@ -22,16 +23,11 @@ export default function FragList() {
   const {
     data,
     fetchNextPage,
-    isLoading,
     isSuccess,
+    isLoading,
     hasNextPage,
     isFetchingNextPage,
-  } = useInfiniteQuery<{
-    result: Frag[];
-    count: number;
-    hasNextPage: boolean;
-    nextPage: number;
-  }>({
+  } = useInfiniteQuery<ApiResponse<Frag[]>>({
     queryKey: ["frags", search, order, filter],
     queryFn: async ({ pageParam }) => {
       return await getFrags(accessToken as string, {
@@ -51,23 +47,23 @@ export default function FragList() {
 
   useEffect(() => {
     const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) {
+      if (entry.isIntersecting && !isFetchingNextPage) {
         fetchNextPage();
       }
     });
 
-    const nod = observeTargetRef.current;
+    const { current: target } = observeTargetRef;
 
-    if (nod) {
-      observer.observe(nod);
+    if (target) {
+      observer.observe(target);
     }
 
     return () => {
-      if (nod) {
-        observer.unobserve(nod);
+      if (target) {
+        observer.unobserve(target);
       }
     };
-  }, [observeTargetRef, hasNextPage, fetchNextPage]);
+  }, [observeTargetRef, hasNextPage, fetchNextPage, isFetchingNextPage]);
 
   return (
     <section className="flex flex-col gap-10">

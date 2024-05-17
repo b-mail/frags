@@ -9,6 +9,7 @@ import {
 import { Like } from "@prisma/client";
 import { MouseEventHandler, useEffect, useState } from "react";
 import useAuth from "@/store/AuthStore";
+import { ApiResponse } from "@/lib/type";
 
 export default function LikeButton({ postId }: { postId: number }) {
   const [isActive, setIsActive] = useState(false);
@@ -17,7 +18,7 @@ export default function LikeButton({ postId }: { postId: number }) {
   const accessToken = useAuth.use.accessToken();
   const queryClient = useQueryClient();
 
-  const { data } = useQuery<Like[]>({
+  const { data: likes } = useQuery<ApiResponse<Like[]>>({
     queryKey: ["post", postId, "likes"],
     queryFn: async () => await getLikesByPostId(postId),
   });
@@ -51,6 +52,7 @@ export default function LikeButton({ postId }: { postId: number }) {
       );
     },
   });
+
   const { mutate: unlike, isPending: isUnlikePending } = useMutation({
     mutationFn: async () =>
       await unlikePostByPostId(accessToken as string, postId),
@@ -86,8 +88,10 @@ export default function LikeButton({ postId }: { postId: number }) {
   };
 
   useEffect(() => {
-    setIsActive(data?.some((like) => like.userId === user?.id) ?? false);
-  }, [data, user]);
+    setIsActive(
+      likes?.result.some((like) => like.userId === user?.id) ?? false,
+    );
+  }, [likes, user]);
 
   return (
     <button
@@ -114,7 +118,7 @@ export default function LikeButton({ postId }: { postId: number }) {
         )}
       </svg>
       <span className="text-xl font-bold text-slate-400">
-        {data?.length ?? 0}
+        {likes?.result.length ?? 0}
       </span>
     </button>
   );

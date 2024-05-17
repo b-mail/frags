@@ -27,7 +27,7 @@ export async function GET(
     );
   }
 
-  await prisma.post.update({
+  const updatedPost = await prisma.post.update({
     where: {
       id: postId,
     },
@@ -38,7 +38,7 @@ export async function GET(
     },
   });
 
-  return NextResponse.json(post);
+  return NextResponse.json({ result: updatedPost });
 }
 
 export async function DELETE(

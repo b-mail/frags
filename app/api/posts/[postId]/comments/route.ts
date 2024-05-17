@@ -14,7 +14,7 @@ export async function GET(
     },
   });
 
-  return NextResponse.json(comments);
+  return NextResponse.json({ result: comments });
 }
 
 export async function POST(

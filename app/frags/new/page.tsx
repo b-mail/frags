@@ -26,7 +26,6 @@ export default function NewFragPage() {
       queryClient.invalidateQueries({
         queryKey: ["frags"],
       });
-
       router.push("/frags");
     },
   });

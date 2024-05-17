@@ -20,5 +20,5 @@ export async function GET(
     );
   }
 
-  return NextResponse.json(frag);
+  return NextResponse.json({ result: frag });
 }

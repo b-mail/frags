@@ -8,6 +8,7 @@ import { useMemo } from "react";
 import useAuth from "@/store/AuthStore";
 import Link from "next/link";
 import LoadingModal from "@/components/ui/LoadingModal";
+import { ApiResponse } from "@/lib/type";
 
 export default function FragListItem({ frag }: { frag: Frag }) {
   const { id, name, description, adminId } = frag;
@@ -17,9 +18,7 @@ export default function FragListItem({ frag }: { frag: Frag }) {
 
   const queryClient = useQueryClient();
 
-  const { data, isSuccess: isMemberSuccess } = useQuery<{
-    result: User[];
-  }>({
+  const { data, isSuccess: isMemberSuccess } = useQuery<ApiResponse<User[]>>({
     queryKey: ["frag", frag.id, "members"],
     queryFn: async ({ queryKey }) => getUsersByFragId(queryKey[1] as number),
     staleTime: 1000 * 60 * 10,

@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/db";
 import { authenticateByFragId } from "@/lib/autheticate";
-
 export async function GET(
   req: NextRequest,
   { params }: { params: { fragId: string } },
@@ -24,62 +23,42 @@ export async function GET(
       { status: 400 },
     );
   }
+
+  const searchCondition = search
+    ? {
+        OR: [
+          {
+            title: {
+              contains: search,
+            },
+          },
+          {
+            content: {
+              contains: search,
+            },
+          },
+          {
+            user: {
+              name: {
+                contains: search,
+              },
+            },
+          },
+        ],
+      }
+    : {};
+
   const count = await prisma.post.count({
     where: {
-      AND: [
-        {
-          fragId,
-        },
-        search
-          ? {
-              OR: [
-                {
-                  title: {
-                    contains: search,
-                  },
-                },
-                {
-                  content: {
-                    contains: search,
-                  },
-                },
-                {
-                  user: {
-                    name: {
-                      contains: search,
-                    },
-                  },
-                },
-              ],
-            }
-          : { fragId },
-      ],
+      fragId,
+      ...searchCondition,
     },
   });
 
   const posts = await prisma.post.findMany({
     where: {
-      AND: [
-        {
-          fragId,
-        },
-        search
-          ? {
-              OR: [
-                {
-                  title: {
-                    contains: search,
-                  },
-                },
-                {
-                  content: {
-                    contains: search,
-                  },
-                },
-              ],
-            }
-          : { fragId },
-      ],
+      fragId,
+      ...searchCondition,
     },
     orderBy: {
       createdAt: "desc",
@@ -88,9 +67,6 @@ export async function GET(
       likes: {
         where: {
           isActive: true,
-        },
-        select: {
-          id: true,
         },
       },
     },
@@ -101,13 +77,24 @@ export async function GET(
   const hasNextPage = count > Number(page) * Number(limit) + Number(limit);
   const nextPage = hasNextPage ? Number(page) + 1 : null;
 
-  if (order === "like") {
-    posts.sort((a, b) => {
-      return b.likes.length - a.likes.length;
-    });
-  }
+  const sorted = posts.sort((a, b) => {
+    return b.likes.length - a.likes.length;
+  });
 
-  return NextResponse.json({ result: posts, count, hasNextPage, nextPage });
+  const result = sorted.map(
+    ({ id, fragId, userId, title, content, view, createdAt, updatedAt }) => ({
+      id,
+      fragId,
+      userId,
+      title,
+      content,
+      view,
+      createdAt,
+      updatedAt,
+    }),
+  );
+
+  return NextResponse.json({ result, hasNextPage, nextPage });
 }
 
 export async function POST(

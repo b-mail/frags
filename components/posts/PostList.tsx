@@ -9,6 +9,7 @@ import useAuth from "@/store/AuthStore";
 import usePostSearch from "@/store/PostSearchStore";
 import PostListItem from "@/components/posts/PostListItem";
 import LoadingContainer from "@/components/ui/LoadingContainer";
+import { ApiResponse } from "@/lib/type";
 
 export default function PostList({ fragId }: { fragId: number }) {
   const search = usePostSearch.use.search();
@@ -26,12 +27,7 @@ export default function PostList({ fragId }: { fragId: number }) {
     isFetchingNextPage,
     fetchNextPage,
     hasNextPage,
-  } = useInfiniteQuery<{
-    result: Post;
-    count: number;
-    hasNextPage: boolean;
-    nextPage: number;
-  }>({
+  } = useInfiniteQuery<ApiResponse<Post[]>>({
     queryKey: ["frag", fragId, "posts", search, order],
     queryFn: async ({ pageParam }) =>
       await getPostsByFragId(accessToken as string, fragId, {
@@ -58,7 +54,7 @@ export default function PostList({ fragId }: { fragId: number }) {
       message={"게시글 목록 불러오는 중 "}
     >
       <div className=" flex w-full flex-col gap-6">
-        {data?.pages.flat()[0].count === 0 ? (
+        {data?.pages.flat()[0].result.length === 0 ? (
           <p className=" rounded-2xl bg-slate-900 px-10 py-4 text-center text-slate-500 shadow-2xl">
             표시할 게시글이 없습니다.
           </p>
