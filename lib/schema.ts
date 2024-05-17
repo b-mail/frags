@@ -34,3 +34,25 @@ export const registerSchema = loginSchema.merge(
 );
 
 export type RegisterFields = z.infer<typeof registerSchema>;
+
+export const postSchema = z.object({
+  title: z
+    .string()
+    .min(1, "제목을 입력해주세요")
+    .max(20, "제목은 20글자 이하로 입력해주세요."),
+  content: z
+    .string()
+    .min(1, "본문을 입력해주세요")
+    .max(500, "본문은 500글자 이하로 입력해주세요."),
+});
+
+export type PostFields = z.infer<typeof postSchema>;
+
+export const commentSchema = z.object({
+  content: z
+    .string()
+    .min(1, "내용을 입력해주세요")
+    .max(100, "내용은 100글자 이하로 입력해주세요."),
+});
+
+export type CommentFields = z.infer<typeof commentSchema>;

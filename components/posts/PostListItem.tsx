@@ -1,10 +1,11 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
 import {
   getCommentsByPostId,
   getLikesByPostId,
+  getPostByPostId,
   getUserByUserId,
 } from "@/lib/api";
 import { Comment, Like, Post, User } from "@prisma/client";
@@ -13,6 +14,7 @@ import CommentBadge from "@/components/posts/CommentBadge";
 import UserBadge from "@/components/ui/UserBadge";
 import ViewBadge from "@/components/ui/ViewBadge";
 import { ApiResponse } from "@/lib/type";
+import PulseContainer from "@/components/ui/PulseContainer";
 
 export default function PostListItem({ post }: { post: Post }) {
   const { id, title, userId, fragId, view } = post;
@@ -35,18 +37,20 @@ export default function PostListItem({ post }: { post: Post }) {
   });
 
   return (
-    <li className="flex items-center justify-between ">
+    <li className="flex h-10 items-center justify-between">
       <Link
         className="line-clamp-1 w-80 text-white hover:text-green-400"
         href={`/frags/${fragId}/posts/${id}`}
       >
         {title}
       </Link>
-      <div className="flex w-96 items-center justify-end gap-2">
-        <UserBadge userName={author?.result.name ?? "홍길동"} />
-        <ViewBadge view={view} />
-        <LikeBadge count={likes?.result.length ?? 0} />
-        <CommentBadge count={comments?.result.length ?? 0} />
+      <div className="flex h-full w-1/2 items-center justify-end gap-2">
+        <PulseContainer isLoading={!author || !likes || !comments}>
+          <UserBadge userName={author?.result.name ?? "홍길동"} />
+          <ViewBadge view={view} />
+          <LikeBadge count={likes?.result.length ?? 0} />
+          <CommentBadge count={comments?.result.length ?? 0} />
+        </PulseContainer>
       </div>
     </li>
   );

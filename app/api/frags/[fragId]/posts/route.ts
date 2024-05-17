@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/db";
 import { authenticateByFragId } from "@/lib/autheticate";
+import { postSchema } from "@/lib/schema";
 export async function GET(
   req: NextRequest,
   { params }: { params: { fragId: string } },
@@ -77,11 +78,27 @@ export async function GET(
   const hasNextPage = count > Number(page) * Number(limit) + Number(limit);
   const nextPage = hasNextPage ? Number(page) + 1 : null;
 
-  const sorted = posts.sort((a, b) => {
-    return b.likes.length - a.likes.length;
-  });
+  if (order === "like") {
+    const sorted = posts.sort((a, b) => {
+      return b.likes.length - a.likes.length;
+    });
+    const result = sorted.map(
+      ({ id, fragId, userId, title, content, view, createdAt, updatedAt }) => ({
+        id,
+        fragId,
+        userId,
+        title,
+        content,
+        view,
+        createdAt,
+        updatedAt,
+      }),
+    );
 
-  const result = sorted.map(
+    return NextResponse.json({ result, hasNextPage, nextPage });
+  }
+
+  const result = posts.map(
     ({ id, fragId, userId, title, content, view, createdAt, updatedAt }) => ({
       id,
       fragId,
@@ -109,6 +126,15 @@ export async function POST(
   }
 
   const body = await req.json();
+  try {
+    postSchema.parse(body);
+  } catch (error) {
+    return NextResponse.json(
+      { message: "입력한 정보가 올바르지 않습니다." },
+      { status: 400 },
+    );
+  }
+
   const { title, content } = body;
 
   const newPost = await prisma.post.create({

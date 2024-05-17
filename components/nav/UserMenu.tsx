@@ -23,7 +23,6 @@ export default function UserMenu({
   const router = useRouter();
 
   const { mutate, isPending } = useMutation({
-    mutationKey: ["logout"],
     mutationFn: async () => await logout(),
     onSettled: () => {
       setUser(null);

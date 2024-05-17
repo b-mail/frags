@@ -20,30 +20,24 @@ export default function FragList() {
 
   const observeTargetRef = useRef<HTMLDivElement>(null);
 
-  const {
-    data,
-    fetchNextPage,
-    isSuccess,
-    isLoading,
-    hasNextPage,
-    isFetchingNextPage,
-  } = useInfiniteQuery<ApiResponse<Frag[]>>({
-    queryKey: ["frags", search, order, filter],
-    queryFn: async ({ pageParam }) => {
-      return await getFrags(accessToken as string, {
-        page: pageParam as number,
-        limit: 6,
-        search: search ? search : undefined,
-        order: order,
-        member: filter === "member" ? user?.id : undefined,
-        admin: filter === "admin" ? user?.id : undefined,
-      });
-    },
-    enabled: !!accessToken,
-    initialPageParam: 0,
-    getNextPageParam: (lastPage) =>
-      lastPage.hasNextPage ? lastPage.nextPage : undefined,
-  });
+  const { data, fetchNextPage, isLoading, hasNextPage, isFetchingNextPage } =
+    useInfiniteQuery<ApiResponse<Frag[]>>({
+      queryKey: ["frags", search, order, filter],
+      queryFn: async ({ pageParam }) => {
+        return await getFrags(accessToken as string, {
+          page: pageParam as number,
+          limit: 6,
+          search: search ? search : undefined,
+          order: order,
+          member: filter === "member" ? user?.id : undefined,
+          admin: filter === "admin" ? user?.id : undefined,
+        });
+      },
+      enabled: !!accessToken,
+      initialPageParam: 0,
+      getNextPageParam: (lastPage) =>
+        lastPage.hasNextPage ? lastPage.nextPage : undefined,
+    });
 
   useEffect(() => {
     const observer = new IntersectionObserver(([entry]) => {
@@ -67,7 +61,7 @@ export default function FragList() {
 
   return (
     <section className="flex flex-col gap-10">
-      {isLoading || !isSuccess ? (
+      {!accessToken || isLoading ? (
         <LoadingIndicator message="FRAGS 불러오는 중" />
       ) : (
         <ul className="flex list-none flex-col gap-10">

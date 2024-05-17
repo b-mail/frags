@@ -15,7 +15,7 @@ export default function BioInput({
   return (
     <div className="flex flex-col gap-4">
       <label className="text-xl font-bold" htmlFor="bio">
-        한 줄 소개{" "}
+        한 줄 소개
         <span
           className={`ml-2 text-sm font-medium ${length > 20 ? "text-red-400" : "text-slate-500"}`}
         >
