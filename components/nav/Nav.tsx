@@ -9,6 +9,7 @@ import { refresh } from "@/lib/api";
 import { useMutation } from "@tanstack/react-query";
 import Image from "next/image";
 import PulseContainer from "@/components/ui/PulseContainer";
+import { usePathname } from "next/navigation";
 
 export default function Nav() {
   const [isActive, setIsActive] = useState(false);
@@ -18,6 +19,8 @@ export default function Nav() {
   const setAccessToken = useAuth.use.setAccessToken();
   const isRefreshing = useAuth.use.isRefreshing();
   const setIsRefreshing = useAuth.use.setIsRefreshing();
+
+  const pathname = usePathname();
 
   const { mutate } = useMutation({
     mutationKey: ["refresh"],
@@ -39,6 +42,10 @@ export default function Nav() {
       mutate();
     }
   }, []);
+
+  useEffect(() => {
+    setIsActive(false);
+  }, [pathname]);
 
   return (
     <>
