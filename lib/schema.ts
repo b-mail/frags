@@ -44,7 +44,8 @@ export const fragSchema = z.object({
   description: z
     .string()
     .min(1, "FRAG 설명을 입력해주세요")
-    .max(100, "FRAG 설명은 100글자 이하로 입력해주세요."),
+    .min(10, "FRAG 설명은 10글자 이상, 100글자 이하로 입력해주세요.")
+    .max(100, "FRAG 설명은 10글자 이상, 100글자 이하로 입력해주세요."),
 });
 
 export type FragFields = z.infer<typeof fragSchema>;

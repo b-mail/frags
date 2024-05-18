@@ -6,6 +6,7 @@ import CommentListItem from "@/components/comments/CommentListItem";
 import LoadingContainer from "@/components/ui/LoadingContainer";
 import { ApiResponse } from "@/lib/type";
 import { Comment } from "@prisma/client";
+import { Attributes, ButtonHTMLAttributes, HTMLProps } from "react";
 
 export default function CommentList({ postId }: { postId: number }) {
   const { data: comments, isLoading } = useQuery<ApiResponse<Comment[]>>({
@@ -29,7 +30,10 @@ export default function CommentList({ postId }: { postId: number }) {
     >
       <ul className="flex w-full flex-col gap-6">
         {comments?.result.map((comment) => (
-          <CommentListItem key={comment.id} comment={comment} />
+          <>
+            <CommentListItem key={comment.id} comment={comment} />
+            <hr className="w-full border border-slate-700" />
+          </>
         ))}
       </ul>
     </LoadingContainer>

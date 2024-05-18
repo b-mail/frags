@@ -29,7 +29,7 @@ export default function PostSideBar({ fragId }: { fragId: number }) {
   return (
     <>
       <div
-        className={`${isActive ? "left-0" : "-left-60"} fixed  top-24 flex w-60 flex-col items-center gap-6 rounded-r-2xl bg-slate-900 bg-opacity-70 p-6 shadow-2xl backdrop-blur-md transition-all`}
+        className={`${isActive ? "left-0" : "-left-60"} fixed  top-24 flex w-60 flex-col items-center gap-6 rounded-r-2xl bg-slate-900 p-6 shadow-2xl transition-all duration-500`}
       >
         <h1 className="text-2xl font-bold">{frag?.result.name ?? ""}</h1>
         <Link
@@ -48,7 +48,7 @@ export default function PostSideBar({ fragId }: { fragId: number }) {
         )}
       </div>
       <button
-        className={`${isActive ? "left-60" : "left-0"} fixed top-32 h-24 w-8 rounded-r-lg bg-slate-900 shadow-2xl transition-all`}
+        className={`${isActive ? "left-60" : "left-0"} fixed top-32 h-24 w-8 rounded-r-lg bg-slate-900 shadow-2xl transition-all duration-500`}
         onClick={toggleActive}
       >
         {isActive ? (

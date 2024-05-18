@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/db";
 import { authenticate } from "@/lib/autheticate";
+import { fragSchema } from "@/lib/schema";
 
 export async function GET(req: NextRequest) {
   const page = req.nextUrl.searchParams.get("page");
@@ -113,6 +114,14 @@ export async function POST(req: NextRequest) {
   }
 
   const body = await req.json();
+  try {
+    fragSchema.parse(body);
+  } catch (error) {
+    if (error instanceof Error) {
+      return NextResponse.json({ message: error.message }, { status: 400 });
+    }
+  }
+
   const { name, description } = body;
   try {
     const frag = await prisma.frag.create({
