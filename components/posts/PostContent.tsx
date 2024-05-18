@@ -1,7 +1,11 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
-import { getPostByPostId, getUserByUserId } from "@/lib/api";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  deletePostByPostId,
+  getPostByPostId,
+  getUserByUserId,
+} from "@/lib/api";
 import { Post, User } from "@prisma/client";
 import useAuth from "@/store/AuthStore";
 import UserBadge from "@/components/ui/UserBadge";
@@ -10,9 +14,21 @@ import TimeBadge from "@/components/ui/TimeBadge";
 import LikeButton from "@/components/posts/LikeButton";
 import LoadingContainer from "@/components/ui/LoadingContainer";
 import { ApiResponse } from "@/lib/type";
+import { useState } from "react";
+import PostForm from "@/components/posts/PostForm";
+import DeleteButton from "@/components/ui/DeleteButton";
+import EditButton from "@/components/ui/EditButton";
+import { useRouter } from "next/navigation";
+import LoadingModal from "@/components/ui/LoadingModal";
 
 export default function PostContent({ postId }: { postId: number }) {
+  const [editMode, setEditMode] = useState(false);
+
+  const user = useAuth.use.user();
   const accessToken = useAuth.use.accessToken();
+
+  const queryClient = useQueryClient();
+  const router = useRouter();
 
   const {
     data: post,
@@ -30,31 +46,66 @@ export default function PostContent({ postId }: { postId: number }) {
     enabled: isSuccessPost,
   });
 
+  const { mutate: deletePost, isPending: isDeleting } = useMutation({
+    mutationFn: async () =>
+      await deletePostByPostId(accessToken as string, postId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["frag", post?.result.fragId],
+      });
+      router.push(`/frags/${post?.result.fragId}/posts`);
+    },
+  });
+
   return (
     <LoadingContainer
       isLoading={!accessToken || isLoadingPost || isLoadingUser}
       message={"게시글 불러오는 중"}
     >
+      {editMode && (
+        <div className="fixed left-0 top-0 z-50 flex h-full w-full items-center justify-center bg-slate-900 bg-opacity-70 backdrop-blur-md">
+          <PostForm
+            fragId={post?.result.fragId!}
+            initialValues={post?.result}
+            targetId={post?.result.id}
+            close={() => setEditMode(false)}
+          />
+        </div>
+      )}
+      {isDeleting && <LoadingModal message={"게시글 삭제 중"} />}
       <article className="flex flex-col gap-6 rounded-2xl bg-slate-900 p-10 shadow-2xl">
         <section className="flex flex-col items-start justify-start gap-6 ">
           <h1 className="text-2xl font-bold">{post?.result.title}</h1>
-          <div className="flex w-full items-center justify-start gap-2">
-            <UserBadge
-              userName={author?.name ?? "홍길동"}
-              enableIcon={true}
-              className="bg-slate-800"
-            />
-            <DateBadge
-              date={
-                post?.result.createdAt
-                  .toString()
-                  .slice(0, 10)
-                  .replaceAll("-", ". ") ?? "yyyy. mm. dd"
-              }
-            />
-            <TimeBadge
-              time={post?.result.createdAt.toString().slice(11, 16) ?? "tt:mm"}
-            />
+          <div className="flex w-full items-center justify-between">
+            <div className="flex items-center gap-2">
+              <UserBadge
+                userName={author?.name ?? "홍길동"}
+                enableIcon={true}
+                className="bg-slate-800"
+              />
+              <DateBadge
+                date={
+                  post?.result.createdAt
+                    .toString()
+                    .slice(0, 10)
+                    .replaceAll("-", ". ") ?? "yyyy. mm. dd"
+                }
+              />
+              <TimeBadge
+                time={
+                  post?.result.createdAt.toString().slice(11, 16) ?? "tt:mm"
+                }
+              />
+            </div>
+            {post?.result.userId === user?.id && (
+              <div className="flex items-center gap-2">
+                <EditButton onClick={() => setEditMode(true)} />
+                <DeleteButton
+                  onClick={() => deletePost()}
+                  disabled={isDeleting}
+                />
+              </div>
+            )}
           </div>
         </section>
         <hr className="w-full border border-slate-700" />

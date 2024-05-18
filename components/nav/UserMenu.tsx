@@ -35,8 +35,10 @@ export default function UserMenu({
     mutate();
   };
 
-  return isActive && user ? (
-    <div className="absolute top-16 flex w-60 flex-col gap-4 rounded-b-2xl bg-slate-900 p-6 shadow-2xl">
+  return (
+    <div
+      className={`${isActive ? "top-16" : "-top-80"} fixed right-6 z-30 flex w-60 flex-col gap-4 rounded-b-2xl bg-slate-900 p-6 shadow-2xl transition-all duration-500`}
+    >
       {isPending && <LoadingModal message={"로그아웃 중"} />}
       <div className="flex flex-col gap-2">
         <div className="text-xl font-bold">{name}</div>
@@ -58,5 +60,5 @@ export default function UserMenu({
         로그아웃
       </button>
     </div>
-  ) : null;
+  );
 }

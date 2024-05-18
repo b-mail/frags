@@ -1,23 +1,28 @@
 "use client";
 
-import { useState } from "react";
-import useAuth from "@/store/AuthStore";
-import { useQueryClient } from "@tanstack/react-query";
+import { MouseEventHandler, useState } from "react";
 import { useRouter } from "next/navigation";
-import { createPost } from "@/lib/api";
-import Link from "next/link";
-import LoadingModal from "@/components/ui/LoadingModal";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { PostFields, postSchema } from "@/lib/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useQueryClient } from "@tanstack/react-query";
+import { createPost, updatePostByPostId } from "@/lib/api";
+import { PostFields, postSchema } from "@/lib/schema";
+import useAuth from "@/store/AuthStore";
+import LoadingModal from "@/components/ui/LoadingModal";
 import ErrorMessage from "@/components/ui/ErrorMessage";
+import { ApiResponse } from "@/lib/type";
+import { Post } from "@prisma/client";
 
 export default function PostForm({
   fragId,
   initialValues = { title: "", content: "" },
+  targetId,
+  close,
 }: {
   fragId: number;
-  initialValues?: { title: string; content: string };
+  initialValues?: PostFields;
+  targetId?: number;
+  close?: () => void;
 }) {
   const [error, setError] = useState({
     message: "",
@@ -34,17 +39,74 @@ export default function PostForm({
     formState: { errors, isSubmitting },
   } = useForm<PostFields>({
     resolver: zodResolver(postSchema),
+    defaultValues: initialValues,
   });
 
   const onSubmit: SubmitHandler<PostFields> = async (data) => {
     try {
-      await createPost(accessToken!, fragId, data);
-      queryClient.invalidateQueries({ queryKey: ["frag", fragId, "posts"] });
-      router.push(`/frags/${fragId}/posts`);
+      if (targetId && close) {
+        const updatedPost: ApiResponse<Post> = await updatePostByPostId(
+          accessToken!,
+          targetId,
+          data,
+        );
+
+        await queryClient.cancelQueries({
+          queryKey: ["post", targetId],
+        });
+
+        const prevPost = queryClient.getQueryData<ApiResponse<Post>>([
+          "post",
+          targetId,
+        ]);
+
+        queryClient.setQueryData(["post", targetId], {
+          ...prevPost,
+          result: updatedPost.result,
+        });
+
+        queryClient.invalidateQueries({ queryKey: ["post", targetId] });
+        close();
+      } else {
+        const newPost: ApiResponse<Post> = await createPost(
+          accessToken!,
+          fragId,
+          data,
+        );
+
+        await queryClient.cancelQueries({
+          queryKey: ["frag", fragId, "posts"],
+          exact: false,
+        });
+
+        const prevPosts: any = queryClient.getQueryData([
+          "frag",
+          fragId,
+          "posts",
+          "",
+          "latest",
+        ]);
+
+        queryClient.setQueryData(["frag", fragId, "posts", "", "latest"], {
+          ...prevPosts,
+          pages: [{ result: [newPost?.result] }, ...prevPosts!.pages],
+        });
+
+        queryClient.invalidateQueries({ queryKey: ["frag", fragId, "posts"] });
+        router.push(`/frags/${fragId}/posts`);
+      }
     } catch (error) {
       if (error instanceof Error) {
         setError(error);
       }
+    }
+  };
+
+  const handleCancel: MouseEventHandler<HTMLButtonElement> = () => {
+    if (targetId && close) {
+      close();
+    } else {
+      router.push(`/frags/${fragId}/posts`);
     }
   };
 
@@ -53,7 +115,11 @@ export default function PostForm({
       className="flex flex-col gap-4 rounded-2xl bg-slate-900 p-10 shadow-2xl"
       onSubmit={handleSubmit(onSubmit)}
     >
-      {isSubmitting && <LoadingModal message={"게시글 업로드 중"} />}
+      {isSubmitting && (
+        <LoadingModal
+          message={targetId ? "게시글 수정 중" : "게시글 업로드 중"}
+        />
+      )}
       <label className="text-xl font-bold" htmlFor="title">
         제목
         <span
@@ -94,12 +160,12 @@ export default function PostForm({
         <div className="grow">
           {error.message && <ErrorMessage message={error.message} />}
         </div>
-        <Link
+        <button
           className="flex h-12 w-14 items-center justify-center rounded-2xl bg-slate-800 text-center text-slate-400 hover:text-red-400"
-          href={`/frags/${fragId}/posts`}
+          onClick={handleCancel}
         >
           취소
-        </Link>
+        </button>
         <button
           className="h-12 w-24 rounded-2xl bg-green-400 font-bold text-slate-900 hover:bg-green-500 disabled:bg-slate-500"
           type={"submit"}

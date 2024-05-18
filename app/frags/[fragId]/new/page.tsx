@@ -32,7 +32,7 @@ export default function NewPostPage({
           <p className="mb-4">게시글 작성 전, 주의 사항을 꼭 읽어주세요!</p>
           <ol className="flex list-decimal flex-col items-start justify-center gap-6 px-4 pb-8 text-sm">
             <li className="text-slate-400">
-              FRAG의 분위기와 주제에 어울리는 글을 작성해주세요.
+              FRAG의 주제에 어울리는 글을 작성해주세요.
             </li>
             <li className="text-slate-400">
               게시글에 본인 혹은 타인의 개인정보를 포함시키지 마세요.

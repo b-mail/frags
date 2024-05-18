@@ -241,6 +241,24 @@ export async function createPost(
   return res.data;
 }
 
+export async function updatePostByPostId(
+  token: string,
+  postId: number | string,
+  body: { title: string; content: string },
+) {
+  const res = await axios.put(`/posts/${postId}`, body, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (res.status >= 400) {
+    throw new Error(res.data.message);
+  }
+
+  return res.data;
+}
+
 export async function deletePostByPostId(
   token: string,
   postId: number | string,
@@ -276,6 +294,24 @@ export async function createCommentByPostId(
   body: { content: string },
 ) {
   const res = await axios.post(`/posts/${postId}/comments`, body, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (res.status >= 400) {
+    throw new Error(res.data.message);
+  }
+
+  return res.data;
+}
+
+export async function updateCommentByCommentId(
+  token: string,
+  commentId: number | string,
+  body: { content: string },
+) {
+  const res = await axios.put(`/comments/${commentId}`, body, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
