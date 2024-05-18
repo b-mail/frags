@@ -24,8 +24,7 @@ export default function LikeButton({ postId }: { postId: number }) {
   });
 
   const { mutate: like, isPending: isLikePending } = useMutation({
-    mutationFn: async () =>
-      await likePostByPostId(accessToken as string, postId),
+    mutationFn: async () => await likePostByPostId(accessToken!, postId),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["post", postId, "likes"],
@@ -48,8 +47,7 @@ export default function LikeButton({ postId }: { postId: number }) {
   });
 
   const { mutate: unlike, isPending: isUnlikePending } = useMutation({
-    mutationFn: async () =>
-      await unlikePostByPostId(accessToken as string, postId),
+    mutationFn: async () => await unlikePostByPostId(accessToken!, postId),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["post", postId, "likes"],

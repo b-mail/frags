@@ -24,7 +24,7 @@ export default function FragList() {
     useInfiniteQuery<ApiResponse<Frag[]>>({
       queryKey: ["frags", search, order, filter],
       queryFn: async ({ pageParam }) => {
-        return await getFrags(accessToken as string, {
+        return await getFrags(accessToken!, {
           page: pageParam as number,
           limit: 6,
           search: search ? search : undefined,

@@ -21,13 +21,12 @@ export default function FragListItem({ frag }: { frag: Frag }) {
 
   const { data, isLoading } = useQuery<ApiResponse<User[]>>({
     queryKey: ["frag", frag.id, "members"],
-    queryFn: async ({ queryKey }) => getUsersByFragId(queryKey[1] as number),
+    queryFn: async () => await getUsersByFragId(frag.id),
     staleTime: 1000 * 60 * 10,
   });
 
   const { mutate, isPending } = useMutation({
-    mutationFn: async () =>
-      await joinFragByFragId(accessToken as string, frag.id),
+    mutationFn: async () => await joinFragByFragId(accessToken!, frag.id),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["frag", frag.id, "members"],

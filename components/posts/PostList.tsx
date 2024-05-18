@@ -30,7 +30,7 @@ export default function PostList({ fragId }: { fragId: number }) {
   } = useInfiniteQuery<ApiResponse<Post[]>>({
     queryKey: ["frag", fragId, "posts", search, order],
     queryFn: async ({ pageParam }) =>
-      await getPostsByFragId(accessToken as string, fragId, {
+      await getPostsByFragId(accessToken!, fragId, {
         page: pageParam as number,
         limit: 10,
         order,

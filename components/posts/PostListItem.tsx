@@ -1,11 +1,10 @@
 "use client";
 
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import {
   getCommentsByPostId,
   getLikesByPostId,
-  getPostByPostId,
   getUserByUserId,
 } from "@/lib/api";
 import { Comment, Like, Post, User } from "@prisma/client";
@@ -15,18 +14,9 @@ import UserBadge from "@/components/ui/UserBadge";
 import ViewBadge from "@/components/ui/ViewBadge";
 import { ApiResponse } from "@/lib/type";
 import PulseContainer from "@/components/ui/PulseContainer";
-import useAuth from "@/store/AuthStore";
 
 export default function PostListItem({ post }: { post: Post }) {
   const { id, title, userId, fragId, view } = post;
-
-  const accessToken = useAuth.use.accessToken();
-
-  const queryClient = useQueryClient();
-  queryClient.prefetchQuery({
-    queryKey: ["post", id],
-    queryFn: async () => await getPostByPostId(accessToken as string, id),
-  });
 
   const { data: author } = useQuery<ApiResponse<User>>({
     queryKey: ["user", userId],

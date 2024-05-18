@@ -36,22 +36,42 @@ export default function PostContent({ postId }: { postId: number }) {
     isSuccess: isSuccessPost,
   } = useQuery<ApiResponse<Post>>({
     queryKey: ["post", postId],
-    queryFn: async () => await getPostByPostId(accessToken as string, postId),
+    queryFn: async () => await getPostByPostId(accessToken!, postId),
     enabled: !!accessToken,
   });
 
   const { data: author, isLoading: isLoadingUser } = useQuery<User>({
     queryKey: ["user", post?.result.userId],
-    queryFn: async () => await getUserByUserId(post?.result.userId as number),
+    queryFn: async () => await getUserByUserId(post!.result.userId),
     enabled: isSuccessPost,
   });
 
   const { mutate: deletePost, isPending: isDeleting } = useMutation({
-    mutationFn: async () =>
-      await deletePostByPostId(accessToken as string, postId),
-    onSuccess: () => {
+    mutationFn: async () => await deletePostByPostId(accessToken!, postId),
+    onSuccess: async () => {
+      await queryClient.cancelQueries({
+        queryKey: ["frag", post?.result.fragId, "posts"],
+      });
+
+      const prevPosts = queryClient.getQueryData<{
+        pages: ApiResponse<Post[]>[];
+      }>(["frag", post?.result.fragId, "posts", "", "latest"]);
+
+      queryClient.setQueryData(
+        ["frag", post?.result.fragId, "posts", "", "latest"],
+        {
+          ...prevPosts,
+          pages: [...prevPosts!.pages].map((page) => {
+            return {
+              ...page,
+              result: page.result.filter((p) => p.id !== postId),
+            };
+          }),
+        },
+      );
+
       queryClient.invalidateQueries({
-        queryKey: ["frag", post?.result.fragId],
+        queryKey: ["frag", post?.result.fragId, "posts"],
       });
       router.push(`/frags/${post?.result.fragId}/posts`);
     },
