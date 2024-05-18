@@ -4,16 +4,9 @@ import Image from "next/image";
 export default function HomePage() {
   return (
     <div className="flex w-full flex-col items-center justify-center gap-16">
-      <Link href={"/color"}>
-        <div className=" flex items-center justify-center gap-10">
-          <Image
-            src={"/logo_filled.png"}
-            alt={"로고"}
-            width={250}
-            height={250}
-          />
-        </div>
-      </Link>
+      <div className=" flex items-center justify-center gap-10">
+        <Image src={"/logo_filled.png"} alt={"로고"} width={250} height={250} />
+      </div>
       <div className="flex flex-col gap-10" style={{ width: "48rem" }}>
         <div className="flex flex-col gap-4 rounded-2xl bg-slate-900 p-10 shadow-2xl">
           <h2 className="text-2xl font-bold text-green-400">FRAGS?</h2>
@@ -37,7 +30,7 @@ export default function HomePage() {
       </div>
       <div className="flex flex-col items-center justify-center gap-10">
         <Link
-          className="rounded-2xl bg-green-400 p-4 text-xl font-bold shadow-2xl hover:bg-green-500"
+          className="rounded-2xl bg-green-400 p-4 text-xl font-bold text-slate-900 shadow-2xl hover:bg-green-500"
           href="/frags"
         >
           FRAGS 살펴보기

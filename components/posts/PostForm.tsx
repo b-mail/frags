@@ -19,7 +19,7 @@ export default function PostForm({
   fragId: number;
   initialValues?: { title: string; content: string };
 }) {
-  const [error, setError] = useState<{ message: string }>({
+  const [error, setError] = useState({
     message: "",
   });
 
@@ -101,7 +101,7 @@ export default function PostForm({
           취소
         </Link>
         <button
-          className="h-12 w-24 rounded-2xl bg-green-400 font-bold hover:bg-green-500 disabled:bg-slate-500"
+          className="h-12 w-24 rounded-2xl bg-green-400 font-bold text-slate-900 hover:bg-green-500 disabled:bg-slate-500"
           type={"submit"}
           disabled={isSubmitting}
         >

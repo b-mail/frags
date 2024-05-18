@@ -33,7 +33,7 @@ export default function PostSideBar({ fragId }: { fragId: number }) {
       >
         <h1 className="text-2xl font-bold">{frag?.result.name ?? ""}</h1>
         <Link
-          className="w-full rounded-2xl bg-green-400 py-2 text-center font-bold hover:bg-green-500"
+          className="w-full rounded-2xl bg-green-400 py-2 text-center font-bold text-slate-900 hover:bg-green-500"
           href={`/frags/${fragId}/new`}
         >
           새 글 작성하기
@@ -48,7 +48,7 @@ export default function PostSideBar({ fragId }: { fragId: number }) {
         )}
       </div>
       <button
-        className={`${isActive ? "left-60" : "left-0"} fixed top-32 h-24 w-8 rounded-r-lg bg-slate-900 bg-opacity-70 shadow-2xl backdrop-blur-md transition-all`}
+        className={`${isActive ? "left-60" : "left-0"} fixed top-32 h-24 w-8 rounded-r-lg bg-slate-900 shadow-2xl transition-all`}
         onClick={toggleActive}
       >
         {isActive ? (

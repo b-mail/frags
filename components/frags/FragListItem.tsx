@@ -58,14 +58,14 @@ export default function FragListItem({ frag }: { frag: Frag }) {
           <PulseContainer isLoading={isLoading}>
             {isMember && (
               <Link
-                className="rounded-2xl bg-green-400 px-4 py-2 font-bold hover:bg-green-500"
+                className="rounded-2xl bg-green-400 px-4 py-2 font-bold text-slate-900 hover:bg-green-500"
                 href={`/frags/${id}/posts`}
               >
                 입장하기
               </Link>
             )}
             <button
-              className="rounded-2xl bg-green-400 px-4 py-2 font-bold hover:bg-green-500 disabled:bg-slate-800 disabled:hover:bg-slate-800"
+              className="rounded-2xl bg-green-400 px-4 py-2 font-bold text-slate-900 hover:bg-green-500 disabled:bg-slate-800 disabled:text-slate-500 disabled:hover:bg-slate-800"
               onClick={() => mutate()}
               disabled={isAdmin || isMember}
             >
