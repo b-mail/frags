@@ -1,6 +1,6 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
 import {
   getCommentsByPostId,
@@ -14,9 +14,12 @@ import UserBadge from "@/components/ui/UserBadge";
 import ViewBadge from "@/components/ui/ViewBadge";
 import { ApiResponse } from "@/lib/type";
 import PulseContainer from "@/components/ui/PulseContainer";
+import { useEffect } from "react";
 
 export default function PostListItem({ post }: { post: Post }) {
   const { id, title, userId, fragId, view } = post;
+
+  const queryClient = useQueryClient();
 
   const { data: author } = useQuery<ApiResponse<User>>({
     queryKey: ["user", userId],
@@ -34,6 +37,10 @@ export default function PostListItem({ post }: { post: Post }) {
     queryFn: async () => await getCommentsByPostId(id),
     staleTime: 1000 * 60 * 5,
   });
+
+  useEffect(() => {
+    queryClient.setQueryData(["post", id], { result: { ...post } });
+  }, []);
 
   return (
     <li className="flex h-10 items-center justify-between">

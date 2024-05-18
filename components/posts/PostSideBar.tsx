@@ -38,7 +38,9 @@ export default function PostSideBar({ fragId }: { fragId: number }) {
       <div
         className={`${isActive ? "left-0" : "-left-60"} fixed  top-24 flex w-60 flex-col items-center gap-6 rounded-r-2xl bg-slate-900 p-6 shadow-2xl transition-all duration-500`}
       >
-        <h1 className="text-2xl font-bold">{frag?.result.name ?? ""}</h1>
+        <Link className="text-2xl font-bold" href={`/frags/${fragId}/posts`}>
+          {frag?.result.name ?? ""}
+        </Link>
         <Link
           className="w-full rounded-2xl bg-green-400 py-2 text-center font-bold text-slate-900 hover:bg-green-500"
           href={`/frags/${fragId}/new`}
