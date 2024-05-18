@@ -3,14 +3,17 @@
 import { useQuery } from "@tanstack/react-query";
 import { getFragByFragId, getUsersByFragId } from "@/lib/api";
 import Link from "next/link";
-import { Suspense, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import LoadingIndicator from "@/components/ui/LoadingIndicator";
 import MemberList from "@/components/posts/MemberList";
 import { Frag, User } from "@prisma/client";
 import { ApiResponse } from "@/lib/type";
+import { usePathname } from "next/navigation";
 
 export default function PostSideBar({ fragId }: { fragId: number }) {
   const [isActive, setIsActive] = useState(false);
+
+  const pathname = usePathname();
 
   const { data: frag } = useQuery<ApiResponse<Frag>>({
     queryKey: ["frag", fragId],
@@ -25,6 +28,10 @@ export default function PostSideBar({ fragId }: { fragId: number }) {
   });
 
   const toggleActive = () => setIsActive(!isActive);
+
+  useEffect(() => {
+    setIsActive(false);
+  }, [pathname]);
 
   return (
     <>
