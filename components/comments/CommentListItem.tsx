@@ -31,7 +31,7 @@ export default function CommentListItem({ comment }: { comment: Comment }) {
 
   const { mutate: deleteComment, isPending: isDeleting } = useMutation({
     mutationFn: async () =>
-      await deleteCommentByCommentId(accessToken as string, comment.id),
+      await deleteCommentByCommentId(accessToken!, comment.id),
     onMutate: async () => {
       await queryClient.cancelQueries({
         queryKey: ["post", comment.postId, "comments"],
