@@ -12,6 +12,7 @@ export default function ProtectedRoute({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     if (!user && !isRefreshing) {
+      alert("로그인이 필요합니다.");
       router.push("/login");
     }
   }, [user, isRefreshing, router]);

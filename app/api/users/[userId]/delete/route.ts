@@ -103,15 +103,15 @@ export async function POST(
     });
   }
 
-  await prisma.frag.deleteMany({
-    where: {
-      adminId: userId,
-    },
-  });
-
   await prisma.userFragLink.deleteMany({
     where: {
       userId,
+    },
+  });
+
+  await prisma.frag.deleteMany({
+    where: {
+      adminId: userId,
     },
   });
 

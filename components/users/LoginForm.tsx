@@ -60,7 +60,7 @@ export default function LoginForm() {
       <PasswordInput register={register} error={errors.password?.message} />
       {error.message && <ErrorMessage message={error.message} />}
       <button
-        className="w-full rounded-2xl bg-green-400 py-4 text-lg font-bold hover:bg-green-500 disabled:bg-slate-500"
+        className="w-full rounded-2xl bg-green-400 py-4 text-lg font-bold text-slate-900 hover:bg-green-500 disabled:bg-slate-500"
         type="submit"
         disabled={isSubmitting}
       >

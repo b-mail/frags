@@ -35,6 +35,20 @@ export const registerSchema = loginSchema.merge(
 
 export type RegisterFields = z.infer<typeof registerSchema>;
 
+export const fragSchema = z.object({
+  name: z
+    .string()
+    .min(1, "FRAG 이름을 입력해주세요")
+    .min(2, "FRAG 이름은 2글자 이상, 10글자 이하로 입력해주세요.")
+    .max(10, "FRAG 이름은 2글자 이상, 10글자 이하로 입력해주세요."),
+  description: z
+    .string()
+    .min(1, "FRAG 설명을 입력해주세요")
+    .max(100, "FRAG 설명은 100글자 이하로 입력해주세요."),
+});
+
+export type FragFields = z.infer<typeof fragSchema>;
+
 export const postSchema = z.object({
   title: z
     .string()

@@ -1,95 +1,51 @@
-"use client";
-
-import { ChangeEventHandler, FormEventHandler, useState } from "react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createFrag } from "@/lib/api";
-import useAuth from "@/store/AuthStore";
-import { useRouter } from "next/navigation";
-import LoadingModal from "@/components/ui/LoadingModal";
+import FragForm from "@/components/frags/FragForm";
+import Image from "next/image";
 
 export default function NewFragPage() {
-  const accessToken = useAuth.use.accessToken();
-
-  const queryClient = useQueryClient();
-  const router = useRouter();
-
-  const [values, setValues] = useState({
-    name: "",
-    description: "",
-  });
-
-  const { mutate, isPending } = useMutation({
-    mutationFn: async () => {
-      await createFrag(accessToken as string, values);
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["frags"],
-      });
-      router.push("/frags");
-    },
-  });
-
-  const handleChange: ChangeEventHandler<
-    HTMLInputElement | HTMLTextAreaElement
-  > = (e) => {
-    const { name, value } = e.target;
-
-    setValues({
-      ...values,
-      [name]: value,
-    });
-  };
-
-  const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
-    e.preventDefault();
-    mutate();
-  };
-
   return (
-    <form
-      className="flex flex-col gap-10 rounded-2xl bg-slate-900 p-10 shadow-2xl"
-      onSubmit={handleSubmit}
-    >
-      {isPending && <LoadingModal message={"FRAG 생성 중"} />}
-      <div className="flex flex-col gap-4">
-        <h2 className="text-3xl font-bold">새 FRAG 만들기</h2>
-        <hr className="border border-slate-700" />
-      </div>
-      <div className="flex flex-col gap-4">
-        <label className="text-xl font-bold" htmlFor="name">
-          FRAG 이름
-        </label>
-        <input
-          className="rounded-2xl border-4 border-slate-700 bg-slate-800 p-4 placeholder:text-slate-500 focus:border-slate-500 focus:outline-0"
-          id="name"
-          name="name"
-          type="text"
-          placeholder="FRAG 이름을 입력해주세요!"
-          value={values.name}
-          onChange={handleChange}
-        />
-      </div>
-      <div className="flex flex-col gap-4">
-        <label className="text-xl font-bold" htmlFor="description">
-          FRAG 소개
-        </label>
-        <textarea
-          className="w-96 resize-none rounded-2xl border-4 border-slate-700 bg-slate-800 p-4 placeholder:text-slate-500 focus:border-slate-500 focus:outline-0"
-          id="description"
-          name="description"
-          placeholder="FRAG을 소개해보세요! "
-          value={values.description}
-          onChange={handleChange}
-        />
-      </div>
-      <button
-        className="rounded-2xl bg-green-400 py-2 text-lg font-bold hover:bg-green-500 disabled:bg-slate-500"
-        type="submit"
-        disabled={isPending}
-      >
-        완료
-      </button>
-    </form>
+    <div className="flex items-start justify-center gap-10">
+      <section className="flex w-96 flex-col justify-between gap-4 rounded-2xl bg-slate-900 p-10 shadow-2xl">
+        <div className="flex flex-col gap-4">
+          <h2 className="flex items-end gap-2 text-4xl font-bold">
+            <div className="relative size-9">
+              <Image src={"/logo_filled.png"} alt={"로고"} fill />
+            </div>
+            FRAG 만들기
+          </h2>
+          <hr className="border border-slate-800" />
+          <h3 className="flex items-center gap-2 text-lg font-bold">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="h-6 w-6 stroke-white"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z"
+              />
+            </svg>
+            FRAG이 무엇인가요?
+          </h3>
+          <div className="flex flex-col gap-4 rounded-2xl bg-slate-800 p-4 text-sm">
+            <p className="text-slate-400">
+              FRAG은 하나의 커뮤니티입니다. FRAG은 저마다의 성격과 주제가
+              정해져있습니다.
+            </p>
+            <p className="text-slate-400">
+              FRAG을 만들면, 그 안에서 자유롭게 글을 작성하고 공유할 수
+              있습니다.
+            </p>
+            <p className="text-slate-400">
+              지금 바로 자신만의 FRAG을 만들어 원하는 이야기를 해보세요!
+            </p>
+          </div>
+        </div>
+      </section>
+      <FragForm />
+    </div>
   );
 }

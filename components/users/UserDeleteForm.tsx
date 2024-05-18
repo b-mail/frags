@@ -11,6 +11,7 @@ import LoadingModal from "@/components/ui/LoadingModal";
 import ErrorMessage from "@/components/ui/ErrorMessage";
 import { LoginFields, loginSchema } from "@/lib/schema";
 import { deleteUserByUserId } from "@/lib/api";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function UserDeleteForm() {
   const [error, setError] = useState<{ message: string }>({
@@ -22,6 +23,7 @@ export default function UserDeleteForm() {
   const setUser = useAuth.use.setUser();
   const setAccessToken = useAuth.use.setAccessToken();
 
+  const queryClient = useQueryClient();
   const router = useRouter();
 
   const {
@@ -84,7 +86,7 @@ export default function UserDeleteForm() {
       <PasswordInput register={register} error={errors.password?.message} />
       {error.message && <ErrorMessage message={error.message} />}
       <button
-        className="w-full rounded-2xl bg-red-400 py-4 text-lg font-bold hover:bg-red-500 disabled:bg-slate-500"
+        className="w-full rounded-2xl bg-red-400 py-4 text-lg font-bold text-slate-900 hover:bg-red-500 disabled:bg-slate-500"
         type="submit"
         disabled={isSubmitting}
       >

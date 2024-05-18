@@ -9,7 +9,7 @@ export default function NewPostPage({
 
   return (
     <section className="flex items-start justify-center gap-10">
-      <section className="flex h-96 w-96 flex-col justify-between gap-4 rounded-2xl bg-slate-900 p-10 shadow-2xl">
+      <section className="flex w-96 flex-col justify-between gap-4 rounded-2xl bg-slate-900 p-10 shadow-2xl">
         <div className="flex flex-col gap-4">
           <h2 className="flex items-center gap-2 text-4xl font-bold">
             <svg
@@ -30,7 +30,7 @@ export default function NewPostPage({
           </h2>
           <hr className="border border-slate-800" />
           <p className="mb-4">게시글 작성 전, 주의 사항을 꼭 읽어주세요!</p>
-          <ol className="flex list-decimal flex-col items-start justify-center gap-6 px-4 text-sm">
+          <ol className="flex list-decimal flex-col items-start justify-center gap-6 px-4 pb-8 text-sm">
             <li className="text-slate-400">
               FRAG의 분위기와 주제에 어울리는 글을 작성해주세요.
             </li>
