@@ -37,7 +37,7 @@ export default function UserMenu({
 
   return (
     <div
-      className={`${isActive ? "top-16" : "-top-80"} fixed right-6 z-30 flex w-60 flex-col gap-4 rounded-b-2xl bg-slate-900 p-6 shadow-2xl transition-all duration-500`}
+      className={`${isActive ? "top-16" : "-top-80"} fixed right-6 z-20 flex w-60 flex-col gap-4 rounded-b-2xl bg-slate-900 p-6 shadow-2xl transition-all duration-500`}
     >
       {isPending && <LoadingModal message={"로그아웃 중"} />}
       <div className="flex flex-col gap-2">
