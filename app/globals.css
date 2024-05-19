@@ -12,3 +12,15 @@
 body {
   background-color: rgb(30 41 59);
 }
+
+.w-96 {
+  width: 24rem;
+}
+
+.w-128 {
+  width: 32rem;
+}
+
+.w-192 {
+  width: 48rem;
+}

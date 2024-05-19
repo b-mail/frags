@@ -129,8 +129,7 @@ export default function PostForm({
         </span>
       </label>
       <input
-        className={`${errors?.title ? "border-red-400 focus:border-red-400" : "border-slate-700 focus:border-slate-500"} overflow-scroll rounded-2xl border-4 bg-slate-800 p-4 placeholder:text-slate-400 focus:outline-0`}
-        style={{ width: "32rem" }}
+        className={`${errors?.title ? "border-red-400 focus:border-red-400" : "border-slate-700 focus:border-slate-500"} w-128 overflow-scroll rounded-2xl border-4 bg-slate-800 p-4 placeholder:text-slate-400 focus:outline-0`}
         id={"title"}
         placeholder="제목을 입력해주세요."
         {...register("title")}

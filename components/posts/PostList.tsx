@@ -53,7 +53,7 @@ export default function PostList({ fragId }: { fragId: number }) {
       isLoading={!accessToken || isLoading}
       message={"게시글 목록 불러오는 중"}
     >
-      <div className=" flex w-full flex-col gap-6">
+      <div className="flex w-full flex-col gap-6">
         {data?.pages.flat()[0].result.length === 0 ? (
           <p className=" rounded-2xl bg-slate-900 px-10 py-4 text-center text-slate-500 shadow-2xl">
             표시할 게시글이 없습니다.

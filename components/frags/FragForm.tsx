@@ -55,8 +55,7 @@ export default function FragForm() {
         FRAG 이름
       </label>
       <input
-        className={`${errors?.name ? "border-red-400 focus:border-red-400" : "border-slate-700 focus:border-slate-500"} overflow-scroll rounded-2xl border-4 bg-slate-800 p-4 placeholder:text-slate-400 focus:outline-0`}
-        style={{ width: "32rem" }}
+        className={`${errors?.name ? "border-red-400 focus:border-red-400" : "border-slate-700 focus:border-slate-500"} w-128 overflow-scroll rounded-2xl border-4 bg-slate-800 p-4 placeholder:text-slate-400 focus:outline-0`}
         id={"name"}
         placeholder="2글자 이상, 10글자 이하로 입력해주세요"
         {...register("name")}

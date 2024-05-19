@@ -74,10 +74,7 @@ export default function FragListItem({ frag }: { frag: Frag }) {
         </div>
       </div>
       <hr className="w-full border border-slate-700" />
-      <div
-        className="rounded-2xl bg-slate-800 p-4 text-slate-500"
-        style={{ width: "48rem" }}
-      >
+      <div className="w-192 rounded-2xl bg-slate-800 p-4 text-slate-500 ">
         <p className="line-clamp-2 h-12 text-slate-400">{description}</p>
       </div>
     </li>

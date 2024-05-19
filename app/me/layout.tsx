@@ -26,7 +26,7 @@ export default function MyPageLayout({ children }: { children: ReactNode }) {
             회원탈퇴
           </Link>
         </div>
-        <div style={{ width: "48rem" }}>{children}</div>
+        <div className="w-192">{children}</div>
       </div>
     </ProtectedRoute>
   );

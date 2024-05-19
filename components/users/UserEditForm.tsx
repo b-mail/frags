@@ -57,8 +57,7 @@ export default function UserEditForm({ user }: { user: User | null }) {
 
   return (
     <form
-      className="flex flex-col gap-8 rounded-2xl bg-slate-900 p-10 shadow-2xl"
-      style={{ width: "48rem" }}
+      className="w-192 flex flex-col gap-8 rounded-2xl bg-slate-900 p-10 shadow-2xl"
       onSubmit={handleSubmit(onSubmit)}
     >
       {isSubmitting && <LoadingModal message={"회원 정보 수정 중"} />}

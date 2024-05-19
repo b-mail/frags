@@ -7,7 +7,7 @@ export default function HomePage() {
       <div className=" flex items-center justify-center gap-10">
         <Image src={"/logo_filled.png"} alt={"로고"} width={250} height={250} />
       </div>
-      <div className="flex flex-col gap-10" style={{ width: "48rem" }}>
+      <div className="w-192 flex flex-col gap-10">
         <div className="flex flex-col gap-4 rounded-2xl bg-slate-900 p-10 shadow-2xl">
           <h2 className="text-2xl font-bold text-green-400">FRAGS?</h2>
           <p>
