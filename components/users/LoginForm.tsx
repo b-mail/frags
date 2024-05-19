@@ -51,8 +51,7 @@ export default function LoginForm() {
 
   return (
     <form
-      className="flex flex-col gap-8 rounded-2xl bg-slate-900 p-10 shadow-2xl"
-      style={{ width: "32rem" }}
+      className="w-128 flex flex-col gap-8 rounded-2xl bg-slate-900 p-10 shadow-2xl"
       onSubmit={handleSubmit(onSubmit)}
     >
       {isSubmitting && <LoadingModal message={"로그인 중"} />}
