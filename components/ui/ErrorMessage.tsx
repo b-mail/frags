@@ -1,6 +1,6 @@
 export default function ErrorMessage({ message }: { message: string }) {
   return (
-    <div className="flex w-full items-center justify-start gap-4 rounded-2xl bg-slate-800 p-4">
+    <div className="flex w-full items-center justify-start gap-4 overflow-hidden rounded-2xl bg-slate-800 p-4">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"

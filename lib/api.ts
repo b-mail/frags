@@ -126,6 +126,24 @@ export async function joinFragByFragId(token: string, fragId: number | string) {
   return res.data;
 }
 
+export async function updateFragByFragId(
+  token: string,
+  fragId: number | string,
+  body: { name: string; description: string },
+) {
+  const res = await axios.put(`/frags/${fragId}`, body, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (res.status >= 400) {
+    throw new Error(res.data.message);
+  }
+
+  return res.data;
+}
+
 // User
 
 export async function getUserByUserId(userId: number | string) {
@@ -183,6 +201,24 @@ export async function deleteUserByUserId(
   return res.data;
 }
 
+export async function excludeUserByFragIdAndUserId(
+  token: string,
+  fragId: number | string,
+  userId: number | string,
+) {
+  const res = await axios.delete(`/frags/${fragId}/members/${userId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (res.status >= 400) {
+    throw new Error(res.data.message);
+  }
+
+  return res.data;
+}
+
 // Post
 
 export async function getPostsByFragId(
@@ -200,6 +236,24 @@ export async function getPostsByFragId(
       Authorization: `Bearer ${token}`,
     },
     params,
+  });
+
+  if (res.status >= 400) {
+    throw new Error(res.data.message);
+  }
+
+  return res.data;
+}
+
+export async function getPostsByFragIdAndUserId(
+  token: string,
+  fragId: number | string,
+  userId: number | string,
+) {
+  const res = await axios.get(`/frags/${fragId}/members/${userId}/posts`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
   });
 
   if (res.status >= 400) {
@@ -288,6 +342,24 @@ export async function getCommentsByPostId(postId: number | string) {
   return res.data;
 }
 
+export async function getCommentsByFragIdAndUserId(
+  token: string,
+  fragId: number | string,
+  userId: number | string,
+) {
+  const res = await axios.get(`/frags/${fragId}/members/${userId}/comments`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (res.status >= 400) {
+    throw new Error(res.data.message);
+  }
+
+  return res.data;
+}
+
 export async function createCommentByPostId(
   token: string,
   postId: number | string,
@@ -345,6 +417,24 @@ export async function deleteCommentByCommentId(
 
 export async function getLikesByPostId(postId: number | string) {
   const res = await axios.get(`/posts/${postId}/likes`);
+
+  if (res.status >= 400) {
+    throw new Error(res.data.message);
+  }
+
+  return res.data;
+}
+
+export async function getLikesByFragIdAndUserId(
+  token: string,
+  fragId: number | string,
+  userId: number | string,
+) {
+  const res = await axios.get(`/frags/${fragId}/members/${userId}/likes`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 
   if (res.status >= 400) {
     throw new Error(res.data.message);

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/db";
-import { authenticate } from "@/lib/autheticate";
+import { authenticate, authenticateByFragId } from "@/lib/autheticate";
 
 export async function GET(
   req: NextRequest,
