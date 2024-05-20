@@ -26,7 +26,6 @@ model User {
   posts        Post[]
   comments     Comment[]
   likes        Like[]
-  chats        Chat[]
   password     Password?
   refreshToken RefreshToken?
 }
@@ -53,7 +52,6 @@ model Frag {
   admin       User           @relation(fields: [adminId], references: [id])
   members     UserFragLink[]
   posts       Post[]
-  chats       Chat[]
 }
 
 // User 테이블과 Frag 테이블을 다대다 관계로 잇는 테이블.
@@ -107,16 +105,6 @@ model Like {
   updatedAt DateTime @updatedAt
   post      Post     @relation(fields: [postId], references: [id])
   user      User     @relation(fields: [userId], references: [id])
-}
-
-// Frag 기능 중 하나인 유저 간의 채팅을 저장할 테이블
-model Chat {
-  id        Int      @id @default(autoincrement())
-  userId    Int
-  fragId    Int
-  createdAt DateTime @default(now())
-  user      User     @relation(fields: [userId], references: [id])
-  frag      Frag     @relation(fields: [fragId], references: [id])
 }
 
 model RefreshToken {

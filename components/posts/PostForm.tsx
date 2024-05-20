@@ -87,12 +87,17 @@ export default function PostForm({
           "latest",
         ]);
 
-        queryClient.setQueryData(["frag", fragId, "posts", "", "latest"], {
-          ...prevPosts,
-          pages: [{ result: [newPost?.result] }, ...prevPosts!.pages],
+        if (prevPosts) {
+          queryClient.setQueryData(["frag", fragId, "posts", "", "latest"], {
+            ...prevPosts,
+            pages: [{ result: [newPost?.result] }, ...prevPosts!.pages],
+          });
+        }
+
+        queryClient.invalidateQueries({
+          queryKey: ["frag", fragId, "posts"],
         });
 
-        queryClient.invalidateQueries({ queryKey: ["frag", fragId, "posts"] });
         router.push(`/frags/${fragId}/posts`);
       }
     } catch (error) {

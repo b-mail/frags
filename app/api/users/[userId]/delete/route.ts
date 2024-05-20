@@ -98,7 +98,7 @@ export async function POST(
   for (const frag of frags) {
     await prisma.userFragLink.deleteMany({
       where: {
-        id: frag.id,
+        fragId: frag.id,
       },
     });
   }
