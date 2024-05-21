@@ -12,7 +12,13 @@ import LoadingContainer from "@/components/ui/LoadingContainer";
 import { ApiResponse } from "@/lib/type";
 import LoadingIndicator from "@/components/ui/LoadingIndicator";
 
-export default function PostList({ fragId }: { fragId: number }) {
+export default function PostList({
+  fragId,
+  isAdmin = false,
+}: {
+  fragId: number;
+  isAdmin?: boolean;
+}) {
   const search = usePostSearch.use.search();
   const order = usePostSearch.use.order();
 
@@ -62,7 +68,9 @@ export default function PostList({ fragId }: { fragId: number }) {
           <ul className="flex list-none flex-col gap-4 rounded-2xl bg-slate-900 p-6 shadow-2xl">
             {data?.pages
               .flatMap((page) => page.result)
-              .map((post: Post) => <PostListItem key={post.id} post={post} />)}
+              .map((post: Post) => (
+                <PostListItem key={post.id} post={post} isAdmin={isAdmin} />
+              ))}
           </ul>
         )}
         {hasNextPage && (

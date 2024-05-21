@@ -1,8 +1,9 @@
 "use client";
 
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
 import {
+  deletePostByPostId,
   getCommentsByPostId,
   getLikesByPostId,
   getUserByUserId,
@@ -15,11 +16,21 @@ import ViewBadge from "@/components/ui/ViewBadge";
 import { ApiResponse } from "@/lib/type";
 import PulseContainer from "@/components/ui/PulseContainer";
 import { useEffect } from "react";
+import DeleteButton from "@/components/ui/DeleteButton";
+import useAuth from "@/store/AuthStore";
+import LoadingModal from "@/components/ui/LoadingModal";
 
-export default function PostListItem({ post }: { post: Post }) {
+export default function PostListItem({
+  post,
+  isAdmin = false,
+}: {
+  post: Post;
+  isAdmin?: boolean;
+}) {
   const { id, title, userId, fragId, view } = post;
 
   const queryClient = useQueryClient();
+  const accessToken = useAuth.use.accessToken();
 
   const { data: author } = useQuery<ApiResponse<User>>({
     queryKey: ["user", userId],
@@ -36,6 +47,13 @@ export default function PostListItem({ post }: { post: Post }) {
     queryKey: ["post", id, "comments"],
     queryFn: async () => await getCommentsByPostId(id),
     staleTime: 1000 * 60 * 5,
+  });
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: async () => await deletePostByPostId(accessToken!, id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["frag", fragId, "posts"] });
+    },
   });
 
   useEffect(() => {
@@ -56,6 +74,10 @@ export default function PostListItem({ post }: { post: Post }) {
           <ViewBadge view={view} />
           <LikeBadge count={likes?.result.length ?? 0} />
           <CommentBadge count={comments?.result.length ?? 0} />
+          {isAdmin && (
+            <DeleteButton onClick={() => mutate()} disabled={isPending} />
+          )}
+          {isPending && <LoadingModal message={"게시글 삭제 중"} />}
         </PulseContainer>
       </div>
     </li>

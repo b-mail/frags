@@ -26,7 +26,7 @@ export default function NameInput({
           2글자 이상, 8글자 이하여야 합니다.
         </li>
         <li className="text-sm text-slate-500">
-          한글, 영문, 공백만 허용됩니다.
+          한글, 영문, 숫자, 공백만 허용됩니다.
         </li>
       </ul>
     </div>

@@ -18,7 +18,7 @@ export default function RootLayout({
   children: ReactNode;
 }>) {
   return (
-    <html lang="ko">
+    <html lang="ko" className="bg-slate-800">
       <body className={notoSansKR.className}>
         <Providers>
           <header>

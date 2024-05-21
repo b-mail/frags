@@ -121,26 +121,32 @@ export async function DELETE(
     );
   }
 
-  if (Number(post.userId) !== Number(user.id)) {
-    return NextResponse.json(
-      { message: "게시글 작성자가 아닙니다." },
-      { status: 401 },
-    );
-  }
-
-  await prisma.like.deleteMany({
-    where: { postId },
-  });
-
-  await prisma.comment.deleteMany({
-    where: { postId },
-  });
-
-  await prisma.post.delete({
+  const frag = await prisma.frag.findUnique({
     where: {
-      id: postId,
+      id: post.fragId,
     },
   });
 
-  return NextResponse.json({ message: "게시글이 삭제되었습니다." });
+  if (post.userId === user.id || frag!.adminId === user.id) {
+    await prisma.like.deleteMany({
+      where: { postId },
+    });
+
+    await prisma.comment.deleteMany({
+      where: { postId },
+    });
+
+    await prisma.post.delete({
+      where: {
+        id: postId,
+      },
+    });
+
+    return NextResponse.json({ message: "게시글이 삭제되었습니다." });
+  } else {
+    return NextResponse.json(
+      { message: "게시글 작성자 혹은 FRAG 관리자가 아닙니다." },
+      { status: 401 },
+    );
+  }
 }
