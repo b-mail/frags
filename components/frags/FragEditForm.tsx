@@ -77,12 +77,12 @@ export default function FragEditForm({ fragId }: { fragId: number }) {
         className="w-192 flex flex-col items-end gap-6 rounded-2xl bg-slate-900 p-10"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <div className="flex w-full gap-4">
-          <label className="mt-2 text-xl font-bold" htmlFor="name">
+        <div className="flex w-full items-center justify-between gap-4">
+          <label className="grow text-center text-xl font-bold" htmlFor="name">
             FRAG 이름
           </label>
           <input
-            className={`${errors?.name ? "border-red-400 focus:border-red-400" : "border-slate-700 focus:border-slate-500"} grow overflow-scroll rounded-2xl border-4 bg-slate-800 p-4 placeholder:text-slate-400 focus:outline-0`}
+            className={`${errors?.name ? "border-red-400 focus:border-red-400" : "border-slate-700 focus:border-slate-500"} w-128 overflow-scroll rounded-2xl border-4 bg-slate-800 p-4 placeholder:text-slate-400 focus:outline-0`}
             id={"name"}
             placeholder="2글자 이상, 10글자 이하로 입력해주세요"
             {...register("name")}
@@ -94,12 +94,15 @@ export default function FragEditForm({ fragId }: { fragId: number }) {
           </p>
         )}
         <hr className="w-full border border-slate-700" />
-        <div className="flex w-full gap-4">
-          <label className="mt-2 text-xl font-bold" htmlFor="description">
+        <div className="flex w-full items-center justify-between gap-4  ">
+          <label
+            className="grow text-center text-xl font-bold"
+            htmlFor="description"
+          >
             FRAG 설명
           </label>
           <textarea
-            className={`${errors?.description ? "border-red-400 focus:border-red-400" : "border-slate-700 focus:border-slate-500"} h-40 grow resize-none overflow-scroll rounded-2xl border-4 bg-slate-800 p-4 placeholder:text-slate-400 focus:outline-0`}
+            className={`${errors?.description ? "border-red-400 focus:border-red-400" : "border-slate-700 focus:border-slate-500"} w-128 h-40 resize-none overflow-scroll rounded-2xl border-4 bg-slate-800 p-4 placeholder:text-slate-400 focus:outline-0`}
             id={"description"}
             placeholder="10글자 이상, 100글자 이하로 입력해주세요"
             {...register("description")}
@@ -110,13 +113,8 @@ export default function FragEditForm({ fragId }: { fragId: number }) {
             10글자 이상, 100글자 이하로 입력해주세요
           </p>
         )}
-        <div className="flex h-12 w-full items-center justify-end gap-4">
-          {error?.message && (
-            <div className="w-96">
-              {" "}
-              <ErrorMessage message={error.message} />
-            </div>
-          )}
+        <div className="w-128 flex h-12 items-center justify-end gap-4">
+          {error?.message && <ErrorMessage message={error.message} />}
           <button
             className="h-12 w-24 rounded-2xl bg-green-400 py-2 text-center font-bold text-slate-900 hover:bg-green-500 disabled:bg-slate-500"
             type="submit"

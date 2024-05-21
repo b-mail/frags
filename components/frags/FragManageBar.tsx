@@ -21,7 +21,7 @@ export default function FragManageBar({ fragId }: { fragId: number }) {
   });
 
   useEffect(() => {
-    if (user && isSuccess && data.result.adminId !== user.id) {
+    if (user && data && data.result.adminId !== user.id) {
       router.push(`/frags/${fragId}/posts`);
     }
   }, [isSuccess, data, user]);

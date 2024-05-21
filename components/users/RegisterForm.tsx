@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { MouseEventHandler, useEffect, useState } from "react";
 import EmailInput from "@/components/users/EmailInput";
 import PasswordInput from "@/components/users/PasswordInput";
 import NameInput from "@/components/users/NameInput";
