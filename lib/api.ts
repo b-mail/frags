@@ -144,6 +144,24 @@ export async function updateFragByFragId(
   return res.data;
 }
 
+export async function deleteFragByFragId(
+  token: string,
+  fragId: number | string,
+  body: { name: string },
+) {
+  const res = await axios.post(`/frags/${fragId}/delete`, body, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (res.status >= 400) {
+    throw new Error(res.data.message);
+  }
+
+  return res.data;
+}
+
 // User
 
 export async function getUserByUserId(userId: number | string) {
