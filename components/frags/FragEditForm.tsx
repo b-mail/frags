@@ -68,7 +68,7 @@ export default function FragEditForm({ fragId }: { fragId: number }) {
       setValue("name", data.result.name);
       setValue("description", data.result.description);
     }
-  }, [data]);
+  }, [data, setValue]);
 
   return (
     <LoadingContainer isLoading={isPending} message={"FRAG 정보 불러오는 중"}>

@@ -24,7 +24,7 @@ export default function FragManageBar({ fragId }: { fragId: number }) {
     if (user && data && data.result.adminId !== user.id) {
       router.push(`/frags/${fragId}/posts`);
     }
-  }, [isSuccess, data, user]);
+  }, [fragId, router, data, user]);
 
   return (
     <div className="flex items-center justify-center gap-10 rounded-2xl bg-slate-900 p-4 px-10 shadow-2xl">

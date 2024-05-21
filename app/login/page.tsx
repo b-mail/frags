@@ -1,6 +1,11 @@
 import Link from "next/link";
 import LoginForm from "@/components/users/LoginForm";
 
+export let metadata = {
+  title: "로그인 | FRAGS",
+  description: "FRAGS 로그인 페이지입니다.",
+};
+
 export default function LoginPage() {
   return (
     <div className="flex gap-12">

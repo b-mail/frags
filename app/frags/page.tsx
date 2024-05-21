@@ -2,6 +2,11 @@ import FragSearchBar from "@/components/frags/FragSearchBar";
 import FragList from "@/components/frags/FragList";
 import Link from "next/link";
 
+export let metadata = {
+  title: "FRAGS | FRAGS",
+  description: "FRAGS 목록 페이지입니다.",
+};
+
 export default function FragPage() {
   return (
     <div className="flex flex-col items-center gap-12">

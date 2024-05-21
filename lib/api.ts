@@ -81,7 +81,7 @@ export async function getFrags(
 }
 
 export async function getFragByFragId(fragId: number | string) {
-  const res = await axios.get(`/frags/${fragId}`, {});
+  const res = await axios.get(`/frags/${fragId}`);
 
   if (res.status >= 400) {
     throw new Error(res.data.message);

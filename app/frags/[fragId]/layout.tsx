@@ -1,6 +1,11 @@
 import { ReactNode } from "react";
 import PostSideBar from "@/components/posts/PostSideBar";
 
+export let metadata = {
+  title: "FRAG | FRAGS",
+  description: "FRAGS 페이지입니다.",
+};
+
 export default async function PostsLayout({
   children,
   params,

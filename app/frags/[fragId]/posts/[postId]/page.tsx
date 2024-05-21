@@ -1,6 +1,25 @@
 import CommentList from "@/components/comments/CommentList";
 import CommentForm from "@/components/comments/CommentForm";
 import PostContent from "@/components/posts/PostContent";
+import { Metadata } from "next";
+import prisma from "@/lib/db";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { postId: string };
+}): Promise<Metadata> {
+  "use server";
+  const postId = Number(params.postId);
+  const post = await prisma.post.findUnique({
+    where: { id: postId },
+    select: { title: true },
+  });
+
+  return {
+    title: `${post?.title} | FRAGS`,
+  };
+}
 
 export default function PostPage({
   params,

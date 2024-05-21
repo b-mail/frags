@@ -40,7 +40,9 @@ export default function PostContent({ postId }: { postId: number }) {
     enabled: !!accessToken,
   });
 
-  const { data: author, isLoading: isLoadingUser } = useQuery<User>({
+  const { data: author, isLoading: isLoadingUser } = useQuery<
+    ApiResponse<User>
+  >({
     queryKey: ["user", post?.result.userId],
     queryFn: async () => await getUserByUserId(post!.result.userId),
     enabled: isSuccessPost,
@@ -99,7 +101,7 @@ export default function PostContent({ postId }: { postId: number }) {
           <div className="flex w-full items-center justify-between">
             <div className="flex items-center gap-2">
               <UserBadge
-                userName={author?.name ?? "홍길동"}
+                userName={author?.result.name ?? "작성자"}
                 enableIcon={true}
                 className="bg-slate-800"
               />
