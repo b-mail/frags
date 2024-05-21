@@ -1,6 +1,11 @@
 import Link from "next/link";
 import RegisterForm from "@/components/users/RegisterForm";
 
+export let metadata = {
+  title: "회원가입 | FRAGS",
+  description: "FRAGS 회원가입 페이지입니다.",
+};
+
 export default function RegisterPage() {
   return (
     <div className="flex gap-12">

@@ -1,5 +1,9 @@
 import PostForm from "@/components/posts/PostForm";
 
+export let metadata = {
+  title: "새 게시글 작성 | FRAGS",
+};
+
 export default function NewPostPage({
   params,
 }: {

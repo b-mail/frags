@@ -2,6 +2,11 @@ import { ReactNode } from "react";
 import Link from "next/link";
 import ProtectedRoute from "@/components/utils/ProtectedRoute";
 
+export let metadata = {
+  title: "마이페이지 | FRAGS",
+  description: "FRAGS 마이페이지입니다.",
+};
+
 export default function MyPageLayout({ children }: { children: ReactNode }) {
   return (
     <ProtectedRoute>

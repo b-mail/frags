@@ -68,7 +68,7 @@ export default function PostListItem({
       >
         {title}
       </Link>
-      <div className="flex h-full w-1/2 items-center justify-end gap-2">
+      <div className="flex h-full w-96 items-center justify-end gap-2">
         <PulseContainer isLoading={!author || !likes || !comments}>
           <UserBadge userName={author?.result.name ?? "홍길동"} />
           <ViewBadge view={view} />

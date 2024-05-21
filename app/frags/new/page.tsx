@@ -1,6 +1,11 @@
 import FragForm from "@/components/frags/FragForm";
 import Image from "next/image";
 
+export let metadata = {
+  title: "새 FRAG 만들기 | FRAGS",
+  description: "FRAGS 생성 페이지입니다.",
+};
+
 export default function NewFragPage() {
   return (
     <div className="flex items-start justify-center gap-10">
