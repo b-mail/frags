@@ -74,7 +74,7 @@ export default function FragEditForm({ fragId }: { fragId: number }) {
     <LoadingContainer isLoading={isPending} message={"FRAG 정보 불러오는 중"}>
       {isSubmitting && <LoadingModal message={"FRAG 정보 수정 중"} />}
       <form
-        className="w-192 flex flex-col items-end gap-6 rounded-2xl bg-slate-900 p-10"
+        className="w-192 flex flex-col items-end gap-6 rounded-2xl bg-slate-900 p-10 shadow-2xl"
         onSubmit={handleSubmit(onSubmit)}
       >
         <div className="flex w-full items-center justify-between gap-4">
