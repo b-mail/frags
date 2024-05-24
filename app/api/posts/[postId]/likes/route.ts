@@ -2,11 +2,14 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/db";
 import { authenticateByPostId } from "@/lib/autheticate";
 
-export async function GET({
-  params: { postId },
-}: {
-  params: { postId: string };
-}) {
+export async function GET(
+  req: NextRequest,
+  {
+    params: { postId },
+  }: {
+    params: { postId: string };
+  },
+) {
   const likes = await prisma.like.findMany({
     where: {
       postId,
