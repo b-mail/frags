@@ -15,7 +15,7 @@ datasource db {
 
 // 유저 정보 테이블.
 model User {
-  id           Int            @id @default(autoincrement())
+  id           String         @id @default(uuid())
   name         String         @unique
   email        String         @unique
   bio          String?
@@ -32,8 +32,8 @@ model User {
 
 // 비밀번호 테이블.
 model Password {
-  id     Int    @id @default(autoincrement())
-  userId Int    @unique
+  id     String @id @default(uuid())
+  userId String @unique
   digest String
   salt   String
   user   User   @relation(fields: [userId], references: [id])
@@ -43,8 +43,8 @@ model Password {
 // Frag은 여러 개의 글을 가지는 하나의 커뮤니티이다.
 // 한 개의 Frag은 한 명의 관리자를 가진다.
 model Frag {
-  id          Int            @id @default(autoincrement())
-  adminId     Int
+  id          String         @id @default(uuid())
+  adminId     String
   name        String         @unique
   description String
   createdAt   DateTime       @default(now())
@@ -57,9 +57,9 @@ model Frag {
 // User 테이블과 Frag 테이블을 다대다 관계로 잇는 테이블.
 // 추가적으로 특정 유저가 해당 Frag에 가입한 날짜, 방문 횟수, 마지막 방문 일자를 담고 있다.
 model UserFragLink {
-  id          Int       @id @default(autoincrement())
-  userId      Int
-  fragId      Int
+  id          String    @id @default(uuid())
+  userId      String
+  fragId      String
   visitCount  Int       @default(0)
   joinAt      DateTime  @default(now())
   lastVisitAt DateTime?
@@ -69,9 +69,9 @@ model UserFragLink {
 
 // Frag 내의 글.
 model Post {
-  id        Int       @id @default(autoincrement())
-  userId    Int
-  fragId    Int
+  id        String    @id @default(uuid())
+  userId    String
+  fragId    String
   title     String
   content   String
   view      Int       @default(0)
@@ -85,9 +85,9 @@ model Post {
 
 // 특정 Post에 달린 댓글을 저장할 테이블
 model Comment {
-  id        Int      @id @default(autoincrement())
-  userId    Int
-  postId    Int
+  id        String   @id @default(uuid())
+  userId    String
+  postId    String
   content   String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -97,9 +97,9 @@ model Comment {
 
 // 특정 Post에 대한 좋아요 정보를 저장할 테이블.
 model Like {
-  id        Int      @id @default(autoincrement())
-  userId    Int
-  postId    Int
+  id        String   @id @default(uuid())
+  userId    String
+  postId    String
   isActive  Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -108,8 +108,8 @@ model Like {
 }
 
 model RefreshToken {
-  id     Int    @id @default(autoincrement())
-  userId Int    @unique
+  id     String @id @default(uuid())
+  userId String @unique
   token  String @unique
   user   User   @relation(fields: [userId], references: [id])
 }
