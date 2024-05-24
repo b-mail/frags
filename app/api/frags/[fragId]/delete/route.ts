@@ -4,9 +4,8 @@ import prisma from "@/lib/db";
 
 export async function POST(
   req: NextRequest,
-  { params }: { params: { fragId: string } },
+  { params: { fragId } }: { params: { fragId: string } },
 ) {
-  const fragId = Number(params.fragId);
 
   const user = await authenticateByFragId(req, fragId);
   if (user instanceof NextResponse) {

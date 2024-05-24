@@ -62,8 +62,8 @@ export async function getFrags(
     limit: number;
     order?: "latest" | "alphabet" | "member";
     search?: string;
-    member?: number;
-    admin?: number;
+    member?: string;
+    admin?: string;
   },
 ) {
   const res = await axios.get("/frags", {
@@ -80,7 +80,7 @@ export async function getFrags(
   return res.data;
 }
 
-export async function getFragByFragId(fragId: number | string) {
+export async function getFragByFragId(fragId: string) {
   const res = await axios.get(`/frags/${fragId}`);
 
   if (res.status >= 400) {
@@ -107,7 +107,7 @@ export async function createFrag(
   return res.data;
 }
 
-export async function joinFragByFragId(token: string, fragId: number | string) {
+export async function joinFragByFragId(token: string, fragId: string) {
   const res = await axios.post(
     `/frags/${fragId}/members`,
     {},
@@ -128,7 +128,7 @@ export async function joinFragByFragId(token: string, fragId: number | string) {
 
 export async function updateFragByFragId(
   token: string,
-  fragId: number | string,
+  fragId: string,
   body: { name: string; description: string },
 ) {
   const res = await axios.put(`/frags/${fragId}`, body, {
@@ -146,7 +146,7 @@ export async function updateFragByFragId(
 
 export async function deleteFragByFragId(
   token: string,
-  fragId: number | string,
+  fragId: string,
   body: { name: string },
 ) {
   const res = await axios.post(`/frags/${fragId}/delete`, body, {
@@ -164,7 +164,7 @@ export async function deleteFragByFragId(
 
 // User
 
-export async function getUserByUserId(userId: number | string) {
+export async function getUserByUserId(userId: string) {
   const res = await axios.get(`/users/${userId}`);
 
   if (res.status >= 400) {
@@ -174,7 +174,7 @@ export async function getUserByUserId(userId: number | string) {
   return res.data;
 }
 
-export async function getUsersByFragId(fragId: number | string) {
+export async function getUsersByFragId(fragId: string) {
   const res = await axios.get(`/frags/${fragId}/members`);
 
   if (res.status >= 400) {
@@ -203,7 +203,7 @@ export async function updateUser(
 
 export async function deleteUserByUserId(
   token: string,
-  userId: number | string,
+  userId: string,
   body: { email: string; password: string },
 ) {
   const res = await axios.post(`/users/${userId}/delete`, body, {
@@ -221,8 +221,8 @@ export async function deleteUserByUserId(
 
 export async function excludeUserByFragIdAndUserId(
   token: string,
-  fragId: number | string,
-  userId: number | string,
+  fragId: string,
+  userId: string,
 ) {
   const res = await axios.delete(`/frags/${fragId}/members/${userId}`, {
     headers: {
@@ -241,7 +241,7 @@ export async function excludeUserByFragIdAndUserId(
 
 export async function getPostsByFragId(
   token: string,
-  fragId: number | string,
+  fragId: string,
   params: {
     page: number;
     limit: number;
@@ -265,8 +265,8 @@ export async function getPostsByFragId(
 
 export async function getPostsByFragIdAndUserId(
   token: string,
-  fragId: number | string,
-  userId: number | string,
+  fragId: string,
+  userId: string,
 ) {
   const res = await axios.get(`/frags/${fragId}/members/${userId}/posts`, {
     headers: {
@@ -281,7 +281,7 @@ export async function getPostsByFragIdAndUserId(
   return res.data;
 }
 
-export async function getPostByPostId(token: string, postId: number | string) {
+export async function getPostByPostId(token: string, postId: string) {
   const res = await axios.get(`/posts/${postId}`, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -297,7 +297,7 @@ export async function getPostByPostId(token: string, postId: number | string) {
 
 export async function createPost(
   token: string,
-  fragId: number | string,
+  fragId: string,
   body: { title: string; content: string },
 ) {
   const res = await axios.post(`/frags/${fragId}/posts`, body, {
@@ -315,7 +315,7 @@ export async function createPost(
 
 export async function updatePostByPostId(
   token: string,
-  postId: number | string,
+  postId: string,
   body: { title: string; content: string },
 ) {
   const res = await axios.put(`/posts/${postId}`, body, {
@@ -331,10 +331,7 @@ export async function updatePostByPostId(
   return res.data;
 }
 
-export async function deletePostByPostId(
-  token: string,
-  postId: number | string,
-) {
+export async function deletePostByPostId(token: string, postId: string) {
   const res = await axios.delete(`/posts/${postId}`, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -350,7 +347,7 @@ export async function deletePostByPostId(
 
 // Comment
 
-export async function getCommentsByPostId(postId: number | string) {
+export async function getCommentsByPostId(postId: string) {
   const res = await axios.get(`/posts/${postId}/comments`);
 
   if (res.status >= 400) {
@@ -362,8 +359,8 @@ export async function getCommentsByPostId(postId: number | string) {
 
 export async function getCommentsByFragIdAndUserId(
   token: string,
-  fragId: number | string,
-  userId: number | string,
+  fragId: string,
+  userId: string,
 ) {
   const res = await axios.get(`/frags/${fragId}/members/${userId}/comments`, {
     headers: {
@@ -380,7 +377,7 @@ export async function getCommentsByFragIdAndUserId(
 
 export async function createCommentByPostId(
   token: string,
-  postId: number | string,
+  postId: string,
   body: { content: string },
 ) {
   const res = await axios.post(`/posts/${postId}/comments`, body, {
@@ -398,7 +395,7 @@ export async function createCommentByPostId(
 
 export async function updateCommentByCommentId(
   token: string,
-  commentId: number | string,
+  commentId: string,
   body: { content: string },
 ) {
   const res = await axios.put(`/comments/${commentId}`, body, {
@@ -416,7 +413,7 @@ export async function updateCommentByCommentId(
 
 export async function deleteCommentByCommentId(
   token: string,
-  commentId: number | string,
+  commentId: string,
 ) {
   const res = await axios.delete(`/comments/${commentId}`, {
     headers: {
@@ -433,7 +430,7 @@ export async function deleteCommentByCommentId(
 
 // Like
 
-export async function getLikesByPostId(postId: number | string) {
+export async function getLikesByPostId(postId: string) {
   const res = await axios.get(`/posts/${postId}/likes`);
 
   if (res.status >= 400) {
@@ -445,8 +442,8 @@ export async function getLikesByPostId(postId: number | string) {
 
 export async function getLikesByFragIdAndUserId(
   token: string,
-  fragId: number | string,
-  userId: number | string,
+  fragId: string,
+  userId: string,
 ) {
   const res = await axios.get(`/frags/${fragId}/members/${userId}/likes`, {
     headers: {
@@ -461,7 +458,7 @@ export async function getLikesByFragIdAndUserId(
   return res.data;
 }
 
-export async function likePostByPostId(token: string, postId: number | string) {
+export async function likePostByPostId(token: string, postId: string) {
   const res = await axios.post(
     `/posts/${postId}/likes`,
     {},
@@ -479,10 +476,7 @@ export async function likePostByPostId(token: string, postId: number | string) {
   return res.data;
 }
 
-export async function unlikePostByPostId(
-  token: string,
-  postId: number | string,
-) {
+export async function unlikePostByPostId(token: string, postId: string) {
   const res = await axios.delete(`/posts/${postId}/likes`, {
     headers: {
       Authorization: `Bearer ${token}`,

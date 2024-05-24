@@ -5,14 +5,12 @@ import { commentSchema } from "@/lib/schema";
 
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { commentId: string } },
+  { params: { commentId } }: { params: { commentId: string } },
 ) {
   const user = await authenticate(req);
   if (user instanceof NextResponse) {
     return user;
   }
-
-  const commentId = Number(params.commentId);
 
   const comment = await prisma.comment.findUnique({
     where: {
@@ -27,7 +25,7 @@ export async function PUT(
     );
   }
 
-  if (Number(comment.userId) !== Number(user.id)) {
+  if (comment.userId !== user.id) {
     return NextResponse.json(
       { message: "댓글 작성자가 아닙니다." },
       { status: 401 },
@@ -61,14 +59,12 @@ export async function PUT(
 
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { commentId: string } },
+  { params: { commentId } }: { params: { commentId: string } },
 ) {
   const user = await authenticate(req);
   if (user instanceof NextResponse) {
     return user;
   }
-
-  const commentId = Number(params.commentId);
 
   const comment = await prisma.comment.findUnique({
     where: {

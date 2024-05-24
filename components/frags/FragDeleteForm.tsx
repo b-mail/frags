@@ -7,9 +7,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteFragByFragId } from "@/lib/api";
 import useAuth from "@/store/AuthStore";
 import LoadingModal from "@/components/ui/LoadingModal";
-import LoadingContainer from "@/components/ui/LoadingContainer";
 
-export default function FragDeleteForm({ fragId }: { fragId: number }) {
+export default function FragDeleteForm({ fragId }: { fragId: string }) {
   const [name, setName] = useState("");
   const [error, setError] = useState({ message: "" });
 
@@ -22,7 +21,7 @@ export default function FragDeleteForm({ fragId }: { fragId: number }) {
     mutationFn: async () =>
       await deleteFragByFragId(accessToken!, fragId, { name }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["frags"] });
+      queryClient.invalidateQueries({ queryKey: ["frags"] }).then();
       router.push("/frags");
     },
     onError: (error) => {

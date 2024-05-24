@@ -13,7 +13,7 @@ import { useEffect, useState } from "react";
 import LoadingModal from "@/components/ui/LoadingModal";
 import ErrorMessage from "@/components/ui/ErrorMessage";
 
-export default function FragEditForm({ fragId }: { fragId: number }) {
+export default function FragEditForm({ fragId }: { fragId: string }) {
   const [error, setError] = useState<{ message: string } | null>(null);
 
   const accessToken = useAuth.use.accessToken();

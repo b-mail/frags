@@ -1,4 +1,4 @@
-import { ButtonHTMLAttributes, HTMLProps } from "react";
+import { ButtonHTMLAttributes } from "react";
 
 export default function DeleteButton(
   props: ButtonHTMLAttributes<HTMLButtonElement>,

@@ -10,7 +10,7 @@ import { Frag, User } from "@prisma/client";
 import { ApiResponse } from "@/lib/type";
 import useAuth from "@/store/AuthStore";
 
-export default function PostSideBar({ fragId }: { fragId: number }) {
+export default function PostSideBar({ fragId }: { fragId: string }) {
   const [isActive, setIsActive] = useState(false);
 
   const user = useAuth.use.user();

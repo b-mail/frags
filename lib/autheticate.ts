@@ -37,7 +37,7 @@ export async function authenticate(req: NextRequest) {
   return user;
 }
 
-export async function authenticateByUserId(req: NextRequest, userId: number) {
+export async function authenticateByUserId(req: NextRequest, userId: string) {
   const user = await authenticate(req);
 
   if (user instanceof NextResponse) {
@@ -54,7 +54,7 @@ export async function authenticateByUserId(req: NextRequest, userId: number) {
   return user;
 }
 
-export async function authenticateByFragId(req: NextRequest, fragId: number) {
+export async function authenticateByFragId(req: NextRequest, fragId: string) {
   const user = await authenticate(req);
 
   if (user instanceof NextResponse) {
@@ -78,7 +78,7 @@ export async function authenticateByFragId(req: NextRequest, fragId: number) {
   return user;
 }
 
-export async function authenticateByPostId(req: NextRequest, postId: number) {
+export async function authenticateByPostId(req: NextRequest, postId: string) {
   const user = await authenticate(req);
 
   if (user instanceof NextResponse) {

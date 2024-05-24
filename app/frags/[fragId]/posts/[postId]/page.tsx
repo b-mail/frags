@@ -5,12 +5,11 @@ import { Metadata } from "next";
 import prisma from "@/lib/db";
 
 export async function generateMetadata({
-  params,
+  params: { postId },
 }: {
   params: { postId: string };
 }): Promise<Metadata> {
   "use server";
-  const postId = Number(params.postId);
   const post = await prisma.post.findUnique({
     where: { id: postId },
     select: { title: true },
@@ -22,12 +21,10 @@ export async function generateMetadata({
 }
 
 export default function PostPage({
-  params,
+  params: { postId },
 }: {
-  params: { fragId: string; postId: string };
+  params: { postId: string };
 }) {
-  const postId = Number(params.postId);
-
   return (
     <div className="w-192 flex flex-col gap-10">
       <PostContent postId={postId} />

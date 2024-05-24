@@ -8,13 +8,11 @@ export let metadata = {
 
 export default async function PostsLayout({
   children,
-  params,
+  params: { fragId },
 }: {
   children: ReactNode;
   params: { fragId: string };
 }) {
-  const fragId = Number(params.fragId);
-
   return (
     <div className="relative flex gap-10 ">
       <PostSideBar fragId={fragId} />

@@ -11,7 +11,7 @@ import { MouseEventHandler, useEffect, useState } from "react";
 import useAuth from "@/store/AuthStore";
 import { ApiResponse } from "@/lib/type";
 
-export default function LikeButton({ postId }: { postId: number }) {
+export default function LikeButton({ postId }: { postId: string }) {
   const [isActive, setIsActive] = useState(false);
 
   const user = useAuth.use.user();
@@ -26,9 +26,11 @@ export default function LikeButton({ postId }: { postId: number }) {
   const { mutate: like, isPending: isLikePending } = useMutation({
     mutationFn: async () => await likePostByPostId(accessToken!, postId),
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["post", postId, "likes"],
-      });
+      queryClient
+        .invalidateQueries({
+          queryKey: ["post", postId, "likes"],
+        })
+        .then();
     },
     onMutate: async () => {
       await queryClient.cancelQueries({ queryKey: ["post", postId, "likes"] });
@@ -49,9 +51,11 @@ export default function LikeButton({ postId }: { postId: number }) {
   const { mutate: unlike, isPending: isUnlikePending } = useMutation({
     mutationFn: async () => await unlikePostByPostId(accessToken!, postId),
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["post", postId, "likes"],
-      });
+      queryClient
+        .invalidateQueries({
+          queryKey: ["post", postId, "likes"],
+        })
+        .then();
     },
     onMutate: async () => {
       await queryClient.cancelQueries({ queryKey: ["post", postId, "likes"] });
@@ -69,7 +73,7 @@ export default function LikeButton({ postId }: { postId: number }) {
     },
   });
 
-  const handleClick: MouseEventHandler<HTMLButtonElement> = (e) => {
+  const handleClick: MouseEventHandler<HTMLButtonElement> = () => {
     if (isActive) {
       setIsActive(false);
       unlike();

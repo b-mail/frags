@@ -8,7 +8,6 @@ import LoadingContainer from "@/components/ui/LoadingContainer";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { CommentFields, commentSchema } from "@/lib/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import ErrorMessage from "@/components/ui/ErrorMessage";
 import { ApiResponse } from "@/lib/type";
 import { Comment } from "@prisma/client";
 
@@ -18,9 +17,9 @@ export default function CommentForm({
   targetId,
   close,
 }: {
-  postId: number;
+  postId: string;
   initialValues?: CommentFields;
-  targetId?: number;
+  targetId?: string;
   close?: () => void;
 }) {
   const [error, setError] = useState({
@@ -76,7 +75,9 @@ export default function CommentForm({
       }
     } catch (error) {
       if (error instanceof Error) {
-        setError(error);
+        setError({
+          message: error.message,
+        });
       }
     }
   };

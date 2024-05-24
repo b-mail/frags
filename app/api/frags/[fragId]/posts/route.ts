@@ -4,10 +4,8 @@ import { authenticateByFragId } from "@/lib/autheticate";
 import { postSchema } from "@/lib/schema";
 export async function GET(
   req: NextRequest,
-  { params }: { params: { fragId: string } },
+  { params: { fragId } }: { params: { fragId: string } },
 ) {
-  const fragId = Number(params.fragId);
-
   const user = await authenticateByFragId(req, fragId);
   if (user instanceof NextResponse) {
     return user;
@@ -116,10 +114,8 @@ export async function GET(
 
 export async function POST(
   req: NextRequest,
-  { params }: { params: { fragId: string } },
+  { params: { fragId } }: { params: { fragId: string } },
 ) {
-  const fragId = Number(params.fragId);
-
   const user = await authenticateByFragId(req, fragId);
   if (user instanceof NextResponse) {
     return user;

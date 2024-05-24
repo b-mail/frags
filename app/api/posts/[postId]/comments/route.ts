@@ -2,12 +2,11 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/db";
 import { authenticateByPostId } from "@/lib/autheticate";
 
-export async function GET(
-  req: NextRequest,
-  { params }: { params: { postId: string } },
-) {
-  const postId = Number(params.postId);
-
+export async function GET({
+  params: { postId },
+}: {
+  params: { postId: string };
+}) {
   const comments = await prisma.comment.findMany({
     where: {
       postId,
@@ -22,10 +21,8 @@ export async function GET(
 
 export async function POST(
   req: NextRequest,
-  { params }: { params: { postId: string } },
+  { params: { postId } }: { params: { postId: string } },
 ) {
-  const postId = Number(params.postId);
-
   const user = await authenticateByPostId(req, postId);
   if (user instanceof NextResponse) {
     return user;

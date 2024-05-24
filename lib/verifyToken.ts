@@ -6,7 +6,7 @@ export function verifyAccessToken(token: string) {
       token,
       process.env.JWT_ACCESS_SECRET as string,
     ) as {
-      uid: number;
+      uid: string;
       iat: number;
     };
 

@@ -23,7 +23,6 @@ export default function UserDeleteForm() {
   const setUser = useAuth.use.setUser();
   const setAccessToken = useAuth.use.setAccessToken();
 
-  const queryClient = useQueryClient();
   const router = useRouter();
 
   const {
