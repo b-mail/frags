@@ -42,7 +42,7 @@ export default function FragList() {
   useEffect(() => {
     const observer = new IntersectionObserver(([entry]) => {
       if (entry.isIntersecting && !isFetchingNextPage) {
-        fetchNextPage();
+        fetchNextPage().then();
       }
     });
 

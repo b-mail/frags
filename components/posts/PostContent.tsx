@@ -21,7 +21,7 @@ import EditButton from "@/components/ui/EditButton";
 import { useRouter } from "next/navigation";
 import LoadingModal from "@/components/ui/LoadingModal";
 
-export default function PostContent({ postId }: { postId: number }) {
+export default function PostContent({ postId }: { postId: string }) {
   const [editMode, setEditMode] = useState(false);
 
   const user = useAuth.use.user();

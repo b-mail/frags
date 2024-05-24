@@ -3,20 +3,19 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { getPostsByFragId } from "@/lib/api";
-import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { Post } from "@prisma/client";
 import useAuth from "@/store/AuthStore";
 import usePostSearch from "@/store/PostSearchStore";
 import PostListItem from "@/components/posts/PostListItem";
 import LoadingContainer from "@/components/ui/LoadingContainer";
 import { ApiResponse } from "@/lib/type";
-import LoadingIndicator from "@/components/ui/LoadingIndicator";
 
 export default function PostList({
   fragId,
   isAdmin = false,
 }: {
-  fragId: number;
+  fragId: string;
   isAdmin?: boolean;
 }) {
   const search = usePostSearch.use.search();

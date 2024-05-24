@@ -6,9 +6,8 @@ import CommentListItem from "@/components/comments/CommentListItem";
 import LoadingContainer from "@/components/ui/LoadingContainer";
 import { ApiResponse } from "@/lib/type";
 import { Comment } from "@prisma/client";
-import { Attributes, ButtonHTMLAttributes, HTMLProps } from "react";
 
-export default function CommentList({ postId }: { postId: number }) {
+export default function CommentList({ postId }: { postId: string }) {
   const { data: comments, isLoading } = useQuery<ApiResponse<Comment[]>>({
     queryKey: ["post", postId, "comments"],
     queryFn: async () => await getCommentsByPostId(postId),

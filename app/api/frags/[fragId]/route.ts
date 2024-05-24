@@ -4,10 +4,8 @@ import { authenticateByFragId } from "@/lib/autheticate";
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { fragId: string } },
+  { params: { fragId } }: { params: { fragId: string } },
 ) {
-  const fragId = Number(params.fragId);
-
   const frag = await prisma.frag.findUnique({
     where: {
       id: fragId,
@@ -26,10 +24,8 @@ export async function GET(
 
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { fragId: string } },
+  { params: { fragId } }: { params: { fragId: string } },
 ) {
-  const fragId = Number(params.fragId);
-
   const user = await authenticateByFragId(req, fragId);
   if (user instanceof NextResponse) {
     return user;

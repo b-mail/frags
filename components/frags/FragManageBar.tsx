@@ -9,13 +9,13 @@ import { getFragByFragId } from "@/lib/api";
 import { useEffect } from "react";
 import useAuth from "@/store/AuthStore";
 
-export default function FragManageBar({ fragId }: { fragId: number }) {
+export default function FragManageBar({ fragId }: { fragId: string }) {
   const user = useAuth.use.user();
 
   const pathname = usePathname();
   const router = useRouter();
 
-  const { data, isSuccess } = useQuery<ApiResponse<Frag>>({
+  const { data } = useQuery<ApiResponse<Frag>>({
     queryKey: ["frag", fragId],
     queryFn: async () => await getFragByFragId(fragId),
   });

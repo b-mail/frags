@@ -1,14 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/db";
 import { authenticateByPostId } from "@/lib/autheticate";
-import { PostFields, postSchema } from "@/lib/schema";
+import { postSchema } from "@/lib/schema";
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { postId: string } },
+  { params: { postId } }: { params: { postId: string } },
 ) {
-  const postId = Number(params.postId);
-
   const user = await authenticateByPostId(req, postId);
 
   if (user instanceof NextResponse) {
@@ -44,10 +42,8 @@ export async function GET(
 
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { postId: string } },
+  { params: { postId } }: { params: { postId: string } },
 ) {
-  const postId = Number(params.postId);
-
   const user = await authenticateByPostId(req, postId);
   if (user instanceof NextResponse) {
     return user;
@@ -99,10 +95,8 @@ export async function PUT(
 
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { postId: string } },
+  { params: { postId } }: { params: { postId: string } },
 ) {
-  const postId = Number(params.postId);
-
   const user = await authenticateByPostId(req, postId);
   if (user instanceof NextResponse) {
     return user;

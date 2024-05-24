@@ -19,9 +19,9 @@ export default function PostForm({
   targetId,
   close,
 }: {
-  fragId: number;
+  fragId: string;
   initialValues?: PostFields;
-  targetId?: number;
+  targetId?: string;
   close?: () => void;
 }) {
   const [error, setError] = useState({
@@ -65,7 +65,7 @@ export default function PostForm({
           result: updatedPost.result,
         });
 
-        queryClient.invalidateQueries({ queryKey: ["post", targetId] });
+        queryClient.invalidateQueries({ queryKey: ["post", targetId] }).then();
         close();
       } else {
         const newPost: ApiResponse<Post> = await createPost(
@@ -94,9 +94,11 @@ export default function PostForm({
           });
         }
 
-        queryClient.invalidateQueries({
-          queryKey: ["frag", fragId, "posts"],
-        });
+        queryClient
+          .invalidateQueries({
+            queryKey: ["frag", fragId, "posts"],
+          })
+          .then();
 
         router.push(`/frags/${fragId}/posts`);
       }

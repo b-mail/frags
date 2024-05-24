@@ -5,12 +5,10 @@ export let metadata = {
 };
 
 export default function NewPostPage({
-  params,
+  params: { fragId },
 }: {
   params: { fragId: string };
 }) {
-  const fragId = Number(params.fragId);
-
   return (
     <section className="flex items-start justify-center gap-10">
       <section className="flex w-96 flex-col justify-between gap-4 rounded-2xl bg-slate-900 p-10 shadow-2xl">

@@ -50,9 +50,11 @@ export default function CommentListItem({ comment }: { comment: Comment }) {
       });
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["post", comment.postId, "comments"],
-      });
+      queryClient
+        .invalidateQueries({
+          queryKey: ["post", comment.postId, "comments"],
+        })
+        .then();
     },
   });
 

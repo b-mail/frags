@@ -15,7 +15,6 @@ import PostBadge from "@/components/ui/PostBadge";
 import PulseContainer from "@/components/ui/PulseContainer";
 import CommentBadge from "@/components/posts/CommentBadge";
 import LikeBadge from "@/components/ui/LikeBadge";
-import { useMemo } from "react";
 import LoadingModal from "@/components/ui/LoadingModal";
 
 export default function MemberListItem({
@@ -23,11 +22,10 @@ export default function MemberListItem({
   fragId,
 }: {
   member: User;
-  fragId: number;
+  fragId: string;
 }) {
   const { id, name } = member;
 
-  const user = useAuth.use.user();
   const accessToken = useAuth.use.accessToken();
 
   const queryClient = useQueryClient();
@@ -84,9 +82,11 @@ export default function MemberListItem({
         result: [...prevMembers!.result.filter((member) => member.id !== id)],
       });
 
-      queryClient.invalidateQueries({
-        queryKey: ["frag", fragId, "members"],
-      });
+      queryClient
+        .invalidateQueries({
+          queryKey: ["frag", fragId, "members"],
+        })
+        .then();
     },
   });
 

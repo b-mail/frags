@@ -1,7 +1,6 @@
 import { useRef } from "react";
 
 export default function SearchInput({
-  search,
   setSearch,
 }: {
   search: string;

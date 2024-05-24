@@ -7,7 +7,7 @@ import { getUsersByFragId } from "@/lib/api";
 import LoadingContainer from "@/components/ui/LoadingContainer";
 import MemberListItem from "@/components/frags/MemberListItem";
 
-export default function MemberManageList({ fragId }: { fragId: number }) {
+export default function MemberManageList({ fragId }: { fragId: string }) {
   const { data: member, isPending } = useQuery<ApiResponse<User[]>>({
     queryKey: ["frag", fragId, "members"],
     queryFn: async () => await getUsersByFragId(fragId),

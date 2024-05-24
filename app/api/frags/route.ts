@@ -66,7 +66,7 @@ export async function GET(req: NextRequest) {
     ? {
         members: {
           some: {
-            userId: Number(member),
+            userId: member,
           },
         },
       }
@@ -74,7 +74,7 @@ export async function GET(req: NextRequest) {
 
   const adminCondition = admin
     ? {
-        adminId: Number(admin),
+        adminId: admin,
       }
     : {};
 
