@@ -65,6 +65,8 @@ model UserFragLink {
   lastVisitAt DateTime?
   user        User      @relation(fields: [userId], references: [id])
   frag        Frag      @relation(fields: [fragId], references: [id])
+
+  @@unique([userId, fragId])
 }
 
 // Frag 내의 글.
