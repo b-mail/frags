@@ -9,6 +9,14 @@
   box-sizing: border-box;
 }
 
+body{
+ -ms-overflow-style: none;
+ }
+ 
+::-webkit-scrollbar {
+  display: none;
+}
+
 .w-96 {
   width: 24rem;
 }
@@ -21,7 +29,3 @@
   width: 48rem;
 }
 
-textarea {
-  overflow: hidden;
-  resize: none;
-}
