@@ -20,7 +20,7 @@ export default function PasswordInput({
 }) {
   const [showPassword, setShowPassword] = useState(false);
 
-  const className = `${error ? "border-red-400 focus:border-red-400" : "border-slate-700 focus-slate-500"} w-full rounded-2xl border-4 bg-slate-800 p-4 placeholder:text-slate-500 focus:outline-0`;
+  const className = `${error ? "border-red-400 focus:border-red-400" : "border-slate-700 focus:border-slate-500"} w-full rounded-2xl border-4 bg-slate-800 p-4 placeholder:text-slate-500 focus:outline-0`;
 
   return (
     <div className="relative flex flex-col gap-4">
