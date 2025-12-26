@@ -7,15 +7,17 @@ export async function GET(
   req: NextRequest,
   { params: { postId } }: { params: { postId: string } },
 ) {
+  // (주의) GET 요청에 인증이 필요한지 확인하세요.
+  // 공개 게시판이라면 authenticateByPostId가 필요 없을 수도 있습니다.
   const user = await authenticateByPostId(req, postId);
-
   if (user instanceof NextResponse) {
     return user;
   }
 
+  // ★ 변경점: update가 아니라 findUnique로만 데이터를 가져옵니다.
   const post = await prisma.post.findUnique({
     where: {
-      id: postId,
+      id: postId, // schema에서 id가 Int라면 Number(postId) 변환 필요 확인
     },
   });
 
@@ -26,18 +28,9 @@ export async function GET(
     );
   }
 
-  const updatedPost = await prisma.post.update({
-    where: {
-      id: postId,
-    },
-    data: {
-      view: {
-        increment: 1,
-      },
-    },
-  });
+  // update 로직 삭제됨
 
-  return NextResponse.json({ result: updatedPost });
+  return NextResponse.json({ result: post });
 }
 
 export async function PUT(

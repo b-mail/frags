@@ -489,3 +489,20 @@ export async function unlikePostByPostId(token: string, postId: string) {
 
   return res.data;
 }
+
+export async function incrementPostView(
+  postId: number | string,
+): Promise<void> {
+  const response = await fetch(`/api/posts/${postId}/views`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!response.ok) {
+    // 필요에 따라 에러 처리를 기존 스타일대로 수정하세요.
+    const errorData = await response.json();
+    throw new Error(errorData.error || "Failed to increment view count");
+  }
+}

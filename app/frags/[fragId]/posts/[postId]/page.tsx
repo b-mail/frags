@@ -3,6 +3,7 @@ import CommentForm from "@/components/comments/CommentForm";
 import PostContent from "@/components/posts/PostContent";
 import { Metadata } from "next";
 import prisma from "@/lib/db";
+import ViewCounter from "@/components/posts/ViewCoutner";
 
 export async function generateMetadata({
   params: { postId },
@@ -33,6 +34,7 @@ export default function PostPage({
         <hr className="w-full border border-slate-700" />
         <CommentList postId={postId} />
       </section>
+      <ViewCounter postId={postId} />
     </div>
   );
 }
