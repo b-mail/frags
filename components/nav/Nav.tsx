@@ -5,11 +5,12 @@ import useAuth from "@/store/AuthStore";
 import UserMenu from "@/components/nav/UserMenu";
 import { useEffect, useState } from "react";
 import MenuIcon from "@/components/nav/MenuIcon";
-import { refresh } from "@/lib/api";
+import { refresh, logout } from "@/lib/api";
 import { useMutation } from "@tanstack/react-query";
 import Image from "next/image";
 import PulseContainer from "@/components/ui/PulseContainer";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import LoadingModal from "@/components/ui/LoadingModal";
 
 export default function Nav() {
   const [isActive, setIsActive] = useState(false);
@@ -21,8 +22,9 @@ export default function Nav() {
   const setIsRefreshing = useAuth.use.setIsRefreshing();
 
   const pathname = usePathname();
+  const router = useRouter();
 
-  const { mutate } = useMutation({
+  const { mutate: refreshMutate } = useMutation({
     mutationKey: ["refresh"],
     mutationFn: async () => await refresh(),
     onMutate: () => {
@@ -37,9 +39,23 @@ export default function Nav() {
     },
   });
 
+  const { mutate: logoutMutate, isPending: isLoggingOut } = useMutation({
+    mutationFn: async () => await logout(),
+    onSettled: () => {
+      setUser(null);
+      setAccessToken(null);
+      setIsActive(false);
+      router.push("/");
+    },
+  });
+
+  const handleLogout = () => {
+    logoutMutate();
+  };
+
   useEffect(() => {
     if (!user) {
-      mutate();
+      refreshMutate();
     }
   }, []);
 
@@ -49,20 +65,31 @@ export default function Nav() {
 
   return (
     <>
+      {isLoggingOut && <LoadingModal message={"로그아웃 중"} />}
       {user && (
         <UserMenu
           user={user}
           isActive={isActive}
           setIsActive={setIsActive}
+          onLogout={handleLogout}
+          isPending={isLoggingOut}
         />
       )}
-      <nav className="fixed left-1/2 top-4 z-50 flex h-14 w-[95%] -translate-x-1/2 items-center justify-between rounded-2xl border border-white/10 bg-slate-900/60 px-4 shadow-lg backdrop-blur-xl md:h-16 md:w-[90%] md:px-10">
+      <nav className="fixed top-4 left-1/2 z-50 flex h-14 w-[95%] -translate-x-1/2 items-center justify-between rounded-2xl border border-white/10 bg-slate-900/60 px-4 shadow-lg backdrop-blur-xl md:h-16 md:w-[90%] md:px-10">
         <Link
           href="/"
           className="flex min-h-[40px] cursor-pointer items-center justify-center gap-2"
         >
-          <Image src={"/logo.png"} alt={"로고"} width={30} height={30} className="md:h-[40px] md:w-[40px]" />
-          <div className="text-lg font-bold hover:text-green-400 md:text-2xl">FRAGS</div>
+          <Image
+            src={"/logo.png"}
+            alt={"로고"}
+            width={30}
+            height={30}
+            className="md:h-[40px] md:w-[40px]"
+          />
+          <div className="text-lg font-bold hover:text-green-400 md:text-2xl">
+            FRAGS
+          </div>
         </Link>
         <section className="flex items-center justify-end md:w-48">
           <PulseContainer isLoading={isRefreshing}>
