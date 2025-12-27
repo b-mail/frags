@@ -53,10 +53,23 @@ export default function LoginForm() {
     <form
       className="md:w-full md:max-w-2xl flex w-full max-w-lg flex-col gap-4 rounded-2xl bg-slate-900 p-6 shadow-2xl md:gap-8 md:p-10"
       onSubmit={handleSubmit(onSubmit)}
+      onKeyDown={(e) => {
+        if (e.key === "Enter") {
+          handleSubmit(onSubmit)();
+        }
+      }}
     >
       {isSubmitting && <LoadingModal message={"로그인 중"} />}
-      <EmailInput register={register} error={errors.email?.message} />
-      <PasswordInput register={register} error={errors.password?.message} />
+      <EmailInput
+        register={register}
+        error={errors.email?.message}
+        autoComplete="email"
+      />
+      <PasswordInput
+        register={register}
+        error={errors.password?.message}
+        autoComplete="current-password"
+      />
       {error.message && <ErrorMessage message={error.message} />}
       <button
         className="w-full rounded-2xl bg-green-400 py-4 text-lg font-bold text-slate-900 hover:bg-green-500 disabled:bg-slate-500"

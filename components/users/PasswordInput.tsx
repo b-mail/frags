@@ -7,6 +7,7 @@ import { useState } from "react";
 export default function PasswordInput({
   register,
   error,
+  autoComplete,
 }: {
   register:
     | UseFormRegister<{
@@ -17,6 +18,7 @@ export default function PasswordInput({
       }>
     | UseFormRegister<RegisterFields>;
   error?: string;
+  autoComplete?: string;
 }) {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -32,6 +34,7 @@ export default function PasswordInput({
         className={className}
         id="password"
         type={showPassword ? "text" : "password"}
+        autoComplete={autoComplete}
         {...register("password")}
       />
       <button

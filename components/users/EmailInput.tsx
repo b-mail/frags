@@ -4,6 +4,7 @@ import { RegisterFields } from "@/lib/schema";
 export default function EmailInput({
   register,
   error,
+  autoComplete,
 }: {
   register:
     | UseFormRegister<{
@@ -14,6 +15,7 @@ export default function EmailInput({
       }>
     | UseFormRegister<RegisterFields>;
   error?: string;
+  autoComplete?: string;
 }) {
   const className = `${error ? "border-red-400 focus:border-red-400" : "border-slate-700 focus:border-slate-500"} w-full rounded-2xl border-4 bg-slate-800 p-4 placeholder:text-slate-500 focus:outline-0 relative z-20`;
 
@@ -28,6 +30,7 @@ export default function EmailInput({
         id="email"
         type="text"
         placeholder="frags@example.com"
+        autoComplete={autoComplete}
         {...register("email")}
       />
       {error && <div className="text-sm text-red-400">{error}</div>}
