@@ -4,12 +4,10 @@ import { authenticateByPostId } from "@/lib/autheticate";
 
 export async function GET(
   req: NextRequest,
-  {
-    params: { postId },
-  }: {
-    params: { postId: string };
-  },
+  props: { params: Promise<{ postId: string }> },
 ) {
+  const params = await props.params;
+  const { postId } = params;
   const likes = await prisma.like.findMany({
     where: {
       postId,
@@ -22,8 +20,10 @@ export async function GET(
 
 export async function POST(
   req: NextRequest,
-  { params: { postId } }: { params: { postId: string } },
+  props: { params: Promise<{ postId: string }> },
 ) {
+  const params = await props.params;
+  const { postId } = params;
   const user = await authenticateByPostId(req, postId);
   if (user instanceof NextResponse) {
     return user;
@@ -69,8 +69,10 @@ export async function POST(
 
 export async function DELETE(
   req: NextRequest,
-  { params: { postId } }: { params: { postId: string } },
+  props: { params: Promise<{ postId: string }> },
 ) {
+  const params = await props.params;
+  const { postId } = params;
   const user = await authenticateByPostId(req, postId);
   if (user instanceof NextResponse) {
     return user;

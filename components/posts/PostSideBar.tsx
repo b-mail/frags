@@ -52,7 +52,7 @@ export default function PostSideBar({ fragId }: { fragId: string }) {
           isActive ? "left-0" : "-left-60"
         } fixed top-24 z-50 flex transition-all duration-300 ease-in-out`}
       >
-        <div className="flex w-60 flex-col items-center gap-6 rounded-r-2xl border-r border-slate-800 bg-slate-900 p-6 shadow-2xl">
+        <div className="flex w-60 flex-col items-center gap-6 rounded-r-2xl bg-slate-900 p-6 shadow-2xl">
           <Link
             className="text-2xl font-bold text-white"
             href={`/frags/${fragId}/posts`}
@@ -105,7 +105,7 @@ export default function PostSideBar({ fragId }: { fragId: string }) {
 
         {/* 3. 토글 버튼 (서랍 손잡이) */}
         <button
-          className="mt-10 flex h-16 w-10 items-center justify-center rounded-r-xl border-y border-r border-slate-700 bg-slate-800 text-slate-400 shadow-xl hover:text-green-400 focus:outline-none"
+          className="mt-10 flex h-16 w-10 items-center justify-center rounded-r-xl bg-slate-900 text-slate-400 shadow-xl hover:text-green-400 focus:outline-none"
           onClick={toggleActive}
           aria-label="Toggle Sidebar"
         >

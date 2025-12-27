@@ -8,8 +8,8 @@ export let metadata = {
 
 export default function RegisterPage() {
   return (
-    <div className="flex gap-12">
-      <section className="flex h-96 w-96 flex-col justify-between gap-4 rounded-2xl bg-slate-900 p-10 shadow-2xl">
+    <div className="flex w-full flex-col gap-8 md:flex-row md:gap-12">
+      <section className="flex h-96 w-full max-w-md flex-col justify-between gap-4 rounded-2xl bg-slate-900 p-10 shadow-2xl md:w-96">
         <div className="flex flex-col gap-4">
           <h2 className="flex items-center gap-2 text-4xl font-bold">
             <svg

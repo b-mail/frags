@@ -14,10 +14,12 @@ export default function FragSearchBar() {
   const setFilter = useFragSearch.use.setFilter();
 
   return (
-    <div className="flex flex-col items-center justify-between gap-4 rounded-2xl bg-slate-900 p-4 shadow-2xl">
-      <div className="flex items-center justify-between">
-        <SearchInput search={search} setSearch={setSearch} />
-        <div className="flex w-96 items-center justify-end gap-4">
+    <div className="flex w-full flex-col items-center justify-between gap-4 rounded-2xl bg-slate-900 p-4 shadow-2xl md:p-6">
+      <div className="flex w-full flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+        <div className="w-full lg:max-w-md">
+          <SearchInput search={search} setSearch={setSearch} />
+        </div>
+        <div className="flex flex-wrap items-center justify-end gap-x-4 gap-y-2 text-sm md:text-base">
           <button
             className={`${order === "latest" ? "text-green-400" : "text-slate-500  hover:text-slate-400"}`}
             onClick={() => setOrder("latest")}
@@ -39,21 +41,21 @@ export default function FragSearchBar() {
         </div>
       </div>
       <hr className="w-full border border-slate-700" />
-      <div className="flex w-full items-center justify-between">
+      <div className="flex w-full flex-col gap-2 md:flex-row md:items-center md:justify-between md:gap-4">
         <button
-          className={`${filter === "all" ? "bg-slate-800" : "text-slate-500 hover:text-slate-400"} w-60 rounded-2xl py-2 text-center`}
+          className={`${filter === "all" ? "bg-slate-800 text-green-400" : "text-slate-500 hover:text-slate-400"} flex-1 rounded-xl py-2 text-center text-sm md:rounded-2xl md:text-base`}
           onClick={() => setFilter("all")}
         >
           전체 FRAGS
         </button>
         <button
-          className={`${filter === "member" ? "bg-slate-800" : "text-slate-500 hover:text-slate-400"} w-60 rounded-2xl py-2 text-center`}
+          className={`${filter === "member" ? "bg-slate-800 text-green-400" : "text-slate-500 hover:text-slate-400"} flex-1 rounded-xl py-2 text-center text-sm md:rounded-2xl md:text-base`}
           onClick={() => setFilter("member")}
         >
           내가 가입한 FRAGS
         </button>
         <button
-          className={`${filter === "admin" ? "bg-slate-800" : "text-slate-500 hover:text-slate-400"} w-60 rounded-2xl py-2 text-center`}
+          className={`${filter === "admin" ? "bg-slate-800 text-green-400" : "text-slate-500 hover:text-slate-400"} flex-1 rounded-xl py-2 text-center text-sm md:rounded-2xl md:text-base`}
           onClick={() => setFilter("admin")}
         >
           내가 만든 FRAGS

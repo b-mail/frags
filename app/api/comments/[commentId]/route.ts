@@ -5,8 +5,10 @@ import { commentSchema } from "@/lib/schema";
 
 export async function PUT(
   req: NextRequest,
-  { params: { commentId } }: { params: { commentId: string } },
+  props: { params: Promise<{ commentId: string }> },
 ) {
+  const params = await props.params;
+  const { commentId } = params;
   const user = await authenticate(req);
   if (user instanceof NextResponse) {
     return user;
@@ -59,8 +61,10 @@ export async function PUT(
 
 export async function DELETE(
   req: NextRequest,
-  { params: { commentId } }: { params: { commentId: string } },
+  props: { params: Promise<{ commentId: string }> },
 ) {
+  const params = await props.params;
+  const { commentId } = params;
   const user = await authenticate(req);
   if (user instanceof NextResponse) {
     return user;

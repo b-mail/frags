@@ -10,7 +10,7 @@ export default function SearchInput({
 
   return (
     <form
-      className="flex w-96 justify-between gap-4"
+      className="flex w-full justify-between gap-2 md:gap-4"
       onSubmit={(e) => {
         e.preventDefault();
         setSearch(searchInputRef.current?.value as string);

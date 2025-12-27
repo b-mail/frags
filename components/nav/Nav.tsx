@@ -49,16 +49,22 @@ export default function Nav() {
 
   return (
     <>
-      {user && <UserMenu user={user} isActive={isActive} />}
-      <nav className="fixed left-0 top-0 z-50 flex h-16 w-full items-center justify-between bg-slate-900 bg-opacity-70 px-10 shadow-xl backdrop-blur-md">
+      {user && (
+        <UserMenu
+          user={user}
+          isActive={isActive}
+          setIsActive={setIsActive}
+        />
+      )}
+      <nav className="fixed left-0 top-0 z-50 flex h-12 w-full items-center justify-between bg-slate-900 bg-opacity-70 px-4 shadow-xl backdrop-blur-md md:h-16 md:px-10">
         <Link
           href="/"
-          className="flex cursor-pointer items-center justify-center gap-2"
+          className="flex min-h-[40px] cursor-pointer items-center justify-center gap-2"
         >
-          <Image src={"/logo.png"} alt={"로고"} width={40} height={40} />
-          <div className="text-2xl font-bold hover:text-green-400">FRAGS</div>
+          <Image src={"/logo.png"} alt={"로고"} width={30} height={30} className="md:h-[40px] md:w-[40px]" />
+          <div className="text-lg font-bold hover:text-green-400 md:text-2xl">FRAGS</div>
         </Link>
-        <section className="flex w-48 items-center justify-end">
+        <section className="flex items-center justify-end md:w-48">
           <PulseContainer isLoading={isRefreshing}>
             {user ? (
               <div className="flex w-full flex-col items-center justify-center gap-2">
@@ -73,12 +79,12 @@ export default function Nav() {
                 </button>
               </div>
             ) : (
-              <div className="flex w-full items-center justify-center gap-4 text-center">
-                <Link className="hover:text-green-400" href="/login">
+              <div className="flex w-full items-center justify-center gap-2 text-center text-sm md:gap-4 md:text-base">
+                <Link className="p-2 hover:text-green-400" href="/login">
                   로그인
                 </Link>
-                <hr className="h-6 w-0 border border-slate-600" />
-                <Link className="hover:text-green-400" href="/register">
+                <hr className="h-4 w-0 border border-slate-600 md:h-6" />
+                <Link className="p-2 hover:text-green-400" href="/register">
                   회원가입
                 </Link>
               </div>

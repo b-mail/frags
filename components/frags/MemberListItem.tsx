@@ -91,35 +91,35 @@ export default function MemberListItem({
   });
 
   return (
-    <li className="flex h-10 items-center justify-between">
+    <li className="flex min-h-[40px] flex-col justify-between gap-2 border-b border-slate-800 py-3 last:border-0 md:flex-row md:items-center md:py-2">
       {isPending && <LoadingModal message={"멤버 추방 중"} />}
-      <div className="w-80 font-bold">{name}</div>
-      <PulseContainer
-        isLoading={
-          !accessToken || isLoadingPosts || isLoadingComments || isLoadingLikes
-        }
-      >
-        <div className="flex w-80 justify-between">
-          <div className="flex items-center justify-start gap-2">
+      <div className="flex-1 text-base font-bold text-white md:mr-4">{name}</div>
+      <div className="flex w-full items-center justify-end gap-3 text-xs md:w-auto md:gap-2 md:text-sm">
+        <PulseContainer
+          isLoading={
+            !accessToken || isLoadingPosts || isLoadingComments || isLoadingLikes
+          }
+        >
+          <div className="flex items-center gap-3 md:gap-2">
             <PostBadge count={posts?.result.length!} />
             <CommentBadge count={comments?.result.length!} />
             <LikeBadge count={likes?.result.length!} />
           </div>
           {isAdmin ? (
-            <div className="flex w-16 items-center justify-center rounded-xl bg-slate-800 p-2 text-slate-400">
+            <div className="flex items-center justify-center rounded-xl bg-slate-800 px-3 py-2 text-slate-400">
               관리자
             </div>
           ) : (
             <button
-              className="w-16 rounded-xl bg-slate-800 p-2 text-red-400 hover:bg-slate-700"
+              className="rounded-xl bg-slate-800 px-3 py-2 text-red-400 hover:bg-slate-700"
               onClick={() => mutate()}
               disabled={isPending}
             >
               추방
             </button>
           )}
-        </div>
-      </PulseContainer>
+        </PulseContainer>
+      </div>
     </li>
   );
 }

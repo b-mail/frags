@@ -4,10 +4,10 @@ import prisma from "@/lib/db";
 
 export async function GET(
   req: NextRequest,
-  {
-    params: { fragId, memberId },
-  }: { params: { fragId: string; memberId: string } },
+  props: { params: Promise<{ fragId: string; memberId: string }> },
 ) {
+  const params = await props.params;
+  const { fragId, memberId } = params;
   const user = await authenticateByFragId(req, fragId);
   if (user instanceof NextResponse) {
     return user;

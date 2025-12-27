@@ -18,13 +18,15 @@ export default function RootLayout({
   children: ReactNode;
 }>) {
   return (
-    <html lang="ko" className="bg-slate-800">
-      <body className={notoSansKR.className}>
+    <html lang="ko" className="bg-slate-800 text-slate-50">
+      <body className={`${notoSansKR.className} flex min-h-screen flex-col`}>
         <Providers>
           <header>
             <Nav />
           </header>
-          <main className="flex flex-col items-center pt-24">{children}</main>
+          <main className="flex flex-1 flex-col items-center px-4 pt-16 md:pt-24 md:px-8 w-full">
+            {children}
+          </main>
           <footer className="h-48"></footer>
         </Providers>
       </body>

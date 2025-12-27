@@ -41,41 +41,48 @@ export default function FragListItem({ frag }: { frag: Frag }) {
   );
 
   return (
-    <li className="flex flex-col items-center justify-between gap-4 rounded-2xl bg-slate-900 p-6 shadow-2xl">
+    <li className="flex flex-col justify-between gap-4 rounded-2xl bg-slate-900 p-6 shadow-2xl transition-transform hover:scale-[1.02]">
       {isPending && <LoadingModal message={"가입 중"} />}
-      <div className="flex h-12 items-center justify-between">
-        <div className="flex w-96 items-center justify-start gap-4">
+      
+      <div className="flex flex-col gap-3">
+        <div className="flex w-full items-center justify-between gap-2">
           <Link
             href={`/frags/${id}/posts`}
-            className="text-2xl font-bold hover:text-green-400"
+            className="truncate text-xl font-bold hover:text-green-400"
           >
             {name}
           </Link>
           <MemberBadge count={data?.result.length || 0} />
         </div>
-        <div className="flex w-96 items-center justify-end gap-4">
-          <PulseContainer isLoading={isLoading}>
+        <hr className="w-full border-slate-700" />
+      </div>
+
+      <div className="flex-1 rounded-xl bg-slate-800 p-4 text-slate-500">
+        <p className="line-clamp-3 text-sm text-slate-400 md:text-base">
+          {description}
+        </p>
+      </div>
+
+      <div className="flex w-full items-center justify-end">
+        <PulseContainer isLoading={isLoading}>
+          <div className="flex gap-2">
             {isMember && (
               <Link
-                className="rounded-2xl bg-green-400 px-4 py-2 font-bold text-slate-900 hover:bg-green-500"
+                className="rounded-xl bg-green-400 px-3 py-2 text-sm font-bold text-slate-900 hover:bg-green-500 md:px-4 md:text-base"
                 href={`/frags/${id}/posts`}
               >
                 입장하기
               </Link>
             )}
             <button
-              className="rounded-2xl bg-green-400 px-4 py-2 font-bold text-slate-900 hover:bg-green-500 disabled:bg-slate-800 disabled:text-slate-500 disabled:hover:bg-slate-800"
+              className="rounded-xl bg-green-400 px-3 py-2 text-sm font-bold text-slate-900 hover:bg-green-500 disabled:bg-slate-800 disabled:text-slate-500 disabled:hover:bg-slate-800 md:px-4 md:text-base"
               onClick={() => mutate()}
               disabled={isAdmin || isMember}
             >
               {isAdmin ? "관리자" : isMember ? "가입됨" : "가입하기"}
             </button>
-          </PulseContainer>
-        </div>
-      </div>
-      <hr className="w-full border border-slate-700" />
-      <div className="w-192 rounded-2xl bg-slate-800 p-4 text-slate-500 ">
-        <p className="line-clamp-2 h-12 text-slate-400">{description}</p>
+          </div>
+        </PulseContainer>
       </div>
     </li>
   );

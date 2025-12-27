@@ -1,12 +1,12 @@
 import PostList from "@/components/posts/PostList";
 
-export default function PostManagePage({
-  params: { fragId },
-}: {
-  params: { fragId: string };
+export default async function PostManagePage(props: {
+  params: Promise<{ fragId: string }>;
 }) {
+  const params = await props.params;
+  const { fragId } = params;
   return (
-    <div className="w-192">
+    <div className="w-full">
       <PostList fragId={fragId} isAdmin={true} />
     </div>
   );

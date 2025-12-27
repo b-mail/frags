@@ -3,11 +3,25 @@ import Image from "next/image";
 
 export default function HomePage() {
   return (
-    <div className="flex w-full flex-col items-center justify-center gap-16">
-      <div className=" flex items-center justify-center gap-10">
-        <Image src={"/logo_filled.png"} alt={"로고"} width={250} height={250} />
+    <div className="flex w-full flex-col items-center justify-center gap-8 px-4 md:gap-16 md:px-0">
+      <div className="flex items-center justify-center gap-10">
+        <Image
+          src={"/logo_filled.png"}
+          alt={"로고"}
+          width={250}
+          height={250}
+          className="h-auto w-48 md:w-[250px]"
+        />
       </div>
-      <div className="w-192 flex flex-col gap-10">
+      <div className="flex flex-col items-center justify-center gap-10">
+        <Link
+          className="rounded-2xl bg-green-400 p-4 text-xl font-bold text-slate-900 shadow-2xl hover:bg-green-500"
+          href="/frags"
+        >
+          FRAGS 살펴보기
+        </Link>
+      </div>
+      <div className="flex w-full max-w-3xl flex-col gap-6 md:gap-10">
         <div className="flex flex-col gap-4 rounded-2xl bg-slate-900 p-10 shadow-2xl">
           <h2 className="text-2xl font-bold text-green-400">FRAGS?</h2>
           <p>
@@ -27,14 +41,6 @@ export default function HomePage() {
             초대해보세요!
           </p>
         </div>
-      </div>
-      <div className="flex flex-col items-center justify-center gap-10">
-        <Link
-          className="rounded-2xl bg-green-400 p-4 text-xl font-bold text-slate-900 shadow-2xl hover:bg-green-500"
-          href="/frags"
-        >
-          FRAGS 살펴보기
-        </Link>
       </div>
     </div>
   );

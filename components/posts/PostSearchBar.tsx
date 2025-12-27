@@ -11,9 +11,11 @@ export default function PostSearchBar() {
   const setOrder = usePostSearch.use.setOrder();
 
   return (
-    <div className="flex w-full items-center justify-between rounded-2xl bg-slate-900 p-4 shadow-2xl">
-      <SearchInput search={search} setSearch={setSearch} />
-      <div className="flex w-96 items-center justify-end gap-4">
+    <div className="flex w-full flex-col md:flex-row items-center justify-between rounded-2xl bg-slate-900 p-4 shadow-2xl gap-4">
+      <div className="w-full md:flex-1">
+        <SearchInput search={search} setSearch={setSearch} />
+      </div>
+      <div className="flex w-full md:w-auto items-center justify-end gap-4">
         <button
           className={`${order === "latest" ? "text-green-400" : "text-slate-500  hover:text-slate-400"}`}
           onClick={() => setOrder("latest")}

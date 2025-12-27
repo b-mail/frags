@@ -5,12 +5,12 @@ import { Metadata } from "next";
 import prisma from "@/lib/db";
 import ViewCounter from "@/components/posts/ViewCoutner";
 
-export async function generateMetadata({
-  params: { postId },
-}: {
-  params: { postId: string };
-}): Promise<Metadata> {
+export async function generateMetadata(
+  props: { params: Promise<{ postId: string }> }
+): Promise<Metadata> {
   "use server";
+  const params = await props.params;
+  const { postId } = params;
   const post = await prisma.post.findUnique({
     where: { id: postId },
     select: { title: true },
@@ -21,13 +21,13 @@ export async function generateMetadata({
   };
 }
 
-export default function PostPage({
-  params: { postId },
-}: {
-  params: { postId: string };
+export default async function PostPage(props: {
+  params: Promise<{ postId: string }>;
 }) {
+  const params = await props.params;
+  const { postId } = params;
   return (
-    <div className="w-192 flex flex-col gap-10">
+    <div className="flex w-full max-w-3xl flex-col gap-10">
       <PostContent postId={postId} />
       <section className="flex flex-col gap-4 rounded-2xl bg-slate-900 p-10 shadow-2xl">
         <CommentForm postId={postId} />

@@ -50,7 +50,7 @@ export default function RegisterForm() {
 
   return (
     <form
-      className="w-128 flex flex-col gap-8 rounded-2xl bg-slate-900 p-10 shadow-2xl"
+      className="md:w-full md:max-w-2xl flex w-full max-w-lg flex-col gap-8 rounded-2xl bg-slate-900 p-10 shadow-2xl"
       onSubmit={handleSubmit(onSubmit)}
     >
       {isSubmitting && <LoadingModal message={"회원가입 중"} />}

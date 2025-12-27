@@ -8,8 +8,8 @@ export let metadata = {
 
 export default function NewFragPage() {
   return (
-    <div className="flex items-start justify-center gap-10">
-      <section className="flex w-96 flex-col justify-between gap-4 rounded-2xl bg-slate-900 p-10 shadow-2xl">
+    <div className="flex w-full max-w-[1600px] flex-col md:flex-row items-center md:items-start justify-center gap-10">
+      <section className="flex w-full max-w-sm flex-col justify-between gap-4 rounded-2xl bg-slate-900 p-10 shadow-2xl">
         <div className="flex flex-col gap-4">
           <h2 className="flex items-end gap-2 text-4xl font-bold">
             <div className="relative size-9">

@@ -3,8 +3,10 @@ import prisma from "@/lib/db";
 
 export async function GET(
   req: NextRequest,
-  { params: { userId } }: { params: { userId: string } },
+  props: { params: Promise<{ userId: string }> },
 ) {
+  const params = await props.params;
+  const { userId } = params;
   const user = await prisma.user.findUnique({
     where: {
       id: userId,

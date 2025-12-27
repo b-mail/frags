@@ -9,7 +9,7 @@ export let metadata = {
 
 export default function FragPage() {
   return (
-    <div className="flex flex-col items-center gap-12">
+    <div className="flex w-full max-w-6xl flex-col items-center gap-12">
       <FragSearchBar />
       <FragList />
       <Link

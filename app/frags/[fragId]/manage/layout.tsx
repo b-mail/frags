@@ -3,12 +3,13 @@ import { ReactNode } from "react";
 import { Metadata } from "next";
 import prisma from "@/lib/db";
 
-export async function generateMetadata({
-  params: { fragId },
-}: {
-  params: { fragId: string };
-}): Promise<Metadata> {
+export async function generateMetadata(
+  props: { params: Promise<{ fragId: string }> }
+): Promise<Metadata> {
   "use server";
+  const params = await props.params;
+  const { fragId } = params;
+
   const frag = await prisma.frag.findUnique({
     where: { id: fragId },
     select: { name: true },
@@ -18,15 +19,15 @@ export async function generateMetadata({
     title: `${frag?.name} - 관리 | FRAGS`,
   };
 }
-export default function FragManageLayout({
-  params: { fragId },
-  children,
-}: {
-  params: { fragId: string };
+export default async function FragManageLayout(props: {
+  params: Promise<{ fragId: string }>;
   children: ReactNode;
 }) {
+  const params = await props.params;
+  const { fragId } = params;
+  const { children } = props;
   return (
-    <div className="flex flex-col items-center justify-center gap-10">
+    <div className="flex w-full max-w-[1600px] flex-col items-center justify-center gap-10">
       <FragManageBar fragId={fragId} />
       {children}
     </div>

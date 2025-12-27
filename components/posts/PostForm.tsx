@@ -119,7 +119,7 @@ export default function PostForm({
 
   return (
     <form
-      className="flex flex-col gap-4 rounded-2xl bg-slate-900 p-10 shadow-2xl"
+      className="flex flex-1 w-full flex-col gap-4 rounded-2xl bg-slate-900 p-6 shadow-2xl md:p-10"
       onSubmit={handleSubmit(onSubmit)}
     >
       {isSubmitting && (
@@ -136,7 +136,7 @@ export default function PostForm({
         </span>
       </label>
       <input
-        className={`${errors?.title ? "border-red-400 focus:border-red-400" : "border-slate-700 focus:border-slate-500"} w-128 overflow-scroll rounded-2xl border-4 bg-slate-800 p-4 placeholder:text-slate-400 focus:outline-0`}
+        className={`${errors?.title ? "border-red-400 focus:border-red-400" : "border-slate-700 focus:border-slate-500"} w-full overflow-scroll rounded-2xl border-4 bg-slate-800 p-4 placeholder:text-slate-400 focus:outline-0`}
         id={"title"}
         placeholder="제목을 입력해주세요."
         {...register("title")}

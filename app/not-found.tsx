@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default async function NotFoundPage() {
   return (
-    <div className="w-192 flex flex-col items-center justify-center gap-6 rounded-2xl bg-slate-900 p-10 shadow-2xl">
+    <div className="w-full max-w-3xl flex flex-col items-center justify-center gap-6 rounded-2xl bg-slate-900 p-10 shadow-2xl">
       <div className="flex items-start justify-center gap-4">
         <svg
           xmlns="http://www.w3.org/2000/svg"

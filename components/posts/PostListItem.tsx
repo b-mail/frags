@@ -61,19 +61,21 @@ export default function PostListItem({
   }, []);
 
   return (
-    <li className="flex h-10 items-center justify-between">
+    <li className="flex min-h-[40px] flex-col justify-between gap-2 border-b border-slate-800 py-3 last:border-0 md:flex-row md:items-center md:py-2">
       <Link
-        className="line-clamp-1 w-80 text-white hover:text-green-400"
+        className="flex-1 text-base font-medium text-white hover:text-green-400 md:mr-4"
         href={`/frags/${fragId}/posts/${id}`}
       >
         {title}
       </Link>
-      <div className="flex h-full w-96 items-center justify-end gap-2">
+      <div className="flex w-full items-center justify-end gap-3 text-xs md:w-auto md:gap-2 md:text-sm">
         <PulseContainer isLoading={!author || !likes || !comments}>
           <UserBadge userName={author?.result.name ?? "홍길동"} />
-          <ViewBadge view={view} />
-          <LikeBadge count={likes?.result.length ?? 0} />
-          <CommentBadge count={comments?.result.length ?? 0} />
+          <div className="flex items-center gap-3 md:gap-2">
+            <ViewBadge view={view} />
+            <LikeBadge count={likes?.result.length ?? 0} />
+            <CommentBadge count={comments?.result.length ?? 0} />
+          </div>
           {isAdmin && (
             <DeleteButton onClick={() => mutate()} disabled={isPending} />
           )}

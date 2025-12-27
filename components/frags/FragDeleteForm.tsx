@@ -40,7 +40,7 @@ export default function FragDeleteForm({ fragId }: { fragId: string }) {
 
   return (
     <form
-      className="w-192 flex flex-col gap-4 rounded-2xl bg-slate-900 p-10 shadow-2xl"
+      className="flex w-full flex-col gap-4 rounded-2xl bg-slate-900 p-10 shadow-2xl"
       onSubmit={handleSubmit}
     >
       {isPending && <LoadingModal message={"FRAG 삭제 중"} />}

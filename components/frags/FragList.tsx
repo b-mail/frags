@@ -60,17 +60,17 @@ export default function FragList() {
   }, [observeTargetRef, hasNextPage, fetchNextPage, isFetchingNextPage]);
 
   return (
-    <section className="flex flex-col gap-10">
+    <section className="flex w-full flex-col gap-10">
       {!accessToken || isLoading ? (
         <LoadingIndicator message="FRAGS 불러오는 중" />
       ) : (
-        <ul className="flex list-none flex-col gap-10">
+        <ul className="grid list-none grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 lg:grid-cols-3">
           {data?.pages.flatMap((page) => page.result).length !== 0 ? (
             data?.pages
               .flatMap((page) => page.result)
               .map((frag) => <FragListItem key={frag.id} frag={frag} />)
           ) : (
-            <li className="rounded-2xl bg-slate-900 p-6 text-slate-500 shadow-2xl">
+            <li className="col-span-full rounded-2xl bg-slate-900 p-6 text-slate-500 shadow-2xl">
               검색 조건에 맞는 FRAG을 찾을 수 없습니다.
             </li>
           )}

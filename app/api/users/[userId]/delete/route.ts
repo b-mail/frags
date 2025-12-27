@@ -5,8 +5,10 @@ import crypto from "node:crypto";
 
 export async function POST(
   req: NextRequest,
-  { params: { userId } }: { params: { userId: string } },
+  props: { params: Promise<{ userId: string }> },
 ) {
+  const params = await props.params;
+  const { userId } = params;
   const user = await authenticateByUserId(req, userId);
   if (user instanceof NextResponse) {
     return user;

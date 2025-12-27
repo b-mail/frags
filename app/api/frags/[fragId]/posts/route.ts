@@ -4,8 +4,10 @@ import { authenticateByFragId } from "@/lib/autheticate";
 import { postSchema } from "@/lib/schema";
 export async function GET(
   req: NextRequest,
-  { params: { fragId } }: { params: { fragId: string } },
+  props: { params: Promise<{ fragId: string }> },
 ) {
+  const params = await props.params;
+  const { fragId } = params;
   const user = await authenticateByFragId(req, fragId);
   if (user instanceof NextResponse) {
     return user;
@@ -114,8 +116,10 @@ export async function GET(
 
 export async function POST(
   req: NextRequest,
-  { params: { fragId } }: { params: { fragId: string } },
+  props: { params: Promise<{ fragId: string }> },
 ) {
+  const params = await props.params;
+  const { fragId } = params;
   const user = await authenticateByFragId(req, fragId);
   if (user instanceof NextResponse) {
     return user;
