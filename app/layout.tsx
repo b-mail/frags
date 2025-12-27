@@ -24,7 +24,7 @@ export default function RootLayout({
           <header>
             <Nav />
           </header>
-          <main className="flex flex-1 flex-col items-center px-4 pt-16 md:pt-24 md:px-8 w-full">
+          <main className="flex flex-1 flex-col items-center px-4 pt-24 w-full md:px-8 md:pt-32">
             {children}
           </main>
           <footer className="h-48"></footer>

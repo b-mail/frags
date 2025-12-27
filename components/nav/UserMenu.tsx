@@ -52,8 +52,8 @@ export default function UserMenu({
       {/* Dropdown Menu */}
       <div
         className={`${
-          isActive ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"
-        } fixed left-0 right-0 top-12 z-41 flex w-full flex-col gap-4 rounded-b-2xl bg-slate-900 p-6 shadow-2xl transition-all duration-300 ease-in-out md:top-16 md:left-auto md:right-10 md:w-64 md:rounded-2xl`}
+          isActive ? "translate-y-0 opacity-100 visible" : "-translate-y-2 opacity-0 invisible"
+        } fixed left-1/2 top-20 z-50 flex w-[95%] -translate-x-1/2 flex-col gap-4 rounded-2xl border border-white/10 bg-slate-900/80 p-6 shadow-2xl backdrop-blur-xl transition-all duration-300 ease-in-out md:left-auto md:right-[5%] md:top-24 md:w-64 md:translate-x-0`}
       >
         {isPending && <LoadingModal message={"로그아웃 중"} />}
         

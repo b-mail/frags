@@ -13,7 +13,7 @@ export default function FragPage() {
       <FragSearchBar />
       <FragList />
       <Link
-        className="fixed bottom-10 left-10 rounded-2xl bg-slate-900 p-4 text-slate-500 shadow-2xl hover:text-green-400"
+        className="fixed bottom-10 left-10 rounded-2xl border border-white/10 bg-slate-900/60 p-4 text-slate-400 shadow-2xl backdrop-blur-xl hover:text-green-400"
         href={"/frags/new"}
       >
         + 새 FRAG 만들기

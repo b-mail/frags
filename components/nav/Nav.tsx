@@ -56,7 +56,7 @@ export default function Nav() {
           setIsActive={setIsActive}
         />
       )}
-      <nav className="fixed left-0 top-0 z-50 flex h-12 w-full items-center justify-between bg-slate-900 bg-opacity-70 px-4 shadow-xl backdrop-blur-md md:h-16 md:px-10">
+      <nav className="fixed left-1/2 top-4 z-50 flex h-14 w-[95%] -translate-x-1/2 items-center justify-between rounded-2xl border border-white/10 bg-slate-900/60 px-4 shadow-lg backdrop-blur-xl md:h-16 md:w-[90%] md:px-10">
         <Link
           href="/"
           className="flex min-h-[40px] cursor-pointer items-center justify-center gap-2"
