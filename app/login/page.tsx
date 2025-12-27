@@ -8,9 +8,9 @@ export let metadata = {
 
 export default function LoginPage() {
   return (
-    <div className="flex w-full flex-col gap-8 md:flex-row md:gap-12">
-      <section className="flex h-96 w-full max-w-md flex-col justify-between gap-4 rounded-2xl bg-slate-900 p-10 shadow-2xl md:w-96">
-        <div className="flex flex-col gap-4">
+    <div className="flex w-full flex-col items-center justify-center gap-8 md:flex-row md:items-start md:gap-12">
+      <section className="flex h-fit w-full max-w-md flex-col justify-between gap-2 rounded-2xl bg-slate-900 p-6 shadow-2xl md:h-96 md:p-10 md:w-96 md:gap-4">
+        <div className="flex flex-col gap-2 md:gap-4">
           <h2 className="flex items-center gap-2 text-4xl font-bold">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -29,10 +29,12 @@ export default function LoginPage() {
             로그인
           </h2>
           <hr className="border border-slate-800" />
-          <p>FRAGS에 오신 걸 환영합니다!</p>
-          <p>지금 바로 로그인하여 FRAGS를 즐겨주세요.</p>
+          <div className="flex flex-col gap-2 py-2 md:gap-4 md:py-4">
+            <p>FRAGS에 오신 걸 환영합니다!</p>
+            <p>지금 바로 로그인하여 FRAGS를 즐겨주세요.</p>
+          </div>
         </div>
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-2 md:gap-4">
           <hr className="border border-slate-800" />
           <div className="flex gap-4">
             <div className="text-slate-500">회원이 아니신가요?</div>

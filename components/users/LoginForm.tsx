@@ -51,7 +51,7 @@ export default function LoginForm() {
 
   return (
     <form
-      className="md:w-full md:max-w-2xl flex w-full max-w-lg flex-col gap-8 rounded-2xl bg-slate-900 p-10 shadow-2xl"
+      className="md:w-full md:max-w-2xl flex w-full max-w-lg flex-col gap-4 rounded-2xl bg-slate-900 p-6 shadow-2xl md:gap-8 md:p-10"
       onSubmit={handleSubmit(onSubmit)}
     >
       {isSubmitting && <LoadingModal message={"로그인 중"} />}
