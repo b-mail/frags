@@ -32,19 +32,19 @@ export default function FragManageBar({ fragId }: { fragId: string }) {
       <hr className="w-full border-slate-800 md:hidden" />
       <div className="grid w-full grid-cols-2 gap-2 text-center text-sm md:flex md:w-auto md:gap-4 md:text-base">
         <Link
-          className={`${pathname.endsWith("manage") ? "bg-slate-800 text-green-400" : "text-slate-500 hover:text-slate-400"} rounded-xl px-4 py-2 transition-colors`}
+          className={`${pathname.endsWith("manage") ? "bg-slate-800 text-green-400" : "text-slate-500 hover:bg-slate-800 hover:text-slate-400"} rounded-xl px-4 py-2 transition-colors`}
           href={`/frags/${fragId}/manage`}
         >
           기본 정보
         </Link>
         <Link
-          className={`${pathname.endsWith("manage/members") ? "bg-slate-800 text-green-400" : "text-slate-500 hover:text-slate-400"} rounded-xl px-4 py-2 transition-colors`}
+          className={`${pathname.endsWith("manage/members") ? "bg-slate-800 text-green-400" : "text-slate-500 hover:bg-slate-800 hover:text-slate-400"} rounded-xl px-4 py-2 transition-colors`}
           href={`/frags/${fragId}/manage/members`}
         >
           멤버 관리
         </Link>
         <Link
-          className={`${pathname.endsWith("manage/posts") ? "bg-slate-800 text-green-400" : "text-slate-500 hover:text-slate-400"} rounded-xl px-4 py-2 transition-colors`}
+          className={`${pathname.endsWith("manage/posts") ? "bg-slate-800 text-green-400" : "text-slate-500 hover:bg-slate-800 hover:text-slate-400"} rounded-xl px-4 py-2 transition-colors`}
           href={`/frags/${fragId}/manage/posts`}
         >
           게시글 관리
