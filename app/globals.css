@@ -2,15 +2,19 @@
 
 @theme {
   --background-image-gradient-radial: radial-gradient(var(--tw-gradient-stops));
-  --background-image-gradient-conic: conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops));
+  --background-image-gradient-conic: conic-gradient(
+    from 180deg at 50% 50%,
+    var(--tw-gradient-stops)
+  );
 }
 
 @layer base {
-  input, textarea {
+  input,
+  textarea {
     color: inherit;
     background-color: transparent;
   }
-  
+
   html {
     overflow-y: scroll;
   }
@@ -22,17 +26,8 @@
   }
 
   /* Aggressively hide all scrollbar buttons and corners */
-  ::-webkit-scrollbar-button,
-  ::-webkit-scrollbar-button:start,
-  ::-webkit-scrollbar-button:end,
-  ::-webkit-scrollbar-button:vertical:start:decrement,
-  ::-webkit-scrollbar-button:vertical:end:increment,
-  ::-webkit-scrollbar-button:horizontal:start:decrement,
-  ::-webkit-scrollbar-button:horizontal:end:increment {
+  ::-webkit-scrollbar-button {
     display: none !important;
-    width: 0 !important;
-    height: 0 !important;
-    background: transparent !important;
   }
 
   ::-webkit-scrollbar-corner {
@@ -70,6 +65,3 @@
     scrollbar-width: none;
   }
 }
-
-
-

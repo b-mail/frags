@@ -22,7 +22,7 @@ export default function SearchInput({
         ref={searchInputRef}
       />
       <button
-        className=" rounded-2xl bg-slate-800 p-3 hover:bg-slate-700 "
+        className=" rounded-2xl bg-slate-800 p-3 hover:bg-slate-700 cursor-pointer"
         type="submit"
       >
         <svg

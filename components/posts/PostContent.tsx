@@ -85,7 +85,7 @@ export default function PostContent({ postId }: { postId: string }) {
       message={"게시글 불러오는 중"}
     >
       {editMode && (
-        <div className="fixed left-0 top-0 z-50 flex h-full w-full items-center justify-center bg-slate-900 bg-opacity-70 backdrop-blur-md">
+        <div className="bg-opacity-70 fixed top-0 left-0 z-50 flex h-full w-full items-center justify-center bg-slate-900 backdrop-blur-md">
           <PostForm
             fragId={post?.result.fragId!}
             initialValues={post?.result}
@@ -96,29 +96,32 @@ export default function PostContent({ postId }: { postId: string }) {
       )}
       {isDeleting && <LoadingModal message={"게시글 삭제 중"} />}
       <article className="flex flex-col gap-6 rounded-2xl bg-slate-900 p-10 shadow-2xl">
-        <section className="flex flex-col items-start justify-start gap-6 ">
+        <section className="flex flex-col items-start justify-start gap-4">
           <h1 className="text-2xl font-bold">{post?.result.title}</h1>
-          <div className="flex w-full items-center justify-between">
-            <div className="flex items-center gap-2">
-              <UserBadge
-                userName={author?.result.name ?? "작성자"}
-                enableIcon={true}
-                className="bg-slate-800"
-              />
-              <DateBadge
-                date={
-                  post?.result.createdAt
-                    .toString()
-                    .slice(0, 10)
-                    .replaceAll("-", ". ") ?? "yyyy. mm. dd"
-                }
-              />
-              <TimeBadge
-                time={
-                  post?.result.createdAt.toString().slice(11, 16) ?? "tt:mm"
-                }
-              />
-            </div>
+          <div className="flex w-full flex-wrap items-center gap-2">
+            <UserBadge
+              userName={author?.result.name ?? "작성자"}
+              enableIcon={true}
+              className="bg-slate-800"
+            />
+            <DateBadge
+              date={
+                post?.result.createdAt
+                  .toString()
+                  .slice(0, 10)
+                  .replaceAll("-", ". ") ?? "yyyy. mm. dd"
+              }
+            />
+            <TimeBadge
+              time={post?.result.createdAt.toString().slice(11, 16) ?? "tt:mm"}
+            />
+          </div>
+        </section>
+        <hr className="w-full border border-slate-700" />
+        <section className="flex flex-col gap-10">
+          <p className="leading-8">{post?.result.content ?? ""}</p>
+          <div className="flex items-end justify-between gap-4">
+            <LikeButton postId={postId} />
             {post?.result.userId === user?.id && (
               <div className="flex items-center gap-2">
                 <EditButton onClick={() => setEditMode(true)} />
@@ -128,13 +131,6 @@ export default function PostContent({ postId }: { postId: string }) {
                 />
               </div>
             )}
-          </div>
-        </section>
-        <hr className="w-full border border-slate-700" />
-        <section className="flex flex-col gap-10">
-          <p className="leading-8">{post?.result.content ?? ""}</p>
-          <div className="flex items-center justify-center">
-            <LikeButton postId={postId} />
           </div>
         </section>
       </article>

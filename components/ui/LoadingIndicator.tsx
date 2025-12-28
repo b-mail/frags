@@ -7,7 +7,7 @@ export default function LoadingIndicator({
 }) {
   return (
     <div
-      className={`flex items-center justify-center gap-4 rounded-2xl border border-white/10 bg-slate-800/60 p-4 backdrop-blur-xl ${noShadow ? "" : "shadow-2xl"}`}
+      className={`flex items-center justify-center gap-4 rounded-2xl border border-white/10 bg-slate-900 p-4 ${noShadow ? "" : "shadow-2xl"}`}
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"

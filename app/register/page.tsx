@@ -8,9 +8,9 @@ export let metadata = {
 
 export default function RegisterPage() {
   return (
-    <div className="flex w-full flex-col items-center justify-center gap-8 md:flex-row md:items-start md:gap-12">
-      <section className="flex h-fit w-full max-w-md flex-col justify-between gap-2 rounded-2xl bg-slate-900 p-6 shadow-2xl md:h-96 md:p-10 md:w-96 md:gap-4">
-        <div className="flex flex-col gap-2 md:gap-4">
+    <div className="flex w-full max-w-6xl flex-col items-center justify-center gap-10 md:flex-row md:items-start">
+      <section className="flex w-full max-w-sm flex-col justify-between gap-4 rounded-2xl border border-white/10 bg-linear-to-br from-slate-800 to-slate-900 p-8 shadow-2xl md:p-10">
+        <div className="flex flex-col gap-4">
           <h2 className="flex items-center gap-2 text-4xl font-bold">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -30,17 +30,23 @@ export default function RegisterPage() {
           </h2>
           <hr className="border border-slate-800" />
           <div className="flex flex-col gap-2 py-2 md:gap-4 md:py-4">
-            <p>FRAGS가 처음이신가요?</p>
-            <p>회원가입을 통해 FRAGS의 다양한 서비스를 이용해보세요.</p>
+            <p className="text-slate-300">FRAGS가 처음이신가요?</p>
+            <p className="text-slate-300">
+              지금 바로 가입하여 다양한 에너지를 공유하고 새로운 사람들을
+              만나보세요.
+            </p>
           </div>
-        </div>
-        <div className="flex flex-col gap-2 md:gap-4">
-          <hr className="border border-slate-800" />
-          <div className="flex gap-4">
-            <div className="text-slate-500">이미 회원이신가요?</div>
-            <Link className="text-slate-500 hover:text-green-400" href="/login">
-              로그인하러 가기
-            </Link>
+          <div className="flex flex-col gap-2">
+            <hr className="border border-slate-800" />
+            <div className="flex flex-col gap-2 pt-4">
+              <span className="text-sm text-slate-500">이미 회원이신가요?</span>
+              <Link
+                className="inline-flex h-11 items-center justify-center rounded-xl border border-white/10 bg-slate-800 px-4 text-sm font-medium text-slate-300 transition-colors hover:bg-slate-700 hover:text-green-400"
+                href="/login"
+              >
+                로그인하러 가기
+              </Link>
+            </div>
           </div>
         </div>
       </section>

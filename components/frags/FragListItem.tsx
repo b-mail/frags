@@ -41,9 +41,9 @@ export default function FragListItem({ frag }: { frag: Frag }) {
   );
 
   return (
-    <li className="flex flex-col justify-between gap-4 rounded-2xl bg-slate-900 p-6 shadow-2xl transition-transform hover:scale-[1.02]">
+    <li className="flex min-w-0 flex-col justify-between gap-4 rounded-2xl bg-slate-900 p-5 shadow-2xl transition-transform hover:scale-[1.02] md:p-6">
       {isPending && <LoadingModal message={"가입 중"} />}
-      
+
       <div className="flex flex-col gap-3">
         <div className="flex w-full items-center justify-between gap-2">
           <Link
@@ -63,9 +63,9 @@ export default function FragListItem({ frag }: { frag: Frag }) {
         </p>
       </div>
 
-      <div className="flex w-full items-center justify-end">
+      <div className="flex w-full items-center justify-end overflow-hidden">
         <PulseContainer isLoading={isLoading}>
-          <div className="flex gap-2">
+          <div className="flex max-w-full flex-wrap justify-end gap-2">
             {isMember && (
               <Link
                 className="rounded-xl bg-green-400 px-3 py-2 text-sm font-bold text-slate-900 hover:bg-green-500 md:px-4 md:text-base"

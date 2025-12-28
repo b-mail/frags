@@ -10,7 +10,7 @@ export default function MyPageLayout({ children }: { children: ReactNode }) {
 
   return (
     <ProtectedRoute>
-      <div className="flex w-full flex-col items-start justify-center gap-10 md:flex-row max-w-[1600px]">
+      <div className="flex w-full max-w-6xl flex-col items-start justify-center gap-10 md:flex-row">
         <div className="flex w-full flex-col gap-2 rounded-2xl bg-slate-900 p-6 shadow-2xl md:w-64">
           <Link
             className={`rounded-xl p-4 transition-colors ${
@@ -43,7 +43,7 @@ export default function MyPageLayout({ children }: { children: ReactNode }) {
             회원탈퇴
           </Link>
         </div>
-        <div className="flex-1 w-full">{children}</div>
+        <div className="w-full flex-1">{children}</div>
       </div>
     </ProtectedRoute>
   );

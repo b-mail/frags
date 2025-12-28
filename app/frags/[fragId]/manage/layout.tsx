@@ -3,9 +3,9 @@ import { ReactNode } from "react";
 import { Metadata } from "next";
 import prisma from "@/lib/db";
 
-export async function generateMetadata(
-  props: { params: Promise<{ fragId: string }> }
-): Promise<Metadata> {
+export async function generateMetadata(props: {
+  params: Promise<{ fragId: string }>;
+}): Promise<Metadata> {
   "use server";
   const params = await props.params;
   const { fragId } = params;
@@ -27,7 +27,7 @@ export default async function FragManageLayout(props: {
   const { fragId } = params;
   const { children } = props;
   return (
-    <div className="flex w-full max-w-[1600px] flex-col items-center justify-center gap-10">
+    <div className="flex w-full max-w-6xl flex-col items-center justify-center gap-10">
       <FragManageBar fragId={fragId} />
       {children}
     </div>

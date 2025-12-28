@@ -10,8 +10,8 @@ export default async function NewPostPage(props: {
   const params = await props.params;
   const { fragId } = params;
   return (
-    <section className="flex w-full max-w-[1600px] flex-col md:flex-row items-center md:items-start justify-center gap-10">
-      <section className="flex w-full max-w-sm flex-col justify-between gap-4 rounded-2xl bg-slate-900 p-10 shadow-2xl">
+    <section className="flex w-full max-w-6xl flex-col items-center justify-center gap-10 md:flex-row md:items-start">
+      <section className="flex w-full max-w-sm flex-col justify-between gap-4 rounded-2xl border border-white/10 bg-gradient-to-br from-slate-800 to-slate-900 p-8 shadow-2xl md:p-10">
         <div className="flex flex-col gap-4">
           <h2 className="flex items-center gap-2 text-4xl font-bold">
             <svg

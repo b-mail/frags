@@ -91,7 +91,7 @@ export default function LikeButton({ postId }: { postId: string }) {
 
   return (
     <button
-      className="flex h-16 w-24 items-center justify-center gap-2 rounded-2xl bg-slate-800 p-4 hover:bg-slate-700 disabled:hover:bg-slate-800"
+      className="flex h-16 w-24 cursor-pointer items-center justify-center gap-2 rounded-2xl bg-slate-800 p-4 hover:bg-slate-700 disabled:cursor-not-allowed disabled:hover:bg-slate-800"
       onClick={handleClick}
       disabled={!isSuccess || isLikePending || isUnlikePending}
     >

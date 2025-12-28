@@ -3,9 +3,9 @@ import PostSearchBar from "@/components/posts/PostSearchBar";
 import { Metadata } from "next";
 import prisma from "@/lib/db";
 
-export async function generateMetadata(
-  props: { params: Promise<{ fragId: string }> }
-): Promise<Metadata> {
+export async function generateMetadata(props: {
+  params: Promise<{ fragId: string }>;
+}): Promise<Metadata> {
   "use server";
   const params = await props.params;
   const { fragId } = params;
@@ -26,7 +26,7 @@ export default async function FragPage(props: {
   const params = await props.params;
   const { fragId } = params;
   return (
-    <div className="flex w-full max-w-[1600px] flex-col gap-10">
+    <div className="flex w-full max-w-6xl flex-col gap-10">
       <PostSearchBar />
       <PostList fragId={fragId} />
     </div>

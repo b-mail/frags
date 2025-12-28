@@ -13,8 +13,11 @@
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
     "@prisma/client": "^6.19.1",
+    "@react-three/drei": "^10.7.7",
+    "@react-three/fiber": "^9.4.2",
     "@tailwindcss/postcss": "^4.1.18",
     "@tanstack/react-query": "^5.90.12",
+    "@types/three": "^0.182.0",
     "@vercel/postgres": "^0.10.0",
     "axios": "^1.13.2",
     "jsonwebtoken": "^9.0.3",
@@ -24,6 +27,7 @@
     "react-dom": "^19.2.3",
     "react-hook-form": "^7.69.0",
     "sharp": "^0.34.5",
+    "three": "^0.182.0",
     "zod": "^4.2.1",
     "zustand": "^5.0.9"
   },

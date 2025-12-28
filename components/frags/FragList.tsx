@@ -60,11 +60,11 @@ export default function FragList() {
   }, [observeTargetRef, hasNextPage, fetchNextPage, isFetchingNextPage]);
 
   return (
-    <section className="flex w-full flex-col gap-10">
+    <section className="flex w-full flex-col gap-10 overflow-hidden">
       {!accessToken || isLoading ? (
         <LoadingIndicator message="FRAGS 불러오는 중" />
       ) : (
-        <ul className="grid list-none grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 lg:grid-cols-3">
+        <ul className="grid list-none grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 lg:grid-cols-3 xl:grid-cols-4">
           {data?.pages.flatMap((page) => page.result).length !== 0 ? (
             data?.pages
               .flatMap((page) => page.result)
