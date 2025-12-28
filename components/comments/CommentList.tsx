@@ -28,11 +28,13 @@ export default function CommentList({ postId }: { postId: string }) {
       noShadow={true}
     >
       <ul className="flex w-full flex-col gap-6">
-        {comments?.result.map((comment) => (
-          <>
-            <CommentListItem key={comment.id} comment={comment} />
-            <hr className="w-full border border-slate-700" />
-          </>
+        {comments?.result.map((comment, index) => (
+          <li key={comment.id} className="flex flex-col gap-6">
+            <CommentListItem comment={comment} />
+            {index < comments.result.length - 1 && (
+              <hr className="w-full border border-slate-700" />
+            )}
+          </li>
         ))}
       </ul>
     </LoadingContainer>

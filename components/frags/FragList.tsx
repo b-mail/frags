@@ -68,6 +68,10 @@ export default function FragList() {
           {data?.pages.flatMap((page) => page.result).length !== 0 ? (
             data?.pages
               .flatMap((page) => page.result)
+              .filter(
+                (frag, index, self) =>
+                  index === self.findIndex((f) => f.id === frag.id),
+              )
               .map((frag) => <FragListItem key={frag.id} frag={frag} />)
           ) : (
             <li className="col-span-full rounded-2xl bg-slate-900 p-6 text-slate-500 shadow-2xl">

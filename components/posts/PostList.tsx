@@ -60,13 +60,17 @@ export default function PostList({
     >
       <div className="flex w-full flex-col gap-6">
         {data?.pages.flat()[0].result.length === 0 ? (
-          <p className=" rounded-2xl bg-slate-900 px-10 py-4 text-center text-slate-500 shadow-2xl">
+          <p className="rounded-2xl bg-slate-900 px-10 py-4 text-center text-slate-500 shadow-2xl">
             표시할 게시글이 없습니다.
           </p>
         ) : (
           <ul className="flex list-none flex-col gap-4 rounded-2xl bg-slate-900 p-6 shadow-2xl">
             {data?.pages
               .flatMap((page) => page.result)
+              .filter(
+                (post, index, self) =>
+                  index === self.findIndex((p) => p.id === post.id),
+              )
               .map((post: Post) => (
                 <PostListItem key={post.id} post={post} isAdmin={isAdmin} />
               ))}
@@ -78,7 +82,7 @@ export default function PostList({
             message={"더 불러오는 중"}
           >
             <button
-              className=" rounded-2xl bg-slate-900 px-6 py-4 text-slate-500 shadow-2xl hover:text-green-400"
+              className="rounded-2xl bg-slate-900 px-6 py-4 text-slate-500 shadow-2xl hover:text-green-400"
               onClick={() => fetchNextPage()}
             >
               더 불러오기

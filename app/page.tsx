@@ -26,7 +26,7 @@ export default function HomePage() {
 
         {/* Primary CTA */}
         <Link
-          className="group relative inline-flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-green-400 to-green-500 px-8 py-4 text-lg font-bold text-slate-900 shadow-2xl transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-green-400/50 md:px-10 md:py-5 md:text-xl"
+          className="group relative inline-flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-green-400 to-green-500 px-8 py-4 text-lg font-bold text-slate-900 shadow-2xl transition-all duration-300 hover:scale-105 hover:shadow-xl md:px-10 md:py-5 md:text-xl"
           href="/frags"
         >
           FRAGS 살펴보기

@@ -41,7 +41,7 @@ export default function FragListItem({ frag }: { frag: Frag }) {
   );
 
   return (
-    <li className="flex min-w-0 flex-col justify-between gap-4 rounded-2xl bg-slate-900 p-5 shadow-2xl transition-transform hover:scale-[1.02] md:p-6">
+    <li className="flex min-w-0 flex-col justify-between gap-4 rounded-2xl bg-slate-900 p-5 shadow-2xl md:p-6">
       {isPending && <LoadingModal message={"가입 중"} />}
 
       <div className="flex flex-col gap-3">

@@ -47,7 +47,9 @@ export default function PostSideBar({ fragId }: { fragId: string }) {
       {/* 2. 플로팅 트리거 버튼 (사이드바가 닫혀있을 때만 보임) */}
       <button
         className={`${
-          isActive ? "opacity-0 pointer-events-none scale-90" : "opacity-100 scale-100"
+          isActive
+            ? "pointer-events-none scale-90 opacity-0"
+            : "scale-100 opacity-100"
         } fixed top-1/2 left-4 z-40 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-xl border border-white/10 bg-slate-900/60 text-slate-400 shadow-xl backdrop-blur-xl transition-all duration-300 hover:text-green-400 focus:outline-none`}
         onClick={() => setIsActive(true)}
         aria-label="Open Sidebar"
@@ -71,7 +73,9 @@ export default function PostSideBar({ fragId }: { fragId: string }) {
       {/* 3. 사이드바 본체 (활성화 시 슬라이드 인) */}
       <div
         className={`${
-          isActive ? "left-4 translate-x-0 opacity-100" : "left-4 -translate-x-[120%] opacity-0 pointer-events-none"
+          isActive
+            ? "left-4 translate-x-0 opacity-100"
+            : "pointer-events-none left-4 -translate-x-[120%] opacity-0"
         } fixed top-1/2 z-50 flex -translate-y-1/2 transition-all duration-300 ease-in-out`}
       >
         <div className="flex w-60 flex-col items-center gap-6 rounded-2xl border border-white/10 bg-slate-900/60 p-6 shadow-2xl backdrop-blur-xl">
@@ -121,7 +125,12 @@ export default function PostSideBar({ fragId }: { fragId: string }) {
 
           {/* 멤버 리스트 영역 (스크롤 가능하게 수정) */}
           <div className="scrollbar-hide max-h-[60vh] w-full overflow-y-auto">
-            {isMemberSuccess && <MemberList members={members.result} />}
+            {isMemberSuccess && (
+              <MemberList
+                members={members.result}
+                adminId={frag?.result.adminId}
+              />
+            )}
           </div>
         </div>
       </div>
