@@ -1,9 +1,9 @@
 <h1 style="color: rgb(74 222 128); text-align: center">FRAGS</h1>
 <div style="text-align: center">Fragments of the World</div>
 
-<a href="https://frags.site" style="display:block; padding: 8px; background-color: rgb(74 222 128); border-radius: 10px; text-align: center; font-weight: 700; color: #ffffff">FRAGS 바로가기</a>
+<a href="https://frags.space" style="display:block; padding: 8px; background-color: rgb(74 222 128); border-radius: 10px; text-align: center; font-weight: 700; color: #ffffff">FRAGS 바로가기</a>
 
-- - -
+---
 
 <h2 className="text-2xl font-bold text-green-400">FRAGS?</h2>
 <p>
@@ -11,7 +11,7 @@ FRAGS(프랙스)는 커뮤니티 플랫폼입니다. FRAGS는 여러 개의 FRAG
 이루어져 있습니다.
 </p>
 
-- - -
+---
 
 <h2>FRAG?</h2>
 <p>
@@ -24,7 +24,7 @@ FRAG(프랙)은 FRAGS를 구성하는 요소입니다. FRAG은 취미나 관심�
 초대해보세요!
 </p>
 
-- - -
+---
 
 <h2>사용 기술 스택</h2>
 
@@ -53,9 +53,6 @@ FRAG(프랙)은 FRAGS를 구성하는 요소입니다. FRAG은 취미나 관심�
   <img src="https://img.shields.io/badge/prisma-2D3748?style=for-the-badge&logo=prisma&logoColor=white"/>
   <img src="https://img.shields.io/badge/zod-3E67B1?style=for-the-badge&logo=zod&logoColor=white"/>
 
-
 - 배포
 
   <img src="https://img.shields.io/badge/vercel-000000?style=for-the-badge&logo=vercel&logoColor=white"/>
-
-
