@@ -58,7 +58,7 @@ export default function PostListItem({
 
   useEffect(() => {
     queryClient.setQueryData(["post", id], { result: { ...post } });
-  }, []);
+  });
 
   return (
     <li className="flex h-10 items-center justify-between">

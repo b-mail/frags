@@ -41,7 +41,7 @@ export default function Nav() {
     if (!user) {
       mutate();
     }
-  }, []);
+  });
 
   useEffect(() => {
     setIsActive(false);
